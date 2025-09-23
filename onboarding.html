@@ -1151,6 +1151,8 @@
     <script>
         // Load user data from sessionStorage
         let currentUser = null;
+        let currentCategory = '';
+        let uploadedImages = {};
         
         function loadUserFromSession() {
             const userData = sessionStorage.getItem('currentUser');
@@ -1166,8 +1168,6 @@
         if (!currentUser) {
             throw new Error('No user session');
         }
-
-        // ...existing code for roleModules...
 
         // Generate sidebar menu based on user role
         function generateRoleBasedMenu() {
@@ -1223,6 +1223,43 @@
             document.getElementById('userEmail').textContent = currentUser.email;
             
             generateRoleBasedMenu();
+        }
+
+        // Profile dropdown functionality
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Handle logout
+        function handleLogout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Sidebar functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function toggleSubmenu(event, submenuId) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        function loadModule(event, moduleId) {
+            event.preventDefault();
+            if (moduleId === 'sell-commodity') {
+                // Already on this page
+                return;
+            }
+        }
+
+        function cancelForm() {
+            if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
+                window.location.href = 'dashboard.html';
+            }
         }
 
         // Form functionality
@@ -1581,6 +1618,18 @@
                 
                 if (!dropdown.contains(event.target) && !profileImg.contains(event.target)) {
                     dropdown.classList.remove('show');
+                }
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const sidebar = document.getElementById('sidebar');
+                const menuBtn = document.querySelector('.mobile-menu-btn');
+                
+                if (window.innerWidth <= 768) {
+                    if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                        sidebar.classList.remove('active');
+                    }
                 }
             });
         });

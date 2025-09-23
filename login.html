@@ -449,7 +449,8 @@
                 <form id="loginForm">
                     <div class="form-group">
                         <label for="loginEmail">Email Address</label>
-                        <input type="email" id="loginEmail" name="email" required placeholder="Enter your email">
+                        <input type="email" id="loginEmail" name="email" required placeholder="Enter your email (username@lff.co.zw)">
+                        <small style="color: #6c757d; font-size: 0.8rem;">Must use @lff.co.zw email domain</small>
                     </div>
 
                     <div class="form-group">
@@ -461,10 +462,10 @@
                         <label for="loginRole">Select Role</label>
                         <select id="loginRole" name="role" class="role-selector" required>
                             <option value="">Select your role</option>
-                            <option value="farmer">Farmer</option>
-                            <option value="trader">Trader</option>
-                            <option value="logistics">Logistics Provider</option>
-                            <option value="admin">Administrator</option>
+                            <option value="Farmer">Farmer</option>
+                            <option value="Trader">Trader</option>
+                            <option value="Logistics Provider">Logistics Provider</option>
+                            <option value="Admin">Administrator</option>
                         </select>
                     </div>
 
@@ -496,11 +497,11 @@
                         <label for="regRole">Select Your Role</label>
                         <select id="regRole" name="role" class="role-selector" required onchange="toggleFarmSection()">
                             <option value="">Select your role</option>
-                            <option value="farmer">Farmer</option>
-                            <option value="trader">Trader</option>
+                            <option value="Farmer">Farmer</option>
+                            <option value="Trader">Trader</option>
                             <option value="stakeholder">Stakeholder</option>
-                            <option value="logistics">Logistics Provider</option>
-                            <option value="admin">Administrator</option>
+                            <option value="Logistics Provider">Logistics Provider</option>
+                            <option value="Admin">Administrator</option>
                         </select>
                     </div>
 
@@ -675,32 +676,70 @@
         // Form submissions
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
             const role = document.getElementById('loginRole').value;
-            console.log('Login:', { email, role });
-            alert(`Login attempted as ${role}`);
+            
+            // Validate email domain
+            if (!email.endsWith('@lff.co.zw')) {
+                alert('Please use an email address with @lff.co.zw domain');
+                return;
+            }
+            
+            // Check if all fields are filled
+            if (!email || !password || !role) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Store user data in sessionStorage for the dashboard
+            const userData = {
+                email: email,
+                fullName: extractNameFromEmail(email),
+                role: role,
+                userId: generateUserId(),
+                initials: generateInitials(extractNameFromEmail(email))
+            };
+            
+            sessionStorage.setItem('currentUser', JSON.stringify(userData));
+            
+            console.log('Login successful:', userData);
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
         });
 
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            console.log('Registration data collected');
-            alert('Registration form submitted successfully!');
-        });
+        // Helper function to extract name from email
+        function extractNameFromEmail(email) {
+            const username = email.split('@')[0];
+            // Convert username to proper name (e.g., john.smith -> John Smith)
+            return username.split('.').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+        }
 
-        document.getElementById('forgotForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('forgotEmail').value;
-            console.log('Password reset for:', email);
-            alert('Password reset link sent to your email!');
-            closeForgotModal();
-        });
+        // Helper function to generate initials
+        function generateInitials(fullName) {
+            return fullName.split(' ').map(word => word.charAt(0)).join('').toUpperCase();
+        }
 
-        // Initialize with one farm detail for farmers
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize any default states here
-        });
+        // Helper function to generate user ID
+        function generateUserId() {
+            return 'USR-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        }
+
+        // Update registration role options to match login
+        document.getElementById('regRole').innerHTML = `
+            <option value="">Select your role</option>
+            <option value="Farmer">Farmer</option>
+            <option value="Trader">Trader</option>
+            <option value="stakeholder">Stakeholder</option>
+            <option value="Logistics Provider">Logistics Provider</option>
+            <option value="Admin">Administrator</option>
+        `;
     </script>
 </body>
 </html>
+</body>
 </html>

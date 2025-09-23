@@ -282,6 +282,7 @@
             text-decoration: none;
             transition: all 0.3s;
             border-left: 4px solid transparent;
+            cursor: pointer;
         }
 
         .menu-link:hover {
@@ -301,6 +302,52 @@
             margin-right: 0.75rem;
             width: 20px;
             display: inline-block;
+        }
+
+        .expand-icon {
+            float: right;
+            margin-top: 2px;
+            transition: transform 0.3s;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+
+        .submenu {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid #e9ecef;
+        }
+
+        .submenu.show {
+            display: block;
+        }
+
+        .submenu-item {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .submenu-link {
+            display: block;
+            padding: 0.75rem 1.5rem 0.75rem 3rem;
+            color: #6c757d;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .submenu-link:hover {
+            background: #ffffff;
+            color: #28a745;
+            border-left: 3px solid #ffc107;
+        }
+
+        .submenu-link.active {
+            background: #ffffff;
+            color: #28a745;
+            border-left: 3px solid #28a745;
+            font-weight: 500;
         }
 
         /* Main Content Area */
@@ -477,40 +524,93 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-item">
-                <a href="#" class="menu-link active">
+                <a href="#" class="menu-link active" onclick="showDashboard(event)">
                     <i class="fas fa-home menu-icon"></i>
                     Dashboard
                 </a>
             </li>
+            
             <li class="menu-item">
-                <a href="#" class="menu-link">
+                <div class="menu-link" onclick="toggleSubmenu(event, 'marketplace-submenu')">
                     <i class="fas fa-shopping-cart menu-icon"></i>
                     Market Place
-                </a>
+                    <i class="fas fa-chevron-right expand-icon"></i>
+                </div>
+                <ul class="submenu" id="marketplace-submenu">
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'sell-commodity')">Sell/Onboard Commodity</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'buy-commodity')">Buy Commodity (engage) negotiations</a>
+                    </li>
+                </ul>
             </li>
+
             <li class="menu-item">
-                <a href="#" class="menu-link">
+                <div class="menu-link" onclick="toggleSubmenu(event, 'delivery-submenu')">
                     <i class="fas fa-truck menu-icon"></i>
                     Delivery System
-                </a>
+                    <i class="fas fa-chevron-right expand-icon"></i>
+                </div>
+                <ul class="submenu" id="delivery-submenu">
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'logistics')">Logistics</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'evaluation')">Evaluation and monitoring</a>
+                    </li>
+                </ul>
             </li>
+
             <li class="menu-item">
-                <a href="#" class="menu-link">
+                <div class="menu-link" onclick="toggleSubmenu(event, 'invoicing-submenu')">
                     <i class="fas fa-file-invoice-dollar menu-icon"></i>
                     Invoicing System
-                </a>
+                    <i class="fas fa-chevron-right expand-icon"></i>
+                </div>
+                <ul class="submenu" id="invoicing-submenu">
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'invoicing-reconciliation')">Invoicing and Reconciliation</a>
+                    </li>
+                </ul>
             </li>
+
             <li class="menu-item">
-                <a href="#" class="menu-link">
+                <div class="menu-link" onclick="toggleSubmenu(event, 'tagging-submenu')">
                     <i class="fas fa-tags menu-icon"></i>
                     Tagging and Tracking
-                </a>
+                    <i class="fas fa-chevron-right expand-icon"></i>
+                </div>
+                <ul class="submenu" id="tagging-submenu">
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'livestock-tagging')">Livestock Tagging and Tracking</a>
+                    </li>
+                </ul>
             </li>
+
             <li class="menu-item">
-                <a href="#" class="menu-link">
+                <div class="menu-link" onclick="toggleSubmenu(event, 'user-mgmt-submenu')">
                     <i class="fas fa-users menu-icon"></i>
                     User Management
-                </a>
+                    <i class="fas fa-chevron-right expand-icon"></i>
+                </div>
+                <ul class="submenu" id="user-mgmt-submenu">
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'user-roles')">User roles & permissions</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'smart-accounts')">Smart Accounts</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'customer-rewards')">Customer Rewards</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'view-invoices')">View Invoices</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link" onclick="loadModule(event, 'profile-kyc')">Profile & KYC</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </aside>
@@ -626,6 +726,155 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeUserProfile();
         });
+
+        function toggleSubmenu(event, submenuId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const submenu = document.getElementById(submenuId);
+            const expandIcon = event.currentTarget.querySelector('.expand-icon');
+            
+            // Close all other submenus
+            document.querySelectorAll('.submenu').forEach(sub => {
+                if (sub.id !== submenuId) {
+                    sub.classList.remove('show');
+                    const otherIcon = sub.previousElementSibling.querySelector('.expand-icon');
+                    if (otherIcon) otherIcon.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle current submenu
+            submenu.classList.toggle('show');
+            expandIcon.classList.toggle('expanded');
+        }
+
+        function loadModule(event, moduleId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Remove active class from all links
+            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to clicked submenu item
+            event.currentTarget.classList.add('active');
+            
+            // Update main content
+            updateMainContent(moduleId);
+            
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        function showDashboard(event) {
+            event.preventDefault();
+            
+            // Remove active from all links
+            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active to dashboard
+            event.currentTarget.classList.add('active');
+            
+            // Close all submenus
+            document.querySelectorAll('.submenu').forEach(submenu => {
+                submenu.classList.remove('show');
+            });
+            document.querySelectorAll('.expand-icon').forEach(icon => {
+                icon.classList.remove('expanded');
+            });
+            
+            // Show dashboard content
+            showDashboardContent();
+            
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        function updateMainContent(moduleId) {
+            const moduleNames = {
+                'sell-commodity': 'Sell/Onboard Commodity',
+                'buy-commodity': 'Buy Commodity (engage) negotiations',
+                'logistics': 'Logistics',
+                'evaluation': 'Evaluation and monitoring',
+                'invoicing-reconciliation': 'Invoicing and Reconciliation',
+                'livestock-tagging': 'Livestock Tagging and Tracking',
+                'user-roles': 'User roles & permissions',
+                'smart-accounts': 'Smart Accounts',
+                'customer-rewards': 'Customer Rewards',
+                'view-invoices': 'View Invoices',
+                'profile-kyc': 'Profile & KYC'
+            };
+            
+            const moduleName = moduleNames[moduleId];
+            const contentHeader = document.querySelector('.content-header');
+            const dashboardCards = document.querySelector('.dashboard-cards');
+            const quickActions = document.querySelector('.card:last-child');
+            
+            // Hide dashboard elements
+            dashboardCards.style.display = 'none';
+            quickActions.style.display = 'none';
+            
+            // Update header
+            contentHeader.innerHTML = `
+                <h1>${moduleName}</h1>
+                <p>Manage your ${moduleName.toLowerCase()}</p>
+            `;
+            
+            // Add module content
+            let moduleContent = document.getElementById('moduleContent');
+            if (!moduleContent) {
+                moduleContent = document.createElement('div');
+                moduleContent.id = 'moduleContent';
+                moduleContent.className = 'card';
+                document.querySelector('.main-content').appendChild(moduleContent);
+            }
+            
+            moduleContent.style.display = 'block';
+            moduleContent.innerHTML = `
+                <h3>${moduleName}</h3>
+                <p>This is the ${moduleName} module. Specific functionality for this module will be implemented here.</p>
+                <div style="margin-top: 1.5rem;">
+                    <button class="dropdown-btn btn-primary" style="display: inline-block; margin-right: 1rem;">
+                        <i class="fas fa-plus"></i> Add New
+                    </button>
+                    <button class="dropdown-btn btn-primary" style="display: inline-block; margin-right: 1rem;">
+                        <i class="fas fa-list"></i> View All
+                    </button>
+                    <button class="dropdown-btn btn-primary" style="display: inline-block;">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+            `;
+        }
+
+        function showDashboardContent() {
+            const contentHeader = document.querySelector('.content-header');
+            const dashboardCards = document.querySelector('.dashboard-cards');
+            const quickActions = document.querySelector('.card:last-child');
+            const moduleContent = document.getElementById('moduleContent');
+            
+            // Reset header
+            contentHeader.innerHTML = `
+                <h1>Welcome to LFF Marketplace</h1>
+                <p>Your agricultural marketplace dashboard</p>
+            `;
+            
+            // Show dashboard elements
+            dashboardCards.style.display = 'grid';
+            quickActions.style.display = 'block';
+            
+            // Hide module content
+            if (moduleContent) {
+                moduleContent.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>

@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFF Marketplace - Commodity Onboarding</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Copy all dashboard styles for navigation and sidebar */
+        /* Top Navigation Bar */
+        .top-navbar {
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+
+        .top-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .nav-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* ...existing code for nav-right, profile dropdown, sidebar styles... */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ffc107;
+            color: #212529;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .profile-img:hover {
+            background: #f8f9fa;
+            transform: scale(1.05);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: white;
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            z-index: 1001;
+            border: 1px solid #e9ecef;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-header h4 {
+            color: #28a745;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .dropdown-header p {
+            color: #6c757d;
+            margin: 0.25rem 0 0 0;
+            font-size: 0.85rem;
+        }
+
+        .dropdown-body {
+            padding: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .info-value {
+            color: #6c757d;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #e9ecef;
+            margin: 1rem 0;
+        }
+
+        .dropdown-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .dropdown-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #218838;
+        }
+
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #c82333;
+        }
+
+        /* Sidebar - same as dashboard */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 70px);
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+
+        .sidebar-header h3 {
+            color: #28a745;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .menu-link {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .menu-link:hover {
+            background: #f8f9fa;
+            border-left-color: #ffc107;
+            color: #28a745;
+        }
+
+        .menu-link.active {
+            background: #e8f5e8;
+            border-left-color: #28a745;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .menu-icon {
+            margin-right: 0.75rem;
+            width: 20px;
+            display: inline-block;
+        }
+
+        .expand-icon {
+            float: right;
+            margin-top: 2px;
+            transition: transform 0.3s;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+
+        .submenu {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid #e9ecef;
+        }
+
+        .submenu.show {
+            display: block;
+        }
+
+        .submenu-item {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .submenu-link {
+            display: block;
+            padding: 0.75rem 1.5rem 0.75rem 3rem;
+            color: #6c757d;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .submenu-link:hover {
+            background: #ffffff;
+            color: #28a745;
+            border-left: 3px solid #ffc107;
+        }
+
+        .submenu-link.active {
+            background: #ffffff;
+            color: #28a745;
+            border-left: 3px solid #28a745;
+            font-weight: 500;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 250px;
+            margin-top: 70px;
+            padding: 2rem;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Onboarding Form Styles */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        .onboarding-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 5px solid #ffc107;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            color: #28a745;
+            border-bottom: 2px solid #ffc107;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            border: 2px dashed #28a745;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            background: #e9ecef;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-upload i {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .price-input {
+            position: relative;
+        }
+
+        .price-input::before {
+            content: "$";
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-weight: bold;
+        }
+
+        .price-input input {
+            padding-left: 2rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: #218838;
+        }
+
+        .quantity-input {
+            width: 80px;
+            text-align: center;
+            margin: 0 !important;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .submit-btn {
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 0 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 0.5rem;
+        }
+
+        .cancel-btn:hover {
+            background: #5a6268;
+        }
+
+        .preview-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #28a745;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .onboarding-form {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .submit-btn,
+            .cancel-btn {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            .logo-text {
+                display: none;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar">
+        <div class="top-nav-container">
+            <div class="nav-left">
+                <div class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="nav-logo">
+                    <img src="logo.png" alt="LFF Logo">
+                </div>
+                <a href="dashboard.html" class="logo-text">LFF Marketplace</a>
+            </div>
+            <div class="nav-right">
+                <a href="#" class="nav-item" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </a>
+                <a href="#" class="nav-item" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </a>
+                <div class="profile-dropdown">
+                    <div class="profile-img" onclick="toggleProfileDropdown()" id="profileImg">
+                        JS
+                    </div>
+                    <div class="dropdown-content" id="profileDropdown">
+                        <div class="dropdown-header">
+                            <h4 id="userName">John Smith</h4>
+                            <p id="userRole">Farmer</p>
+                        </div>
+                        <div class="dropdown-body">
+                            <div class="user-info">
+                                <div class="info-item">
+                                    <span class="info-label">Full Name:</span>
+                                    <span class="info-value" id="fullName">John Smith</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Role:</span>
+                                    <span class="info-value" id="roleDisplay">Farmer</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">User ID:</span>
+                                    <span class="info-value" id="userId">USR-001234</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Email:</span>
+                                    <span class="info-value" id="userEmail">john.smith@example.com</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-actions">
+                                <a href="#" class="dropdown-btn btn-primary">
+                                    <i class="fas fa-user-edit"></i> Edit Profile
+                                </a>
+                                <a href="#" class="dropdown-btn btn-logout" onclick="handleLogout()">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Dashboard Modules</h3>
+        </div>
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <li class="menu-item">
+                <a href="dashboard.html" class="menu-link">
+                    <i class="fas fa-home menu-icon"></i>
+                    Dashboard
+                </a>
+            </li>
+            <!-- Dynamic menu items will be inserted here -->
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Commodity Onboarding</h1>
+            <p>List your agricultural products for sale on LFF Marketplace</p>
+        </div>
+
+        <form class="onboarding-form" id="onboardingForm">
+            <!-- Basic Information Section -->
+            <div class="section">
+                <h3 class="section-header">Basic Information</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="commodityName">Commodity Name *</label>
+                        <input type="text" id="commodityName" name="commodityName" required placeholder="e.g., Organic Tomatoes">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Category *</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="grains">Grains & Cereals</option>
+                            <option value="livestock">Livestock</option>
+                            <option value="dairy">Dairy Products</option>
+                            <option value="herbs">Herbs & Spices</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description *</label>
+                    <textarea id="description" name="description" required placeholder="Describe your commodity, including quality, farming methods, etc."></textarea>
+                </div>
+            </div>
+
+            <!-- Quantity & Pricing Section -->
+            <div class="section">
+                <h3 class="section-header">Quantity & Pricing</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantity">Available Quantity *</label>
+                        <div class="quantity-selector">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" id="quantity" name="quantity" class="quantity-input" value="1" min="1" required>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="unit">Unit of Measurement *</label>
+                        <select id="unit" name="unit" required>
+                            <option value="">Select Unit</option>
+                            <option value="kg">Kilograms (kg)</option>
+                            <option value="tons">Tons</option>
+                            <option value="pieces">Pieces</option>
+                            <option value="bags">Bags</option>
+                            <option value="boxes">Boxes</option>
+                            <option value="liters">Liters</option>
+                            <option value="dozen">Dozen</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pricePerUnit">Price per Unit (USD) *</label>
+                        <div class="price-input">
+                            <input type="number" id="pricePerUnit" name="pricePerUnit" step="0.01" min="0" required placeholder="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="minimumOrder">Minimum Order Quantity</label>
+                        <input type="number" id="minimumOrder" name="minimumOrder" min="1" placeholder="e.g., 10">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location & Logistics Section -->
+            <div class="section">
+                <h3 class="section-header">Location & Logistics</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="farmLocation">Farm Location *</label>
+                        <input type="text" id="farmLocation" name="farmLocation" required placeholder="City, Region">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="harvestDate">Harvest Date *</label>
+                        <input type="date" id="harvestDate" name="harvestDate" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="availableFrom">Available From *</label>
+                        <input type="date" id="availableFrom" name="availableFrom" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expiryDate">Expiry/Best Before Date</label>
+                        <input type="date" id="expiryDate" name="expiryDate">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="deliveryOptions">Delivery Options</label>
+                    <select id="deliveryOptions" name="deliveryOptions">
+                        <option value="pickup">Pickup from Farm</option>
+                        <option value="delivery">Delivery Available</option>
+                        <option value="both">Both Pickup & Delivery</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Quality & Certifications Section -->
+            <div class="section">
+                <h3 class="section-header">Quality & Certifications</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="organic">Organic Certified</label>
+                        <select id="organic" name="organic">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                            <option value="transitioning">In Transition</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="grade">Quality Grade</label>
+                        <select id="grade" name="grade">
+                            <option value="">Select Grade</option>
+                            <option value="premium">Premium</option>
+                            <option value="grade-a">Grade A</option>
+                            <option value="grade-b">Grade B</option>
+                            <option value="standard">Standard</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="certifications">Additional Certifications</label>
+                    <textarea id="certifications" name="certifications" placeholder="List any additional certifications (Fair Trade, GAP, etc.)"></textarea>
+                </div>
+            </div>
+
+            <!-- Images Section -->
+            <div class="section">
+                <h3 class="section-header">Product Images</h3>
+                
+                <div class="form-group">
+                    <label>Upload Product Images (Up to 5 images)</label>
+                    <div class="file-upload" onclick="document.getElementById('productImages').click()">
+                        <input type="file" id="productImages" name="productImages" multiple accept="image/*" onchange="handleImageUpload(event)">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h4>Click to upload images</h4>
+                        <p>Supported formats: JPG, PNG, GIF (Max 5MB each)</p>
+                    </div>
+                    <div id="imagePreview" style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;"></div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="section">
+                <h3 class="section-header">Listing Preview</h3>
+                <div class="preview-section">
+                    <div class="preview-card" id="previewCard">
+                        <h4>Your listing will appear like this:</h4>
+                        <div id="previewContent">
+                            <p><em>Fill in the form above to see your listing preview</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button type="button" class="cancel-btn" onclick="cancelForm()">Cancel</button>
+                <button type="submit" class="submit-btn">List Commodity</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // Load user data from sessionStorage
+        let currentUser = null;
+        
+        function loadUserFromSession() {
+            const userData = sessionStorage.getItem('currentUser');
+            if (!userData) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return JSON.parse(userData);
+        }
+
+        // Initialize current user
+        currentUser = loadUserFromSession();
+        if (!currentUser) {
+            throw new Error('No user session');
+        }
+
+        // ...existing code for roleModules...
+
+        // Generate sidebar menu based on user role
+        function generateRoleBasedMenu() {
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            const roleModules = {
+                "Farmer": [
+                    {
+                        id: "marketplace",
+                        title: "Market Place",
+                        icon: "fas fa-shopping-cart",
+                        submenuId: "marketplace-submenu",
+                        submodules: [
+                            { id: "sell-commodity", name: "Sell/Onboard Commodity" }
+                        ]
+                    }
+                ]
+            };
+            
+            const userModules = roleModules[currentUser.role] || [];
+            
+            // Add role-specific modules
+            userModules.forEach(module => {
+                const menuItem = document.createElement('li');
+                menuItem.className = 'menu-item';
+                
+                menuItem.innerHTML = `
+                    <div class="menu-link" onclick="toggleSubmenu(event, '${module.submenuId}')">
+                        <i class="${module.icon} menu-icon"></i>
+                        ${module.title}
+                        <i class="fas fa-chevron-right expand-icon expanded"></i>
+                    </div>
+                    <ul class="submenu show" id="${module.submenuId}">
+                        ${module.submodules.map(sub => `
+                            <li class="submenu-item">
+                                <a href="#" class="submenu-link ${sub.id === 'sell-commodity' ? 'active' : ''}" onclick="loadModule(event, '${sub.id}')">${sub.name}</a>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                
+                sidebarMenu.appendChild(menuItem);
+            });
+        }
+
+        // Initialize user profile
+        function initializeUserProfile() {
+            document.getElementById('profileImg').textContent = currentUser.initials;
+            document.getElementById('userName').textContent = currentUser.fullName;
+            document.getElementById('userRole').textContent = currentUser.role;
+            document.getElementById('fullName').textContent = currentUser.fullName;
+            document.getElementById('roleDisplay').textContent = currentUser.role;
+            document.getElementById('userId').textContent = currentUser.userId;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            
+            generateRoleBasedMenu();
+        }
+
+        // Form functionality
+        function changeQuantity(change) {
+            const quantityInput = document.getElementById('quantity');
+            const currentValue = parseInt(quantityInput.value) || 1;
+            const newValue = Math.max(1, currentValue + change);
+            quantityInput.value = newValue;
+            updatePreview();
+        }
+
+        function handleImageUpload(event) {
+            const files = event.target.files;
+            const previewContainer = document.getElementById('imagePreview');
+            previewContainer.innerHTML = '';
+
+            if (files.length > 5) {
+                alert('Maximum 5 images allowed');
+                return;
+            }
+
+            Array.from(files).forEach((file, index) => {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`Image ${index + 1} is too large. Maximum size is 5MB.`);
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.style.cssText = 'position: relative; width: 100px; height: 100px;';
+                    imgDiv.innerHTML = `
+                        <img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 2px solid #e9ecef;">
+                        <button type="button" onclick="removeImage(this)" style="position: absolute; top: -5px; right: -5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer;">×</button>
+                    `;
+                    previewContainer.appendChild(imgDiv);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeImage(button) {
+            button.parentElement.remove();
+        }
+
+        function updatePreview() {
+            const form = document.getElementById('onboardingForm');
+            const formData = new FormData(form);
+            const previewContent = document.getElementById('previewContent');
+            
+            const commodityName = formData.get('commodityName') || 'Commodity Name';
+            const category = formData.get('category') || 'Category';
+            const price = formData.get('pricePerUnit') || '0.00';
+            const quantity = formData.get('quantity') || '1';
+            const unit = formData.get('unit') || 'units';
+            const location = formData.get('farmLocation') || 'Location';
+            const description = formData.get('description') || 'Description';
+
+            previewContent.innerHTML = `
+                <h3 style="color: #28a745; margin-bottom: 0.5rem;">${commodityName}</h3>
+                <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Category:</strong> ${category}</p>
+                <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${price} per ${unit}</p>
+                <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${quantity} ${unit}</p>
+                <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Location:</strong> ${location}</p>
+                <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${description}</p>
+                <div style="background: #e8f5e8; padding: 0.5rem; border-radius: 5px; font-size: 0.9rem;">
+                    <strong>Status:</strong> Ready to List
+                </div>
+            `;
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function toggleSubmenu(event, submenuId) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        function loadModule(event, moduleId) {
+            event.preventDefault();
+            if (moduleId === 'sell-commodity') {
+                // Already on this page
+                return;
+            }
+        }
+
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        function cancelForm() {
+            if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // Form submission
+        document.getElementById('onboardingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            // Basic validation
+            const required = ['commodityName', 'category', 'description', 'quantity', 'unit', 'pricePerUnit', 'farmLocation', 'harvestDate', 'availableFrom'];
+            const missing = required.filter(field => !formData.get(field));
+            
+            if (missing.length > 0) {
+                alert(`Please fill in all required fields: ${missing.join(', ')}`);
+                return;
+            }
+            
+            alert('Commodity listed successfully! Your product is now available on the marketplace.');
+            console.log('Form submitted:', Object.fromEntries(formData));
+            
+            window.location.href = 'dashboard.html';
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUserProfile();
+            
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+                input.addEventListener('change', updatePreview);
+            });
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('harvestDate').setAttribute('min', today);
+            document.getElementById('availableFrom').setAttribute('min', today);
+            document.getElementById('expiryDate').setAttribute('min', today);
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('profileDropdown');
+                const profileImg = document.getElementById('profileImg');
+                
+                if (!dropdown.contains(event.target) && !profileImg.contains(event.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

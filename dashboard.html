@@ -995,6 +995,12 @@
                 'profile-kyc': 'Profile & KYC'
             };
             
+            // Special handling for sell-commodity - redirect to onboarding page
+            if (moduleId === 'sell-commodity') {
+                window.location.href = 'onboarding.html';
+                return;
+            }
+            
             const moduleName = moduleNames[moduleId];
             const contentHeader = document.querySelector('.content-header');
             const dashboardCards = document.querySelector('.dashboard-cards');
@@ -1143,12 +1149,6 @@
     </script>
 </body>
 </html>
-            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // Add active to dashboard
-            event.currentTarget.classList.add('active');
             
             // Close all submenus
             document.querySelectorAll('.submenu').forEach(submenu => {

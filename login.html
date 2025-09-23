@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFF Marketplace - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .nav-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        /* Login Container */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            border-top: 5px solid #ffc107;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .login-header p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        .role-selector {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .forgot-password a {
+            color: #ffc107;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+        }
+
+        .signup-link a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Tab Navigation */
+        .tab-container {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #6c757d;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button.active {
+            color: #28a745;
+            border-bottom-color: #ffc107;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Farm sections */
+        .farm-section {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .farm-details {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .farm-details h4 {
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .gps-container {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .gps-input {
+            flex: 1;
+        }
+
+        .location-btn {
+            padding: 0.75rem 1rem;
+            background: #ffc107;
+            color: #212529;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background-color 0.3s;
+        }
+
+        .location-btn:hover {
+            background: #e0a800;
+        }
+
+        .file-upload {
+            border: 2px dashed #28a745;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            background: #e9ecef;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .section-header {
+            color: #28a745;
+            border-bottom: 2px solid #ffc107;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Modal styles for forgot password */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-top: 5px solid #ffc107;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #28a745;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-header p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-left {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .login-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .gps-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .location-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <!-- Replace "logo.png" with your actual logo filename -->
+                    <img src="logo.png" alt="LFF Logo">
+                </div>
+                <a href="#" class="logo">LFF Marketplace</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#help">Help</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="login-card" style="max-width: 600px;">
+            <div class="login-header">
+                <h2>LFF Marketplace</h2>
+                <p>Join our agricultural marketplace platform</p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-container">
+                <button class="tab-button active" onclick="showTab('login')">Login</button>
+                <button class="tab-button" onclick="showTab('register')">Register</button>
+            </div>
+
+            <!-- Login Tab -->
+            <div id="login" class="tab-content active">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" name="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginRole">Select Role</label>
+                        <select id="loginRole" name="role" class="role-selector" required>
+                            <option value="">Select your role</option>
+                            <option value="farmer">Farmer</option>
+                            <option value="trader">Trader</option>
+                            <option value="logistics">Logistics Provider</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="login-btn">Sign In</button>
+                </form>
+
+                <div class="forgot-password">
+                    <a href="#" onclick="openForgotModal()">Forgot your password?</a>
+                </div>
+            </div>
+
+            <!-- Register Tab -->
+            <div id="register" class="tab-content">
+                <form id="registerForm">
+                    <!-- Personal Information Section -->
+                    <h3 class="section-header">Personal Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="regEmail">Email Address</label>
+                        <input type="email" id="regEmail" name="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regPassword">Create Password</label>
+                        <input type="password" id="regPassword" name="password" required placeholder="Create a strong password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regRole">Select Your Role</label>
+                        <select id="regRole" name="role" class="role-selector" required onchange="toggleFarmSection()">
+                            <option value="">Select your role</option>
+                            <option value="farmer">Farmer</option>
+                            <option value="trader">Trader</option>
+                            <option value="stakeholder">Stakeholder</option>
+                            <option value="logistics">Logistics Provider</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+
+                    <!-- Farm Information Section (Only for Farmers) -->
+                    <div id="farmSection" class="farm-section" style="display: none;">
+                        <h3 class="section-header">Farm Information</h3>
+                        
+                        <div class="form-group">
+                            <label for="farmCount">How many farms do you have?</label>
+                            <select id="farmCount" name="farmCount" class="role-selector" onchange="generateFarmDetails()">
+                                <option value="1">1 Farm</option>
+                                <option value="2">2 Farms</option>
+                                <option value="3">3 Farms</option>
+                                <option value="4">4 Farms</option>
+                                <option value="5">5 Farms</option>
+                                <option value="6">6 Farms</option>
+                                <option value="7">7 Farms</option>
+                                <option value="8">8 Farms</option>
+                                <option value="9">9 Farms</option>
+                                <option value="10">10 Farms</option>
+                            </select>
+                        </div>
+
+                        <div id="farmDetailsContainer"></div>
+                    </div>
+
+                    <!-- KYC Documents Section -->
+                    <h3 class="section-header">KYC Documents</h3>
+                    
+                    <div class="form-group">
+                        <label>Upload ID/Passport</label>
+                        <div class="file-upload" onclick="document.getElementById('idUpload').click()">
+                            <input type="file" id="idUpload" name="idDocument" accept=".pdf,.jpg,.jpeg,.png">
+                            <p>Click to upload ID or Passport</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Proof of Residence</label>
+                        <div class="file-upload" onclick="document.getElementById('proofUpload').click()">
+                            <input type="file" id="proofUpload" name="proofDocument" accept=".pdf,.jpg,.jpeg,.png">
+                            <p>Click to upload utility bill or bank statement</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-btn">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeForgotModal()">&times;</span>
+            <div class="modal-header">
+                <h3>Reset Password</h3>
+                <p>Enter your email to receive reset instructions</p>
+            </div>
+            <form id="forgotForm">
+                <div class="form-group">
+                    <label for="forgotEmail">Email Address</label>
+                    <input type="email" id="forgotEmail" name="email" required placeholder="Enter your email">
+                </div>
+
+                <button type="submit" class="login-btn">Send Reset Link</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab and activate button
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function openForgotModal() {
+            document.getElementById('forgotModal').style.display = 'block';
+        }
+
+        function closeForgotModal() {
+            document.getElementById('forgotModal').style.display = 'none';
+            document.getElementById('forgotForm').reset();
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('forgotModal');
+            if (event.target === modal) {
+                closeForgotModal();
+            }
+        }
+
+        function toggleFarmSection() {
+            const role = document.getElementById('regRole').value;
+            const farmSection = document.getElementById('farmSection');
+            
+            if (role === 'farmer') {
+                farmSection.style.display = 'block';
+                generateFarmDetails(); // Generate initial farm details
+            } else {
+                farmSection.style.display = 'none';
+            }
+        }
+
+        function generateFarmDetails() {
+            const farmCount = parseInt(document.getElementById('farmCount').value);
+            const container = document.getElementById('farmDetailsContainer');
+            
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= farmCount; i++) {
+                const farmDiv = document.createElement('div');
+                farmDiv.className = 'farm-details';
+                farmDiv.innerHTML = `
+                    <h4>Farm ${i} Details</h4>
+                    
+                    <div class="form-group">
+                        <label>Upload Farm Ownership Documents for Farm ${i}</label>
+                        <div class="file-upload" onclick="document.getElementById('farmDoc${i}').click()">
+                            <input type="file" id="farmDoc${i}" name="farmDocument${i}" accept=".pdf,.jpg,.jpeg,.png">
+                            <p>Click to upload ownership documents</p>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group gps-input">
+                            <label for="lat${i}">GPS Latitude for Farm ${i}</label>
+                            <input type="number" id="lat${i}" name="latitude${i}" step="any" placeholder="e.g., -1.2921">
+                        </div>
+                        
+                        <div class="form-group gps-input">
+                            <label for="lng${i}">GPS Longitude for Farm ${i}</label>
+                            <input type="number" id="lng${i}" name="longitude${i}" step="any" placeholder="e.g., 36.8219">
+                        </div>
+                    </div>
+
+                    <button type="button" class="location-btn" onclick="getCurrentLocation(${i})">
+                        Use Current Location for Farm ${i}
+                    </button>
+                `;
+                container.appendChild(farmDiv);
+            }
+        }
+
+        function getCurrentLocation(farmNumber) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        document.getElementById(`lat${farmNumber}`).value = position.coords.latitude.toFixed(6);
+                        document.getElementById(`lng${farmNumber}`).value = position.coords.longitude.toFixed(6);
+                        alert(`Location set for Farm ${farmNumber}`);
+                    },
+                    function(error) {
+                        alert('Error getting location: ' + error.message);
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        // Form submissions
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const role = document.getElementById('loginRole').value;
+            console.log('Login:', { email, role });
+            alert(`Login attempted as ${role}`);
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            console.log('Registration data collected');
+            alert('Registration form submitted successfully!');
+        });
+
+        document.getElementById('forgotForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmail').value;
+            console.log('Password reset for:', email);
+            alert('Password reset link sent to your email!');
+            closeForgotModal();
+        });
+
+        // Initialize with one farm detail for farmers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize any default states here
+        });
+    </script>
+</body>
+</html>
+</html>

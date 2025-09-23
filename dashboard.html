@@ -570,51 +570,27 @@
     </main>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
+        // Load user data from sessionStorage or redirect to login
+        let currentUser = null;
+        
+        function loadUserFromSession() {
+            const userData = sessionStorage.getItem('currentUser');
+            if (!userData) {
+                // No user data, redirect to login
+                window.location.href = 'login.html';
+                return null;
+            }
+            return JSON.parse(userData);
         }
 
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const menuBtn = document.querySelector('.mobile-menu-btn');
-            
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
+        // Initialize current user
+        currentUser = loadUserFromSession();
+        if (!currentUser) {
+            // User will be redirected, so exit
+            throw new Error('No user session');
+        }
 
-        // Handle menu item clicks
-        document.querySelectorAll('.menu-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all links
-                document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
-                
-                // Add active class to clicked link
-                this.classList.add('active');
-                
-                // Close sidebar on mobile after selection
-                if (window.innerWidth <= 768) {
-                    document.getElementById('sidebar').classList.remove('active');
-                }
-            });
-        });
-
-        // User data (this would typically come from your backend/login system)
-        const currentUser = {
-            fullName: "John Smith",
-            role: "Farmer", // Change this to test: "Farmer", "Trader", "Logistics Provider", "Admin"
-            userId: "USR-001234",
-            email: "john.smith@example.com",
-            initials: "JS"
-        };
-
-        // Define role-based module access
+        // Define role-based module access according to requirements
         const roleModules = {
             "Farmer": [
                 {
@@ -678,16 +654,6 @@
                 }
             ],
             "Admin": [
-                {
-                    id: "marketplace",
-                    title: "Market Place",
-                    icon: "fas fa-shopping-cart",
-                    submenuId: "marketplace-submenu",
-                    submodules: [
-                        { id: "sell-commodity", name: "Sell/Onboard Commodity" },
-                        { id: "buy-commodity", name: "Buy Commodity (engage) negotiations" }
-                    ]
-                },
                 {
                     id: "delivery",
                     title: "Delivery System",
@@ -764,6 +730,252 @@
                 
                 sidebarMenu.appendChild(menuItem);
             });
+        }
+
+        // Update dashboard cards based on user role
+        function updateDashboardCards() {
+            const dashboardCards = document.querySelector('.dashboard-cards');
+            
+            // Role-specific dashboard data
+            const roleSpecificData = {
+                "Farmer": {
+                    cards: [
+                        { title: "My Farms", number: "3", label: "Active Farms" },
+                        { title: "Commodities Listed", number: "12", label: "Products for Sale" },
+                        { title: "Revenue", number: "$2,450", label: "This Month" },
+                        { title: "Orders", number: "8", label: "Pending Orders" }
+                    ]
+                },
+                "Trader": {
+                    cards: [
+                        { title: "Active Trades", number: "25", label: "Ongoing Negotiations" },
+                        { title: "Purchases", number: "142", label: "This Month" },
+                        { title: "Revenue", number: "$12,450", label: "This Month" },
+                        { title: "Deliveries", number: "89", label: "In Transit" }
+                    ]
+                },
+                "Logistics Provider": {
+                    cards: [
+                        { title: "Assigned Loads", number: "5", label: "Current Loads" },
+                        { title: "Completed Deliveries", number: "234", label: "This Month" },
+                        { title: "Revenue", number: "$3,200", label: "This Month" },
+                        { title: "Active Routes", number: "12", label: "Today" }
+                    ]
+                },
+                "Admin": {
+                    cards: [
+                        { title: "Total Users", number: "1,234", label: "Registered Users" },
+                        { title: "Active Orders", number: "142", label: "System Wide" },
+                        { title: "Revenue", number: "$45,678", label: "Total This Month" },
+                        { title: "System Health", number: "99.9%", label: "Uptime" }
+                    ]
+                }
+            };
+
+            const userData = roleSpecificData[currentUser.role] || roleSpecificData["Admin"];
+            
+            dashboardCards.innerHTML = userData.cards.map(card => `
+                <div class="card">
+                    <h3>${card.title}</h3>
+                    <div class="card-number">${card.number}</div>
+                    <div class="card-label">${card.label}</div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize user profile and generate menu
+        function initializeUserProfile() {
+            document.getElementById('profileImg').textContent = currentUser.initials;
+            document.getElementById('userName').textContent = currentUser.fullName;
+            document.getElementById('userRole').textContent = currentUser.role;
+            document.getElementById('fullName').textContent = currentUser.fullName;
+            document.getElementById('roleDisplay').textContent = currentUser.role;
+            document.getElementById('userId').textContent = currentUser.userId;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            
+            // Generate role-based menu
+            generateRoleBasedMenu();
+            
+            // Update dashboard cards
+            updateDashboardCards();
+            
+            // Update welcome message
+            const contentHeader = document.querySelector('.content-header');
+            contentHeader.innerHTML = `
+                <h1>Welcome ${currentUser.fullName}</h1>
+                <p>Your ${currentUser.role.toLowerCase()} dashboard for LFF Marketplace</p>
+            `;
+        }
+
+        // Handle logout - clear session and redirect
+        function handleLogout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Update logout button to use new function
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update logout link
+            const logoutBtn = document.querySelector('.btn-logout');
+            if (logoutBtn) {
+                logoutBtn.onclick = function(e) {
+                    e.preventDefault();
+                    handleLogout();
+                };
+            }
+            
+            initializeUserProfile();
+        });
+
+        // Get access level description
+        function getAccessLevel(moduleId) {
+            if (currentUser.role === 'Admin') return 'Full Access';
+            if (currentUser.role === 'Logistics Provider' && moduleId === 'assigned-loads') return 'View Only';
+            if (currentUser.role === 'Farmer' && moduleId === 'sell-commodity') return 'Full Access';
+            if (currentUser.role === 'Trader') return 'Full Access';
+            return 'Limited Access';
+        }
+
+        function showDashboardContent() {
+            const contentHeader = document.querySelector('.content-header');
+            const dashboardCards = document.querySelector('.dashboard-cards');
+            const quickActions = document.querySelector('.card:last-child');
+            const moduleContent = document.getElementById('moduleContent');
+            
+            // Reset header
+            contentHeader.innerHTML = `
+                <h1>Welcome ${currentUser.fullName}</h1>
+                <p>Your ${currentUser.role.toLowerCase()} dashboard for LFF Marketplace</p>
+            `;
+            
+            // Show dashboard elements
+            dashboardCards.style.display = 'grid';
+            quickActions.style.display = 'block';
+            
+            // Hide module content
+            if (moduleContent) {
+                moduleContent.style.display = 'none';
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Handle menu item clicks
+        document.querySelectorAll('.menu-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Close sidebar on mobile after selection
+                if (window.innerWidth <= 768) {
+                    document.getElementById('sidebar').classList.remove('active');
+                }
+            });
+        });
+
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const profileImg = document.getElementById('profileImg');
+            
+            if (!dropdown.contains(event.target) && !profileImg.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        function toggleSubmenu(event, submenuId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const submenu = document.getElementById(submenuId);
+            const expandIcon = event.currentTarget.querySelector('.expand-icon');
+            
+            // Close all other submenus
+            document.querySelectorAll('.submenu').forEach(sub => {
+                if (sub.id !== submenuId) {
+                    sub.classList.remove('show');
+                    const otherIcon = sub.previousElementSibling.querySelector('.expand-icon');
+                    if (otherIcon) otherIcon.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle current submenu
+            submenu.classList.toggle('show');
+            expandIcon.classList.toggle('expanded');
+        }
+
+        function loadModule(event, moduleId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Remove active class from all links
+            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to clicked submenu item
+            event.currentTarget.classList.add('active');
+            
+            // Update main content
+            updateMainContent(moduleId);
+            
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        function showDashboard(event) {
+            event.preventDefault();
+            
+            // Remove active from all links
+            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active to dashboard
+            event.currentTarget.classList.add('active');
+            
+            // Close all submenus
+            document.querySelectorAll('.submenu').forEach(submenu => {
+                submenu.classList.remove('show');
+            });
+            document.querySelectorAll('.expand-icon').forEach(icon => {
+                icon.classList.remove('expanded');
+            });
+            
+            // Show dashboard content
+            showDashboardContent();
+            
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
         }
 
         // Update module names to include new ones
@@ -875,274 +1087,62 @@
             
             // Generate role-based menu
             generateRoleBasedMenu();
-        }
-
-        function toggleProfileDropdown() {
-            const dropdown = document.getElementById('profileDropdown');
-            dropdown.classList.toggle('show');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profileDropdown');
-            const profileImg = document.getElementById('profileImg');
             
-            if (!dropdown.contains(event.target) && !profileImg.contains(event.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
+            // Update dashboard cards
+            updateDashboardCards();
+            
+            // Update welcome message
+            const contentHeader = document.querySelector('.content-header');
+            contentHeader.innerHTML = `
+                <h1>Welcome ${currentUser.fullName}</h1>
+                <p>Your ${currentUser.role.toLowerCase()} dashboard for LFF Marketplace</p>
+            `;
+        }
 
-        // Initialize on page load
+        // Handle logout - clear session and redirect
+        function handleLogout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Update logout button to use new function
         document.addEventListener('DOMContentLoaded', function() {
+            // Update logout link
+            const logoutBtn = document.querySelector('.btn-logout');
+            if (logoutBtn) {
+                logoutBtn.onclick = function(e) {
+                    e.preventDefault();
+                    handleLogout();
+                };
+            }
+            
             initializeUserProfile();
         });
 
-        function toggleSubmenu(event, submenuId) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            const submenu = document.getElementById(submenuId);
-            const expandIcon = event.currentTarget.querySelector('.expand-icon');
-            
-            // Close all other submenus
-            document.querySelectorAll('.submenu').forEach(sub => {
-                if (sub.id !== submenuId) {
-                    sub.classList.remove('show');
-                    const otherIcon = sub.previousElementSibling.querySelector('.expand-icon');
-                    if (otherIcon) otherIcon.classList.remove('expanded');
-                }
-            });
-            
-            // Toggle current submenu
-            submenu.classList.toggle('show');
-            expandIcon.classList.toggle('expanded');
-        }
-
-        function loadModule(event, moduleId) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            // Remove active class from all links
-            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // Add active class to clicked submenu item
-            event.currentTarget.classList.add('active');
-            
-            // Update main content
-            updateMainContent(moduleId);
-            
-            // Close sidebar on mobile
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('active');
-            }
-        }
-
-        function showDashboard(event) {
-            event.preventDefault();
-            
-            // Remove active from all links
-            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // Add active to dashboard
-            event.currentTarget.classList.add('active');
-            
-            // Close all submenus
-            document.querySelectorAll('.submenu').forEach(submenu => {
-                submenu.classList.remove('show');
-            });
-            document.querySelectorAll('.expand-icon').forEach(icon => {
-                icon.classList.remove('expanded');
-            });
-            
-            // Show dashboard content
-            showDashboardContent();
-            
-            // Close sidebar on mobile
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('active');
-            }
-        }
-
-        function updateMainContent(moduleId) {
-            const moduleNames = {
-                'sell-commodity': 'Sell/Onboard Commodity',
-                'buy-commodity': 'Buy Commodity (engage) negotiations',
-                'logistics': 'Logistics',
-                'evaluation': 'Evaluation and monitoring',
-                'assigned-loads': 'View Assigned Loads',
-                'invoicing-reconciliation': 'Invoicing and Reconciliation',
-                'livestock-tagging': 'Livestock Tagging and Tracking',
-                'user-roles': 'User roles & permissions',
-                'smart-accounts': 'Smart Accounts',
-                'customer-rewards': 'Customer Rewards',
-                'view-invoices': 'View Invoices',
-                'profile-kyc': 'Profile & KYC'
-            };
-            
-            const moduleName = moduleNames[moduleId];
+        function showDashboardContent() {
             const contentHeader = document.querySelector('.content-header');
             const dashboardCards = document.querySelector('.dashboard-cards');
             const quickActions = document.querySelector('.card:last-child');
+            const moduleContent = document.getElementById('moduleContent');
             
-            // Hide dashboard elements
-            dashboardCards.style.display = 'none';
-            quickActions.style.display = 'none';
-            
-            // Update header
+            // Reset header
             contentHeader.innerHTML = `
-                <h1>${moduleName}</h1>
-                <p>Manage your ${moduleName.toLowerCase()}</p>
+                <h1>Welcome ${currentUser.fullName}</h1>
+                <p>Your ${currentUser.role.toLowerCase()} dashboard for LFF Marketplace</p>
             `;
             
-            // Add module content
-            let moduleContent = document.getElementById('moduleContent');
-            if (!moduleContent) {
-                moduleContent = document.createElement('div');
-                moduleContent.id = 'moduleContent';
-                moduleContent.className = 'card';
-                document.querySelector('.main-content').appendChild(moduleContent);
-            }
+            // Show dashboard elements
+            dashboardCards.style.display = 'grid';
+            quickActions.style.display = 'block';
             
-            moduleContent.style.display = 'block';
-            
-            // Customize content based on module
-            let moduleSpecificContent = '';
-            switch(moduleId) {
-                case 'assigned-loads':
-                    moduleSpecificContent = `
-                        <div style="margin-top: 1.5rem;">
-                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                                <h4 style="color: #28a745; margin-bottom: 0.5rem;">Current Assigned Loads</h4>
-                                <p>No loads currently assigned to you.</p>
-                            </div>
-                            <button class="dropdown-btn btn-primary" style="display: inline-block; margin-right: 1rem;">
-                                <i class="fas fa-refresh"></i> Refresh
-                            </button>
-                            <button class="dropdown-btn btn-primary" style="display: inline-block;">
-                                <i class="fas fa-truck"></i> Update Status
-                            </button>
-                        </div>
-                    `;
-                    break;
-                default:
-                    moduleSpecificContent = `
-                        <div style="margin-top: 1.5rem;">
-                            <button class="dropdown-btn btn-primary" style="display: inline-block; margin-right: 1rem;">
-                                <i class="fas fa-plus"></i> Add New
-                            </button>
-                            <button class="dropdown-btn btn-primary" style="display: inline-block; margin-right: 1rem;">
-                                <i class="fas fa-list"></i> View All
-                            </button>
-                            <button class="dropdown-btn btn-primary" style="display: inline-block;">
-                                <i class="fas fa-cog"></i> Settings
-                            </button>
-                        </div>
-                    `;
-            }
-            
-            moduleContent.innerHTML = `
-                <h3>${moduleName}</h3>
-                <p>This is the ${moduleName} module. Specific functionality for this module will be implemented here.</p>
-                <div style="background: #e8f5e8; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-                    <small><strong>Role:</strong> ${currentUser.role} | <strong>Access Level:</strong> ${getAccessLevel(moduleId)}</small>
-                </div>
-                ${moduleSpecificContent}
-            `;
-        }
-
-        // Get access level description
-        function getAccessLevel(moduleId) {
-            if (currentUser.role === 'Admin') return 'Full Access';
-            if (currentUser.role === 'Logistics Provider' && moduleId === 'assigned-loads') return 'View Only';
-            if (currentUser.role === 'Farmer' && moduleId === 'sell-commodity') return 'Full Access';
-            if (currentUser.role === 'Trader') return 'Full Access';
-            return 'Limited Access';
-        }
-
-        // Initialize user profile and generate menu
-        function initializeUserProfile() {
-            document.getElementById('profileImg').textContent = currentUser.initials;
-            document.getElementById('userName').textContent = currentUser.fullName;
-            document.getElementById('userRole').textContent = currentUser.role;
-            document.getElementById('fullName').textContent = currentUser.fullName;
-            document.getElementById('roleDisplay').textContent = currentUser.role;
-            document.getElementById('userId').textContent = currentUser.userId;
-            document.getElementById('userEmail').textContent = currentUser.email;
-            
-            // Generate role-based menu
-            generateRoleBasedMenu();
-        }
-
-        function toggleProfileDropdown() {
-            const dropdown = document.getElementById('profileDropdown');
-            dropdown.classList.toggle('show');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profileDropdown');
-            const profileImg = document.getElementById('profileImg');
-            
-            if (!dropdown.contains(event.target) && !profileImg.contains(event.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeUserProfile();
-        });
-
-        function toggleSubmenu(event, submenuId) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            const submenu = document.getElementById(submenuId);
-            const expandIcon = event.currentTarget.querySelector('.expand-icon');
-            
-            // Close all other submenus
-            document.querySelectorAll('.submenu').forEach(sub => {
-                if (sub.id !== submenuId) {
-                    sub.classList.remove('show');
-                    const otherIcon = sub.previousElementSibling.querySelector('.expand-icon');
-                    if (otherIcon) otherIcon.classList.remove('expanded');
-                }
-            });
-            
-            // Toggle current submenu
-            submenu.classList.toggle('show');
-            expandIcon.classList.toggle('expanded');
-        }
-
-        function loadModule(event, moduleId) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            // Remove active class from all links
-            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // Add active class to clicked submenu item
-            event.currentTarget.classList.add('active');
-            
-            // Update main content
-            updateMainContent(moduleId);
-            
-            // Close sidebar on mobile
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('active');
+            // Hide module content
+            if (moduleContent) {
+                moduleContent.style.display = 'none';
             }
         }
-
-        function showDashboard(event) {
-            event.preventDefault();
-            
-            // Remove active from all links
+    </script>
+</body>
+</html>
             document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
                 link.classList.remove('active');
             });

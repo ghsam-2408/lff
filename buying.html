@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFF Marketplace - Commodity Buying</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Copy exact navigation and sidebar styles from dashboard.html */
+        .top-navbar {
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+
+        .top-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .nav-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ffc107;
+            color: #212529;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .profile-img:hover {
+            background: #f8f9fa;
+            transform: scale(1.05);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: white;
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            z-index: 1001;
+            border: 1px solid #e9ecef;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-header h4 {
+            color: #28a745;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .dropdown-header p {
+            color: #6c757d;
+            margin: 0.25rem 0 0 0;
+            font-size: 0.85rem;
+        }
+
+        .dropdown-body {
+            padding: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .info-value {
+            color: #6c757d;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #e9ecef;
+            margin: 1rem 0;
+        }
+
+        .dropdown-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .dropdown-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #218838;
+        }
+
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background: #c82333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 70px);
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+
+        .sidebar-header h3 {
+            color: #28a745;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .menu-link {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .menu-link:hover {
+            background: #f8f9fa;
+            border-left-color: #ffc107;
+            color: #28a745;
+        }
+
+        .menu-link.active {
+            background: #e8f5e8;
+            border-left-color: #28a745;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .menu-icon {
+            margin-right: 0.75rem;
+            width: 20px;
+            display: inline-block;
+        }
+
+        .expand-icon {
+            float: right;
+            margin-top: 2px;
+            transition: transform 0.3s;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+
+        .submenu {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid #e9ecef;
+        }
+
+        .submenu.show {
+            display: block;
+        }
+
+        .submenu-item {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .submenu-link {
+            display: block;
+            padding: 0.75rem 1.5rem 0.75rem 3rem;
+            color: #6c757d;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .submenu-link:hover {
+            background: #ffffff;
+            color: #28a745;
+            border-left: 3px solid #ffc107;
+        }
+
+        .submenu-link.active {
+            background: #ffffff;
+            color: #28a745;
+            border-left: 3px solid #28a745;
+            font-weight: 500;
+        }
+
+        /* Buying Page Specific Styles */
+        .commodities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .commodity-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #28a745;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .commodity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .commodity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .commodity-title {
+            color: #28a745;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .commodity-category {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .commodity-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-negotiating {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .commodity-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .price-display {
+            background: #e8f5e8;
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 1.5rem;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .commodity-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .btn-negotiate {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-negotiate:hover {
+            background: #e0a800;
+        }
+
+        .btn-buy-now {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-buy-now:hover {
+            background: #218838;
+        }
+
+        .btn-view-details {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-view-details:hover {
+            background: #138496;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* Negotiation Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .negotiation-info {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .chat-container {
+            height: 300px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            overflow-y: auto;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .message.trader {
+            background: #e8f5e8;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .message.farmer {
+            background: #fff3cd;
+            margin-right: auto;
+        }
+
+        .message-header {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 0.25rem;
+        }
+
+        .message-content {
+            color: #495057;
+        }
+
+        .offer-message {
+            border-left: 4px solid #28a745;
+            padding-left: 1rem;
+            font-weight: 600;
+        }
+
+        .negotiation-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .negotiation-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            resize: none;
+        }
+
+        .offer-section {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .offer-input-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .offer-input {
+            width: 150px;
+            padding: 0.5rem;
+            border: 2px solid #28a745;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .top-nav-container {
+                padding: 0;
+            }
+
+            .nav-right {
+                gap: 1rem;
+            }
+
+            .logo-text {
+                display: none;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar">
+        <div class="top-nav-container">
+            <div class="nav-left">
+                <div class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="nav-logo">
+                    <img src="logo.png" alt="LFF Logo">
+                </div>
+                <a href="dashboard.html" class="logo-text">LFF Marketplace</a>
+            </div>
+            <div class="nav-right">
+                <a href="#" class="nav-item" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </a>
+                <a href="#" class="nav-item" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </a>
+                <div class="profile-dropdown">
+                    <div class="profile-img" onclick="toggleProfileDropdown()" id="profileImg">
+                        JS
+                    </div>
+                    <div class="dropdown-content" id="profileDropdown">
+                        <div class="dropdown-header">
+                            <h4 id="userName">John Smith</h4>
+                            <p id="userRole">Trader</p>
+                        </div>
+                        <div class="dropdown-body">
+                            <div class="user-info">
+                                <div class="info-item">
+                                    <span class="info-label">Full Name:</span>
+                                    <span class="info-value" id="fullName">John Smith</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Role:</span>
+                                    <span class="info-value" id="roleDisplay">Trader</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">User ID:</span>
+                                    <span class="info-value" id="userId">USR-001234</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Email:</span>
+                                    <span class="info-value" id="userEmail">john.smith@example.com</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-actions">
+                                <a href="#" class="dropdown-btn btn-primary">
+                                    <i class="fas fa-user-edit"></i> Edit Profile
+                                </a>
+                                <a href="#" class="dropdown-btn btn-logout" onclick="handleLogout()">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Dashboard Modules</h3>
+        </div>
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <li class="menu-item">
+                <a href="dashboard.html" class="menu-link">
+                    <i class="fas fa-home menu-icon"></i>
+                    Dashboard
+                </a>
+            </li>
+            <!-- Dynamic menu items will be inserted here -->
+        </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Commodity Marketplace</h1>
+            <p>Browse and purchase agricultural commodities from farmers</p>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h3 style="color: #28a745; margin-bottom: 1rem;">Filter Commodities</h3>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="categoryFilter">Category</label>
+                    <select id="categoryFilter" onchange="filterCommodities()">
+                        <option value="">All Categories</option>
+                        <option value="grains">Grains & Cereals</option>
+                        <option value="livestock">Livestock</option>
+                        <option value="poultry">Poultry</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="fruits">Fruits</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="locationFilter">Location</label>
+                    <select id="locationFilter" onchange="filterCommodities()">
+                        <option value="">All Locations</option>
+                        <option value="harare">Harare</option>
+                        <option value="bulawayo">Bulawayo</option>
+                        <option value="mutare">Mutare</option>
+                        <option value="gweru">Gweru</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="priceRangeFilter">Max Price ($)</label>
+                    <input type="number" id="priceRangeFilter" placeholder="Enter max price" onchange="filterCommodities()">
+                </div>
+                <div class="filter-group">
+                    <label for="sortFilter">Sort By</label>
+                    <select id="sortFilter" onchange="filterCommodities()">
+                        <option value="newest">Newest First</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="quantity">Quantity Available</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commodities Grid -->
+        <div class="commodities-grid" id="commoditiesGrid">
+            <!-- Commodities will be loaded here -->
+        </div>
+    </main>
+
+    <!-- Negotiation Modal -->
+    <div id="negotiationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Negotiate Purchase</h2>
+                <span class="close" onclick="closeNegotiationModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="negotiation-info" id="negotiationInfo">
+                    <!-- Commodity info will be loaded here -->
+                </div>
+                
+                <div class="offer-section">
+                    <h4 style="color: #28a745; margin-bottom: 0.5rem;">Make an Offer</h4>
+                    <div class="offer-input-group">
+                        <label>Price per unit: $</label>
+                        <input type="number" id="offerPrice" class="offer-input" step="0.01" placeholder="0.00">
+                        <label>Quantity:</label>
+                        <input type="number" id="offerQuantity" class="offer-input" placeholder="0">
+                        <button class="action-btn btn-negotiate" onclick="makeOffer()">
+                            <i class="fas fa-handshake"></i> Make Offer
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-container" id="chatContainer">
+                    <!-- Chat messages will appear here -->
+                </div>
+
+                <div class="negotiation-form">
+                    <textarea id="messageInput" class="negotiation-input" rows="3" placeholder="Type your message here..."></textarea>
+                    <button class="action-btn btn-negotiate" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i> Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load user data and initialize
+        let currentUser = null;
+        let currentNegotiation = null;
+        let commodities = [];
+
+        // Sample commodities data (in real app, this would come from backend)
+        const sampleCommodities = [
+            {
+                id: 1,
+                name: "Maize - SC719",
+                category: "grains",
+                farmer: "John Mukamuri",
+                location: "Harare",
+                quantity: 1000,
+                unit: "kg",
+                pricePerUnit: 0.45,
+                grade: "Grade A",
+                description: "High quality white maize, properly dried and stored",
+                status: "available",
+                datePosted: "2024-01-15",
+                images: []
+            },
+            {
+                id: 2,
+                name: "Cattle - Brahman",
+                category: "livestock",
+                farmer: "Mary Chidziva",
+                location: "Bulawayo",
+                quantity: 15,
+                unit: "head",
+                pricePerUnit: 450,
+                breed: "Brahman",
+                age: "2 years",
+                description: "Healthy breeding cattle, vaccinated and ready for sale",
+                status: "available",
+                datePosted: "2024-01-14",
+                images: []
+            },
+            {
+                id: 3,
+                name: "Broiler Chickens",
+                category: "poultry",
+                farmer: "Peter Moyo",
+                location: "Mutare",
+                quantity: 500,
+                unit: "birds",
+                pricePerUnit: 3.50,
+                type: "Broiler",
+                description: "6-week old broiler chickens, ready for market",
+                status: "negotiating",
+                datePosted: "2024-01-13",
+                images: []
+            },
+            {
+                id: 4,
+                name: "Tomatoes - Roma",
+                category: "vegetables",
+                farmer: "Grace Nyoni",
+                location: "Gweru",
+                quantity: 200,
+                unit: "kg",
+                pricePerUnit: 1.25,
+                variety: "Roma",
+                grade: "Premium",
+                description: "Fresh Roma tomatoes, perfect for processing",
+                status: "available",
+                datePosted: "2024-01-12",
+                images: []
+            }
+        ];
+
+        function loadUserFromSession() {
+            const userData = sessionStorage.getItem('currentUser');
+            if (!userData) {
+                window.location.href = 'login.html';
+                return null;
+            }
+            return JSON.parse(userData);
+        }
+
+        function initializeUserProfile() {
+            document.getElementById('profileImg').textContent = currentUser.initials;
+            document.getElementById('userName').textContent = currentUser.fullName;
+            document.getElementById('userRole').textContent = currentUser.role;
+            document.getElementById('fullName').textContent = currentUser.fullName;
+            document.getElementById('roleDisplay').textContent = currentUser.role;
+            document.getElementById('userId').textContent = currentUser.userId;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            
+            generateRoleBasedMenu();
+        }
+
+        function generateRoleBasedMenu() {
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            const roleModules = {
+                "Trader": [
+                    {
+                        id: "marketplace",
+                        title: "Market Place",
+                        icon: "fas fa-shopping-cart",
+                        submenuId: "marketplace-submenu",
+                        submodules: [
+                            { id: "buy-commodity", name: "Buy Commodity (engage) negotiations" }
+                        ]
+                    },
+                    {
+                        id: "delivery",
+                        title: "Delivery System",
+                        icon: "fas fa-truck",
+                        submenuId: "delivery-submenu",
+                        submodules: [
+                            { id: "logistics", name: "Logistics" },
+                            { id: "evaluation", name: "Evaluation and monitoring" }
+                        ]
+                    },
+                    {
+                        id: "invoicing",
+                        title: "Invoicing System",
+                        icon: "fas fa-file-invoice-dollar",
+                        submenuId: "invoicing-submenu",
+                        submodules: [
+                            { id: "invoicing-reconciliation", name: "Invoicing and Reconciliation" }
+                        ]
+                    },
+                    {
+                        id: "tagging",
+                        title: "Tagging and Tracking",
+                        icon: "fas fa-tags",
+                        submenuId: "tagging-submenu",
+                        submodules: [
+                            { id: "livestock-tagging", name: "Livestock Tagging and Tracking" }
+                        ]
+                    }
+                ]
+            };
+            
+            const userModules = roleModules[currentUser.role] || [];
+            
+            userModules.forEach(module => {
+                const menuItem = document.createElement('li');
+                menuItem.className = 'menu-item';
+                
+                menuItem.innerHTML = `
+                    <div class="menu-link" onclick="toggleSubmenu(event, '${module.submenuId}')">
+                        <i class="${module.icon} menu-icon"></i>
+                        ${module.title}
+                        <i class="fas fa-chevron-right expand-icon ${module.id === 'marketplace' ? 'expanded' : ''}"></i>
+                    </div>
+                    <ul class="submenu ${module.id === 'marketplace' ? 'show' : ''}" id="${module.submenuId}">
+                        ${module.submodules.map(sub => `
+                            <li class="submenu-item">
+                                <a href="#" class="submenu-link ${sub.id === 'buy-commodity' ? 'active' : ''}" onclick="loadModule(event, '${sub.id}')">${sub.name}</a>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                
+                sidebarMenu.appendChild(menuItem);
+            });
+        }
+
+        function loadCommodities() {
+            commodities = [...sampleCommodities];
+            displayCommodities(commodities);
+        }
+
+        function displayCommodities(commoditiesToShow) {
+            const grid = document.getElementById('commoditiesGrid');
+            
+            if (commoditiesToShow.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #6c757d;">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3>No commodities found</h3>
+                        <p>Try adjusting your filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = commoditiesToShow.map(commodity => `
+                <div class="commodity-card">
+                    <div class="commodity-header">
+                        <div>
+                            <div class="commodity-title">${commodity.name}</div>
+                            <div class="commodity-category">${commodity.category}</div>
+                        </div>
+                        <div class="commodity-status status-${commodity.status}">
+                            ${commodity.status === 'available' ? 'Available' : 'In Negotiation'}
+                        </div>
+                    </div>
+                    
+                    <div class="commodity-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Farmer:</span>
+                            <span class="detail-value">${commodity.farmer}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Location:</span>
+                            <span class="detail-value">${commodity.location}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Available:</span>
+                            <span class="detail-value">${commodity.quantity} ${commodity.unit}</span>
+                        </div>
+                        ${commodity.grade ? `
+                        <div class="detail-row">
+                            <span class="detail-label">Grade:</span>
+                            <span class="detail-value">${commodity.grade}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="price-display">
+                        <div class="current-price">$${commodity.pricePerUnit.toFixed(2)} per ${commodity.unit === 'kg' ? 'kg' : commodity.unit}</div>
+                    </div>
+                    
+                    <div class="commodity-actions">
+                        <button class="action-btn btn-negotiate" onclick="startNegotiation(${commodity.id})">
+                            <i class="fas fa-handshake"></i> Negotiate
+                        </button>
+                        <button class="action-btn btn-buy-now" onclick="buyNow(${commodity.id})">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCommodities() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+            const priceFilter = parseFloat(document.getElementById('priceRangeFilter').value);
+            const sortFilter = document.getElementById('sortFilter').value;
+
+            let filtered = commodities.filter(commodity => {
+                if (categoryFilter && commodity.category !== categoryFilter) return false;
+                if (locationFilter && commodity.location.toLowerCase() !== locationFilter) return false;
+                if (priceFilter && commodity.pricePerUnit > priceFilter) return false;
+                return true;
+            });
+
+            // Sort commodities
+            switch (sortFilter) {
+                case 'price-low':
+                    filtered.sort((a, b) => a.pricePerUnit - b.pricePerUnit);
+                    break;
+                case 'price-high':
+                    filtered.sort((a, b) => b.pricePerUnit - a.pricePerUnit);
+                    break;
+                case 'quantity':
+                    filtered.sort((a, b) => b.quantity - a.quantity);
+                    break;
+                default: // newest
+                    filtered.sort((a, b) => new Date(b.datePosted) - new Date(a.datePosted));
+            }
+
+            displayCommodities(filtered);
+        }
+
+        function startNegotiation(commodityId) {
+            currentNegotiation = commodities.find(c => c.id === commodityId);
+            if (!currentNegotiation) return;
+
+            document.getElementById('modalTitle').textContent = `Negotiate: ${currentNegotiation.name}`;
+            document.getElementById('negotiationInfo').innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <div>
+                        <h4 style="color: #28a745;">${currentNegotiation.name}</h4>
+                        <p>Farmer: ${currentNegotiation.farmer} | Location: ${currentNegotiation.location}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 1.2rem; color: #28a745; font-weight: bold;">
+                            $${currentNegotiation.pricePerUnit.toFixed(2)} per ${currentNegotiation.unit}
+                        </div>
+                        <div style="color: #6c757d;">Available: ${currentNegotiation.quantity} ${currentNegotiation.unit}</div>
+                    </div>
+                </div>
+                <p style="color: #495057;">${currentNegotiation.description}</p>
+            `;
+
+            // Initialize chat with sample messages
+            initializeChat();
+            
+            document.getElementById('negotiationModal').style.display = 'block';
+        }
+
+        function initializeChat() {
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.innerHTML = `
+                <div class="message farmer">
+                    <div class="message-header">${currentNegotiation.farmer} - 2 hours ago</div>
+                    <div class="message-content">Hello! Thank you for your interest in my ${currentNegotiation.name}. The quality is excellent and I'm looking forward to working with you.</div>
+                </div>
+            `;
+        }
+
+        function makeOffer() {
+            const price = parseFloat(document.getElementById('offerPrice').value);
+            const quantity = parseInt(document.getElementById('offerQuantity').value);
+            
+            if (!price || !quantity) {
+                alert('Please enter both price and quantity for your offer.');
+                return;
+            }
+
+            if (quantity > currentNegotiation.quantity) {
+                alert('Offer quantity cannot exceed available quantity.');
+                return;
+            }
+
+            const total = (price * quantity).toFixed(2);
+            const message = `
+                <div class="message trader">
+                    <div class="message-header">You - Just now</div>
+                    <div class="message-content offer-message">
+                        <strong>OFFER:</strong> $${price.toFixed(2)} per ${currentNegotiation.unit} for ${quantity} ${currentNegotiation.unit}
+                        <br><strong>Total: $${total}</strong>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('chatContainer').innerHTML += message;
+            document.getElementById('chatContainer').scrollTop = document.getElementById('chatContainer').scrollHeight;
+
+            // Clear inputs
+            document.getElementById('offerPrice').value = '';
+            document.getElementById('offerQuantity').value = '';
+
+            // Simulate farmer response after 3 seconds
+            setTimeout(() => {
+                simulateFarmerResponse(price, quantity);
+            }, 3000);
+        }
+
+        function simulateFarmerResponse(offerPrice, offerQuantity) {
+            const originalPrice = currentNegotiation.pricePerUnit;
+            let response = '';
+
+            if (offerPrice >= originalPrice * 0.9) {
+                response = `Great offer! I can accept $${offerPrice.toFixed(2)} per ${currentNegotiation.unit} for ${offerQuantity} ${currentNegotiation.unit}. Shall we proceed with the transaction?`;
+            } else if (offerPrice >= originalPrice * 0.8) {
+                const counterPrice = (originalPrice * 0.85).toFixed(2);
+                response = `Thank you for the offer. I can come down to $${counterPrice} per ${currentNegotiation.unit}. What do you think?`;
+            } else {
+                response = `I appreciate your interest, but that price is too low. My best price would be $${(originalPrice * 0.9).toFixed(2)} per ${currentNegotiation.unit}.`;
+            }
+
+            const message = `
+                <div class="message farmer">
+                    <div class="message-header">${currentNegotiation.farmer} - Just now</div>
+                    <div class="message-content">${response}</div>
+                </div>
+            `;
+
+            document.getElementById('chatContainer').innerHTML += message;
+            document.getElementById('chatContainer').scrollTop = document.getElementById('chatContainer').scrollHeight;
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (!message) return;
+
+            const messageHtml = `
+                <div class="message trader">
+                    <div class="message-header">You - Just now</div>
+                    <div class="message-content">${message}</div>
+                </div>
+            `;
+
+            document.getElementById('chatContainer').innerHTML += messageHtml;
+            document.getElementById('chatContainer').scrollTop = document.getElementById('chatContainer').scrollHeight;
+            messageInput.value = '';
+        }
+
+        function buyNow(commodityId) {
+            const commodity = commodities.find(c => c.id === commodityId);
+            if (!commodity) return;
+
+            const total = (commodity.pricePerUnit * commodity.quantity).toFixed(2);
+            if (confirm(`Buy ${commodity.quantity} ${commodity.unit} of ${commodity.name} for $${total}?`)) {
+                alert('Purchase initiated! The farmer will be notified and payment processing will begin.');
+                // Update commodity status
+                commodity.status = 'sold';
+                loadCommodities();
+            }
+        }
+
+        function closeNegotiationModal() {
+            document.getElementById('negotiationModal').style.display = 'none';
+            currentNegotiation = null;
+        }
+
+        // Navigation functions
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function toggleProfileDropdown() {
+            document.getElementById('profileDropdown').classList.toggle('show');
+        }
+
+        function toggleSubmenu(event, submenuId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const submenu = document.getElementById(submenuId);
+            const expandIcon = event.currentTarget.querySelector('.expand-icon');
+            
+            // Toggle current submenu
+            submenu.classList.toggle('show');
+            expandIcon.classList.toggle('expanded');
+        }
+
+        function loadModule(event, moduleId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Remove active class from all links
+            document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to clicked submenu item
+            event.currentTarget.classList.add('active');
+            
+            if (moduleId === 'buy-commodity') {
+                // Already on this page
+                return;
+            } else {
+                // Redirect to dashboard for other modules
+                window.location.href = `dashboard.html?module=${moduleId}`;
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            currentUser = loadUserFromSession();
+            if (!currentUser) return;
+
+            initializeUserProfile();
+            loadCommodities();
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById('negotiationModal');
+                if (event.target === modal) {
+                    closeNegotiationModal();
+                }
+            };
+
+            // Enter key to send message
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const profileImg = document.getElementById('profileImg');
+            
+            if (!dropdown.contains(event.target) && !profileImg.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

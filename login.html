@@ -370,6 +370,159 @@
             font-size: 0.9rem;
         }
 
+        /* Multi-step form styles */
+        .step-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e9ecef;
+            z-index: 1;
+        }
+
+        .step-indicator .progress-line {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            height: 2px;
+            background: #28a745;
+            transition: width 0.3s;
+            z-index: 2;
+        }
+
+        .step {
+            background: #e9ecef;
+            color: #6c757d;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 3;
+            transition: all 0.3s;
+        }
+
+        .step.active {
+            background: #28a745;
+            color: white;
+        }
+
+        .step.completed {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .nav-btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .prev-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .prev-btn:hover {
+            background: #5a6268;
+        }
+
+        .next-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .next-btn:hover {
+            background: #218838;
+        }
+
+        .entity-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .entity-card {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .entity-card:hover {
+            border-color: #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.1);
+        }
+
+        .entity-card.selected {
+            border-color: #28a745;
+            background: #e8f5e8;
+        }
+
+        .entity-card i {
+            font-size: 2rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .entity-card h4 {
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .entity-card p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .bank-account-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 padding: 1rem;
@@ -480,74 +633,323 @@
             <!-- Register Tab -->
             <div id="register" class="tab-content">
                 <form id="registerForm">
-                    <!-- Personal Information Section -->
-                    <h3 class="section-header">Personal Information</h3>
-                    
-                    <div class="form-group">
-                        <label for="regEmail">Email Address</label>
-                        <input type="email" id="regEmail" name="email" required placeholder="Enter your email">
+                    <!-- Step Indicator -->
+                    <div class="step-indicator">
+                        <div class="progress-line" id="progressLine"></div>
+                        <div class="step active" id="step1">1</div>
+                        <div class="step" id="step2">2</div>
+                        <div class="step" id="step3">3</div>
+                        <div class="step" id="step4">4</div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="regPassword">Create Password</label>
-                        <input type="password" id="regPassword" name="password" required placeholder="Create a strong password">
+                    <!-- Step 1: Entity Type Selection -->
+                    <div class="step-content active" id="stepContent1">
+                        <h3 class="section-header">Entity Type Selection</h3>
+                        <p style="color: #6c757d; margin-bottom: 2rem;">Please select the type of entity you represent:</p>
+                        
+                        <div class="entity-type-grid">
+                            <div class="entity-card" onclick="selectEntityType('individual-farmer')" data-entity="individual-farmer">
+                                <i class="fas fa-user"></i>
+                                <h4>Individual Farmer</h4>
+                                <p>Single farmer or small family farm</p>
+                            </div>
+                            
+                            <div class="entity-card" onclick="selectEntityType('corporate-farm')" data-entity="corporate-farm">
+                                <i class="fas fa-building"></i>
+                                <h4>Corporate Farm</h4>
+                                <p>Large commercial farming operation</p>
+                            </div>
+                            
+                            <div class="entity-card" onclick="selectEntityType('buyer')" data-entity="buyer">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h4>Buyer/Trader</h4>
+                                <p>Commodity buyer or trading company</p>
+                            </div>
+                            
+                            <div class="entity-card" onclick="selectEntityType('input-supplier')" data-entity="input-supplier">
+                                <i class="fas fa-boxes"></i>
+                                <h4>Input Supplier</h4>
+                                <p>Agricultural inputs and equipment supplier</p>
+                            </div>
+                            
+                            <div class="entity-card" onclick="selectEntityType('logistics')" data-entity="logistics">
+                                <i class="fas fa-truck"></i>
+                                <h4>Logistics Provider</h4>
+                                <p>Transportation and logistics services</p>
+                            </div>
+                            
+                            <div class="entity-card" onclick="selectEntityType('cooperative')" data-entity="cooperative">
+                                <i class="fas fa-users"></i>
+                                <h4>Cooperative</h4>
+                                <p>Farmer cooperative or association</p>
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" id="entityType" name="entityType" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="regRole">Select Your Role</label>
-                        <select id="regRole" name="role" class="role-selector" required onchange="toggleFarmSection()">
-                            <option value="">Select your role</option>
-                            <option value="Farmer">Farmer</option>
-                            <option value="Trader">Trader</option>
-                            <option value="stakeholder">Stakeholder</option>
-                            <option value="Logistics Provider">Logistics Provider</option>
-                            <option value="Admin">Administrator</option>
-                        </select>
-                    </div>
-
-                    <!-- Farm Information Section (Only for Farmers) -->
-                    <div id="farmSection" class="farm-section" style="display: none;">
-                        <h3 class="section-header">Farm Information</h3>
+                    <!-- Step 2: Personal/Business Details -->
+                    <div class="step-content" id="stepContent2">
+                        <h3 class="section-header">Personal/Business Information</h3>
                         
                         <div class="form-group">
-                            <label for="farmCount">How many farms do you have?</label>
-                            <select id="farmCount" name="farmCount" class="role-selector" onchange="generateFarmDetails()">
-                                <option value="1">1 Farm</option>
-                                <option value="2">2 Farms</option>
-                                <option value="3">3 Farms</option>
-                                <option value="4">4 Farms</option>
-                                <option value="5">5 Farms</option>
-                                <option value="6">6 Farms</option>
-                                <option value="7">7 Farms</option>
-                                <option value="8">8 Farms</option>
-                                <option value="9">9 Farms</option>
-                                <option value="10">10 Farms</option>
-                            </select>
+                            <label for="regEmail">Email Address *</label>
+                            <input type="email" id="regEmail" name="email" required placeholder="Enter your email">
                         </div>
 
-                        <div id="farmDetailsContainer"></div>
-                    </div>
+                        <div class="form-group">
+                            <label for="regPassword">Create Password *</label>
+                            <input type="password" id="regPassword" name="password" required placeholder="Create a strong password">
+                        </div>
 
-                    <!-- KYC Documents Section -->
-                    <h3 class="section-header">KYC Documents</h3>
-                    
-                    <div class="form-group">
-                        <label>Upload ID/Passport</label>
-                        <div class="file-upload" onclick="document.getElementById('idUpload').click()">
-                            <input type="file" id="idUpload" name="idDocument" accept=".pdf,.jpg,.jpeg,.png">
-                            <p>Click to upload ID or Passport</p>
+                        <div id="personalDetails">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name *</label>
+                                    <input type="text" id="firstName" name="firstName" required placeholder="Enter first name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="lastName">Last Name *</label>
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Enter last name">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phoneNumber">Phone Number *</label>
+                                    <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="+263 xxx xxx xxx">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="dateOfBirth">Date of Birth</label>
+                                    <input type="date" id="dateOfBirth" name="dateOfBirth">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="businessDetails" style="display: none;">
+                            <div class="form-group">
+                                <label for="businessName">Business/Organization Name *</label>
+                                <input type="text" id="businessName" name="businessName" placeholder="Enter business name">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="businessType">Business Type *</label>
+                                    <select id="businessType" name="businessType" class="role-selector">
+                                        <option value="">Select business type</option>
+                                        <option value="sole-proprietorship">Sole Proprietorship</option>
+                                        <option value="partnership">Partnership</option>
+                                        <option value="corporation">Corporation</option>
+                                        <option value="cooperative">Cooperative</option>
+                                        <option value="ngo">NGO</option>
+                                        <option value="government">Government Entity</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="registrationNumber">Registration Number</label>
+                                    <input type="text" id="registrationNumber" name="registrationNumber" placeholder="Business registration number">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="businessDescription">Business Description</label>
+                                <textarea id="businessDescription" name="businessDescription" rows="3" placeholder="Describe your business activities"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Physical Address *</label>
+                            <textarea id="address" name="address" rows="3" required placeholder="Enter complete physical address"></textarea>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Upload Proof of Residence</label>
-                        <div class="file-upload" onclick="document.getElementById('proofUpload').click()">
-                            <input type="file" id="proofUpload" name="proofDocument" accept=".pdf,.jpg,.jpeg,.png">
-                            <p>Click to upload utility bill or bank statement</p>
+                    <!-- Step 3: Tax & Financial Information -->
+                    <div class="step-content" id="stepContent3">
+                        <h3 class="section-header">Tax & Financial Information</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taxId">Tax Identification Number</label>
+                                <input type="text" id="taxId" name="taxId" placeholder="Enter tax ID/TIN">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vatNumber">VAT Registration Number</label>
+                                <input type="text" id="vatNumber" name="vatNumber" placeholder="Enter VAT number (if applicable)">
+                            </div>
+                        </div>
+
+                        <div class="bank-account-section">
+                            <h4 style="color: #28a745; margin-bottom: 1rem;">Bank Account Information</h4>
+                            <p style="color: #6c757d; margin-bottom: 1.5rem;">This information is required for payment processing and withdrawals.</p>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="bankName">Bank Name *</label>
+                                    <select id="bankName" name="bankName" class="role-selector" required>
+                                        <option value="">Select your bank</option>
+                                        <option value="cabs">CABS</option>
+                                        <option value="fbc">FBC Bank</option>
+                                        <option value="steward">Steward Bank</option>
+                                        <option value="stanbic">Stanbic Bank</option>
+                                        <option value="nedbank">Nedbank</option>
+                                        <option value="ecobank">Ecobank</option>
+                                        <option value="agribank">Agribank</option>
+                                        <option value="zvb">ZB Bank</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="accountType">Account Type *</label>
+                                    <select id="accountType" name="accountType" class="role-selector" required>
+                                        <option value="">Select account type</option>
+                                        <option value="savings">Savings Account</option>
+                                        <option value="current">Current Account</option>
+                                        <option value="business">Business Account</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="accountNumber">Account Number *</label>
+                                    <input type="text" id="accountNumber" name="accountNumber" required placeholder="Enter account number">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="accountHolder">Account Holder Name *</label>
+                                    <input type="text" id="accountHolder" name="accountHolder" required placeholder="Account holder name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="branchCode">Branch Code</label>
+                                <input type="text" id="branchCode" name="branchCode" placeholder="Bank branch code">
+                            </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="login-btn">Register</button>
+                    <!-- Step 4: Location & Documentation -->
+                    <div class="step-content" id="stepContent4">
+                        <h3 class="section-header">Geographic Location</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="province">Province *</label>
+                                <select id="province" name="province" class="role-selector" required onchange="updateDistricts()">
+                                    <option value="">Select Province</option>
+                                    <option value="harare">Harare</option>
+                                    <option value="bulawayo">Bulawayo</option>
+                                    <option value="manicaland">Manicaland</option>
+                                    <option value="mashonaland-central">Mashonaland Central</option>
+                                    <option value="mashonaland-east">Mashonaland East</option>
+                                    <option value="mashonaland-west">Mashonaland West</option>
+                                    <option value="masvingo">Masvingo</option>
+                                    <option value="matabeleland-north">Matabeleland North</option>
+                                    <option value="matabeleland-south">Matabeleland South</option>
+                                    <option value="midlands">Midlands</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="district">District *</label>
+                                <select id="district" name="district" class="role-selector" required>
+                                    <option value="">Select District</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group gps-input">
+                                <label for="mainLat">GPS Latitude *</label>
+                                <input type="number" id="mainLat" name="mainLatitude" step="any" required placeholder="e.g., -17.8216">
+                            </div>
+                            
+                            <div class="form-group gps-input">
+                                <label for="mainLng">GPS Longitude *</label>
+                                <input type="number" id="mainLng" name="mainLongitude" step="any" required placeholder="e.g., 31.0492">
+                            </div>
+                        </div>
+
+                        <button type="button" class="location-btn" onclick="getCurrentMainLocation()">
+                            Use Current Location
+                        </button>
+
+                        <!-- Farm Information Section (Only for Farmers) -->
+                        <div id="farmSection" class="farm-section" style="display: none;">
+                            <h3 class="section-header">Farm Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="farmCount">How many farms do you have?</label>
+                                <select id="farmCount" name="farmCount" class="role-selector" onchange="generateFarmDetails()">
+                                    <option value="1">1 Farm</option>
+                                    <option value="2">2 Farms</option>
+                                    <option value="3">3 Farms</option>
+                                    <option value="4">4 Farms</option>
+                                    <option value="5">5 Farms</option>
+                                    <option value="6">6 Farms</option>
+                                    <option value="7">7 Farms</option>
+                                    <option value="8">8 Farms</option>
+                                    <option value="9">9 Farms</option>
+                                    <option value="10">10 Farms</option>
+                                </select>
+                            </div>
+
+                            <div id="farmDetailsContainer"></div>
+                        </div>
+
+                        <!-- KYC Documents Section -->
+                        <h3 class="section-header">KYC Documents</h3>
+                        
+                        <div class="form-group">
+                            <label>Upload ID/Passport *</label>
+                            <div class="file-upload" onclick="document.getElementById('idUpload').click()">
+                                <input type="file" id="idUpload" name="idDocument" accept=".pdf,.jpg,.jpeg,.png" required>
+                                <p>Click to upload ID or Passport</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Upload Proof of Residence *</label>
+                            <div class="file-upload" onclick="document.getElementById('proofUpload').click()">
+                                <input type="file" id="proofUpload" name="proofDocument" accept=".pdf,.jpg,.jpeg,.png" required>
+                                <p>Click to upload utility bill or bank statement</p>
+                            </div>
+                        </div>
+
+                        <div id="businessDocuments" style="display: none;">
+                            <div class="form-group">
+                                <label>Business Registration Certificate</label>
+                                <div class="file-upload" onclick="document.getElementById('businessCert').click()">
+                                    <input type="file" id="businessCert" name="businessCertificate" accept=".pdf,.jpg,.jpeg,.png">
+                                    <p>Click to upload business registration</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tax Clearance Certificate</label>
+                                <div class="file-upload" onclick="document.getElementById('taxClearance').click()">
+                                    <input type="file" id="taxClearance" name="taxClearance" accept=".pdf,.jpg,.jpeg,.png">
+                                    <p>Click to upload tax clearance</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step Navigation -->
+                    <div class="step-navigation">
+                        <button type="button" class="nav-btn prev-btn" id="prevBtn" onclick="previousStep()" style="display: none;">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <div></div>
+                        <button type="button" class="nav-btn next-btn" id="nextBtn" onclick="nextStep()">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -604,16 +1006,70 @@
             }
         }
 
-        function toggleFarmSection() {
-            const role = document.getElementById('regRole').value;
-            const farmSection = document.getElementById('farmSection');
+        /* Multi-step registration script */
+        let currentStep = 1;
+        let selectedEntityType = '';
+
+        function selectEntityType(entityType) {
+            // Remove selected class from all cards
+            document.querySelectorAll('.entity-card').forEach(card => {
+                card.classList.remove('selected');
+            });
             
-            if (role === 'farmer') {
-                farmSection.style.display = 'block';
-                generateFarmDetails(); // Generate initial farm details
-            } else {
-                farmSection.style.display = 'none';
+            // Add selected class to clicked card
+            document.querySelector(`[data-entity="${entityType}"]`).classList.add('selected');
+            
+            selectedEntityType = entityType;
+            document.getElementById('entityType').value = entityType;
+        }
+
+        function nextStep() {
+            if (validateStep(currentStep)) {
+                if (currentStep < 4) {
+                    currentStep++;
+                    updateStepDisplay();
+                } else {
+                    // Submit form
+                    document.getElementById('registerForm').dispatchEvent(new Event('submit'));
+                }
             }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+
+        function updateStepDisplay() {
+            // Update step indicators
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById(`step${i}`);
+                const stepContent = document.getElementById(`stepContent${i}`);
+                
+                if (i < currentStep) {
+                    step.className = 'step completed';
+                } else if (i === currentStep) {
+                    step.className = 'step active';
+                } else {
+                    step.className = 'step';
+                }
+                
+                stepContent.classList.toggle('active', i === currentStep);
+            }
+            
+            // Update progress line
+            const progressLine = document.getElementById('progressLine');
+            const progressWidth = ((currentStep - 1) / 3) * 100;
+            progressLine.style.width = progressWidth + '%';
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').style.display = currentStep > 1 ? 'block' : 'none';
+            document.getElementById('nextBtn').textContent = currentStep === 4 ? 'Register' : 'Next';
+            
+            // Show/hide sections based on entity type and step
+            updateFormSections();
         }
 
         function generateFarmDetails() {
@@ -639,12 +1095,12 @@
                     <div class="form-row">
                         <div class="form-group gps-input">
                             <label for="lat${i}">GPS Latitude for Farm ${i}</label>
-                            <input type="number" id="lat${i}" name="latitude${i}" step="any" placeholder="e.g., -1.2921">
+                            <input type="number" id="lat${i}" name="latitude${i}" step="any" placeholder="e.g., -17.8216">
                         </div>
                         
                         <div class="form-group gps-input">
                             <label for="lng${i}">GPS Longitude for Farm ${i}</label>
-                            <input type="number" id="lng${i}" name="longitude${i}" step="any" placeholder="e.g., 36.8219">
+                            <input type="number" id="lng${i}" name="longitude${i}" step="any" placeholder="e.g., 31.0492">
                         </div>
                     </div>
 
@@ -670,6 +1126,147 @@
                 );
             } else {
                 alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function updateFormSections() {
+            const personalDetails = document.getElementById('personalDetails');
+            const businessDetails = document.getElementById('businessDetails');
+            const farmSection = document.getElementById('farmSection');
+            const businessDocuments = document.getElementById('businessDocuments');
+            
+            if (currentStep === 2) {
+                if (selectedEntityType === 'individual-farmer') {
+                    personalDetails.style.display = 'block';
+                    businessDetails.style.display = 'none';
+                } else {
+                    personalDetails.style.display = 'block';
+                    businessDetails.style.display = 'block';
+                }
+            }
+            
+            if (currentStep === 4) {
+                if (selectedEntityType === 'individual-farmer' || selectedEntityType === 'corporate-farm') {
+                    farmSection.style.display = 'block';
+                    // Generate initial farm details when section is shown
+                    generateFarmDetails();
+                } else {
+                    farmSection.style.display = 'none';
+                }
+                
+                if (selectedEntityType !== 'individual-farmer') {
+                    businessDocuments.style.display = 'block';
+                } else {
+                    businessDocuments.style.display = 'none';
+                }
+            }
+        }
+
+        function validateStep(step) {
+            switch (step) {
+                case 1:
+                    if (!selectedEntityType) {
+                        alert('Please select an entity type');
+                        return false;
+                    }
+                    break;
+                case 2:
+                    const requiredFields2 = ['regEmail', 'regPassword', 'firstName', 'lastName', 'phoneNumber', 'address'];
+                    if (selectedEntityType !== 'individual-farmer') {
+                        requiredFields2.push('businessName', 'businessType');
+                    }
+                    
+                    for (let field of requiredFields2) {
+                        const element = document.getElementById(field);
+                        if (element && !element.value.trim()) {
+                            alert(`Please fill in the ${element.previousElementSibling.textContent}`);
+                            element.focus();
+                            return false;
+                        }
+                    }
+                    break;
+                case 3:
+                    const requiredFields3 = ['bankName', 'accountType', 'accountNumber', 'accountHolder'];
+                    
+                    for (let field of requiredFields3) {
+                        const element = document.getElementById(field);
+                        if (!element.value.trim()) {
+                            alert(`Please fill in the ${element.previousElementSibling.textContent}`);
+                            element.focus();
+                            return false;
+                        }
+                    }
+                    break;
+                case 4:
+                    const requiredFields4 = ['province', 'district', 'mainLat', 'mainLng'];
+                    
+                    for (let field of requiredFields4) {
+                        const element = document.getElementById(field);
+                        if (!element.value.trim()) {
+                            alert(`Please fill in the ${element.previousElementSibling.textContent}`);
+                            element.focus();
+                            return false;
+                        }
+                    }
+                    
+                    // Check for required documents
+                    if (!document.getElementById('idUpload').files.length) {
+                        alert('Please upload your ID/Passport');
+                        return false;
+                    }
+                    if (!document.getElementById('proofUpload').files.length) {
+                        alert('Please upload proof of residence');
+                        return false;
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        function getCurrentMainLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        document.getElementById('mainLat').value = position.coords.latitude.toFixed(6);
+                        document.getElementById('mainLng').value = position.coords.longitude.toFixed(6);
+                        alert('Location set successfully');
+                    },
+                    function(error) {
+                        alert('Error getting location: ' + error.message);
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function updateDistricts() {
+            const province = document.getElementById('province').value;
+            const districtSelect = document.getElementById('district');
+            
+            // Clear existing options
+            districtSelect.innerHTML = '<option value="">Select District</option>';
+            
+            const districts = {
+                'harare': ['Harare', 'Chitungwiza', 'Epworth'],
+                'bulawayo': ['Bulawayo'],
+                'manicaland': ['Mutare', 'Rusape', 'Chipinge', 'Makoni', 'Nyanga'],
+                'mashonaland-central': ['Bindura', 'Guruve', 'Centenary', 'Shamva'],
+                'mashonaland-east': ['Marondera', 'Murehwa', 'Seke', 'Goromonzi'],
+                'mashonaland-west': ['Chinhoyi', 'Kariba', 'Hurungwe', 'Makonde'],
+                'masvingo': ['Masvingo', 'Chivi', 'Gutu', 'Bikita', 'Zaka'],
+                'matabeleland-north': ['Hwange', 'Binga', 'Lupane', 'Nkayi'],
+                'matabeleland-south': ['Gwanda', 'Beitbridge', 'Insiza', 'Umzingwane'],
+                'midlands': ['Gweru', 'Kwekwe', 'Shurugwi', 'Gokwe']
+            };
+            
+            if (districts[province]) {
+                districts[province].forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district.toLowerCase();
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
             }
         }
 
@@ -738,8 +1335,26 @@
             <option value="Logistics Provider">Logistics Provider</option>
             <option value="Admin">Administrator</option>
         `;
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            console.log('Registration data collected');
+            alert('Registration form submitted successfully!');
+        });
+
+        document.getElementById('forgotForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmail').value;
+            console.log('Password reset for:', email);
+            alert('Password reset link sent to your email!');
+            closeForgotModal();
+        });
+
+        // Initialize with one farm detail for farmers
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStepDisplay();
+        });
     </script>
-</body>
-</html>
 </body>
 </html>

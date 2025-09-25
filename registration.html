@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFF Marketplace - Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .nav-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        /* Registration Container */
+        .registration-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: calc(100vh - 80px);
+            padding: 2rem;
+        }
+
+        .registration-card {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+            border-top: 5px solid #ffc107;
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .registration-header h2 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .registration-header p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .back-to-login {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-to-login a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-to-login a:hover {
+            text-decoration: underline;
+        }
+
+        /* Reuse existing styles from login.html */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        .role-selector {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+        }
+
+        .registration-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .registration-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .role-card {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .role-card:hover {
+            border-color: #28a745;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.1);
+        }
+
+        .role-card.selected {
+            border-color: #28a745;
+            background: #e8f5e8;
+        }
+
+        .role-card i {
+            font-size: 2rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .role-card h4 {
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-card p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .seller-services-section {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .seller-services-section.show {
+            display: block;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .service-item:hover {
+            background: #e9ecef;
+            border-color: #28a745;
+        }
+
+        .service-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            accent-color: #28a745;
+        }
+
+        .service-item.checked {
+            background: #e8f5e8;
+            border-color: #28a745;
+        }
+
+        .service-item.checked span {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .section-header {
+            color: #28a745;
+            border-bottom: 2px solid #ffc107;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .farm-details {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .location-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #ffc107;
+            color: #212529;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .location-btn:hover {
+            background: #e0a800;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(255, 193, 7, 0.3);
+        }
+
+        .file-upload {
+            border: 2px dashed #28a745;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 8px;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            background: #e9ecef;
+            border-color: #20c997;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-upload i {
+            color: #28a745;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        #customCountryCode {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .validation-error {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1) !important;
+        }
+
+        .validation-success {
+            border-color: #28a745 !important;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1) !important;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-left {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .registration-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .role-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <img src="Assets/logo.png" alt="LFF Logo">
+                </div>
+                <a href="#" class="logo">LFF Marketplace</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#help">Help</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Registration Container -->
+    <div class="registration-container">
+        <div class="registration-card">
+            <div class="registration-header">
+                <h2>Create Your Account</h2>
+                <p>Join the LFF Marketplace community</p>
+            </div>
+
+            <div class="back-to-login">
+                <a href="login.html">← Back to Login</a>
+            </div>
+
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label>Select Your Role</label>
+                    <div class="role-grid">
+                        <div class="role-card" onclick="selectRole('farmer')" data-role="farmer">
+                            <i class="fas fa-seedling"></i>
+                            <h4>Farmer</h4>
+                            <p>Agricultural producer</p>
+                        </div>
+                        
+                        <div class="role-card" onclick="selectRole('trader')" data-role="trader">
+                            <i class="fas fa-exchange-alt"></i>
+                            <h4>Trader</h4>
+                            <p>Commodity trading professional</p>
+                        </div>
+                        
+                        <div class="role-card" onclick="selectRole('banking-official')" data-role="banking-official">
+                            <i class="fas fa-university"></i>
+                            <h4>Banking Official</h4>
+                            <p>Financial services representative</p>
+                        </div>
+                        
+                        <div class="role-card" onclick="selectRole('buyer')" data-role="buyer">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h4>Buyer</h4>
+                            <p>Commodity purchaser</p>
+                        </div>
+                        
+                        <div class="role-card" onclick="selectRole('seller')" data-role="seller">
+                            <i class="fas fa-store"></i>
+                            <h4>Seller</h4>
+                            <p>Service provider</p>
+                        </div>
+                        
+                        <div class="role-card" onclick="selectRole('input-seller')" data-role="input-seller">
+                            <i class="fas fa-boxes"></i>
+                            <h4>Input Seller</h4>
+                            <p>Agricultural inputs and equipment supplier</p>
+                        </div>
+                        
+                        <div class="role-card" onclick="selectRole('employee')" data-role="employee">
+                            <i class="fas fa-id-badge"></i>
+                            <h4>Employee</h4>
+                            <p>LFF Marketplace employee</p>
+                        </div>
+                        
+                        <div class="role-card" onclick="selectRole('logistics-provider')" data-role="logistics-provider">
+                            <i class="fas fa-truck"></i>
+                            <h4>Logistics Provider</h4>
+                            <p>Transportation and logistics services</p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedRole" name="role" required>
+                </div>
+
+                <!-- Seller Services Section -->
+                <div id="sellerServicesSection" class="seller-services-section">
+                    <h3 class="section-header">Services You Provide</h3>
+                    <p style="color: #6c757d; margin-bottom: 1.5rem;">Please select the services you offer:</p>
+                    
+                    <div class="services-grid">
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="deeping">
+                            <span>Deeping Services</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="panfattener">
+                            <span>Pan Fattener</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="livestock-breeding">
+                            <span>Livestock Breeding</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="crop-processing">
+                            <span>Crop Processing</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="storage-services">
+                            <span>Storage Services</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="transportation">
+                            <span>Transportation</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="equipment-rental">
+                            <span>Equipment Rental</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="consulting">
+                            <span>Agricultural Consulting</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="veterinary">
+                            <span>Veterinary Services</span>
+                        </label>
+                        <label class="service-item" onclick="toggleService(this)">
+                            <input type="checkbox" name="services" value="other">
+                            <span>Other Services</span>
+                        </label>
+                    </div>
+
+                    <div id="otherServiceDescription" class="form-group" style="display: none; margin-top: 1rem;">
+                        <label for="otherServices">Specify Other Services</label>
+                        <textarea id="otherServices" name="otherServices" rows="2" placeholder="Please describe the other services you provide"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceDescription">Detailed Service Description *</label>
+                        <textarea id="serviceDescription" name="serviceDescription" rows="3" required placeholder="Provide a comprehensive description of your services, experience, and capabilities"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="yearsExperience">Years of Experience *</label>
+                            <select id="yearsExperience" name="yearsExperience" class="role-selector" required>
+                                <option value="">Select experience</option>
+                                <option value="0-1">0-1 years</option>
+                                <option value="2-5">2-5 years</option>
+                                <option value="6-10">6-10 years</option>
+                                <option value="11-15">11-15 years</option>
+                                <option value="16-20">16-20 years</option>
+                                <option value="20+">20+ years</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="serviceCapacity">Service Capacity</label>
+                            <input type="text" id="serviceCapacity" name="serviceCapacity" placeholder="e.g., 100 cattle per month, 50 hectares">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pricingModel">Pricing Structure</label>
+                            <select id="pricingModel" name="pricingModel" class="role-selector">
+                                <option value="">Select pricing model</option>
+                                <option value="per-head">Per Head (livestock)</option>
+                                <option value="per-hectare">Per Hectare</option>
+                                <option value="per-hour">Per Hour</option>
+                                <option value="per-day">Per Day</option>
+                                <option value="per-project">Per Project</option>
+                                <option value="monthly">Monthly Rate</option>
+                                <option value="negotiable">Negotiable</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="serviceRate">Rate (USD)</label>
+                            <input type="number" id="serviceRate" name="serviceRate" step="0.01" placeholder="Enter your rate">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logistics Provider Services Section -->
+                <div id="logisticsServicesSection" class="seller-services-section">
+                    <h3 class="section-header">Logistics Services You Provide</h3>
+                    <p style="color: #6c757d; margin-bottom: 1.5rem;">Please select the logistics services you offer:</p>
+                    
+                    <div class="services-grid">
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="transportation">
+                            <span>Transportation Services</span>
+                        </label>
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="warehousing">
+                            <span>Warehousing & Storage</span>
+                        </label>
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="cold-storage">
+                            <span>Cold Storage</span>
+                        </label>
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="packaging">
+                            <span>Packaging Services</span>
+                        </label>
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="distribution">
+                            <span>Distribution</span>
+                        </label>
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="freight-forwarding">
+                            <span>Freight Forwarding</span>
+                        </label>
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="cargo-handling">
+                            <span>Cargo Handling</span>
+                        </label>
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="delivery">
+                            <span>Last Mile Delivery</span>
+                        </label>
+                        <label class="service-item" onclick="toggleLogisticsService(this)">
+                            <input type="checkbox" name="logisticsServices" value="other">
+                            <span>Other Logistics Services</span>
+                        </label>
+                    </div>
+
+                    <div id="otherLogisticsDescription" class="form-group" style="display: none; margin-top: 1rem;">
+                        <label for="otherLogisticsServices">Specify Other Logistics Services</label>
+                        <textarea id="otherLogisticsServices" name="otherLogisticsServices" rows="2" placeholder="Please describe the other logistics services you provide"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="logisticsServiceDescription">Detailed Service Description *</label>
+                        <textarea id="logisticsServiceDescription" name="logisticsServiceDescription" rows="3" required placeholder="Provide a comprehensive description of your logistics services, fleet, and capabilities"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="logisticsExperience">Years of Experience *</label>
+                            <select id="logisticsExperience" name="logisticsExperience" class="role-selector" required>
+                                <option value="">Select experience</option>
+                                <option value="0-1">0-1 years</option>
+                                <option value="2-5">2-5 years</option>
+                                <option value="6-10">6-10 years</option>
+                                <option value="11-15">11-15 years</option>
+                                <option value="16-20">16-20 years</option>
+                                <option value="20+">20+ years</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fleetSize">Fleet Size</label>
+                            <input type="text" id="fleetSize" name="fleetSize" placeholder="e.g., 10 trucks, 5 warehouses">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceRadius">Service Radius (km)</label>
+                            <input type="number" id="serviceRadius" name="serviceRadius" placeholder="Maximum distance you serve">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="maxCapacity">Maximum Capacity</label>
+                            <input type="text" id="maxCapacity" name="maxCapacity" placeholder="e.g., 20 tons, 500 cubic meters">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceRegions">Service Regions</label>
+                        <textarea id="serviceRegions" name="serviceRegions" rows="2" placeholder="List the regions/provinces where you provide logistics services"></textarea>
+                    </div>
+                </div>
+
+                <!-- Farmer Business Information (Only for Farmers) -->
+                <div id="farmerBusinessSection" class="seller-services-section">
+                    <h3 class="section-header">Farm Business Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="businessType">Business Type *</label>
+                            <select id="businessType" name="businessType" class="role-selector" required>
+                                <option value="">Select business type</option>
+                                <option value="sole-proprietor">Sole Proprietor</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="cooperative">Cooperative</option>
+                                <option value="company">Company</option>
+                                <option value="trust">Trust</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="farmType">Farm Type *</label>
+                            <select id="farmType" name="farmType" class="role-selector" required onchange="updateFarmTypeLabel()">
+                                <option value="">Select farm type</option>
+                                <option value="farm">Farm</option>
+                                <option value="plot">Plot</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totalHectarage">Total Hectarage *</label>
+                        <input type="number" id="totalHectarage" name="totalHectarage" step="0.01" required placeholder="Enter total hectarage">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="zimraTaxNumber">ZIMRA Tax Number</label>
+                        <input type="text" id="zimraTaxNumber" name="zimraTaxNumber" placeholder="Enter ZIMRA tax number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="farmCount">How many <span id="farmTypeLabel">farms</span> do you have? *</label>
+                        <select id="farmCount" name="farmCount" class="role-selector" required onchange="generateFarmDetailsSection()">
+                            <option value="">Select number</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+
+                    <div id="farmDetailsContainer"></div>
+                </div>
+
+                <!-- Basic Information -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <select id="countryCode" name="countryCode" class="role-selector" style="width: auto; min-width: 120px;" onchange="updatePhoneFormat()">
+                                <option value="+263">🇿🇼 +263</option>
+                                <option value="+27">🇿🇦 +27</option>
+                                <option value="+267">🇧🇼 +267</option>
+                                <option value="+260">🇿🇲 +260</option>
+                                <option value="+258">🇲🇿 +258</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <input type="tel" id="phone" name="phone" required placeholder="7xxxxxxxx" style="flex: 1;">
+                            <input type="text" id="customCountryCode" name="customCountryCode" placeholder="+xxx" style="display: none; width: 100px;">
+                        </div>
+                        <small id="phoneFormat" style="color: #6c757d; font-size: 0.8rem;">Format: 7xxxxxxxx (9 digits)</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country *</label>
+                    <select id="country" name="country" class="role-selector" required onchange="updateKYCRequirements()">
+                        <option value="">Select country</option>
+                        <option value="zimbabwe">Zimbabwe</option>
+                        <option value="south-africa">South Africa</option>
+                        <option value="botswana">Botswana</option>
+                        <option value="zambia">Zambia</option>
+                        <option value="mozambique">Mozambique</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required placeholder="Create a strong password">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                </div>
+
+                <!-- Address Section -->
+                <div id="addressSection">
+                    <h3 class="section-header" id="addressSectionTitle">Residential Address</h3>
+                    
+                    <!-- Farmer Address Fields -->
+                    <div id="farmerAddressFields" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="estateNumber">Estate Number/Street Number</label>
+                                <input type="text" id="estateNumber" name="estateNumber" placeholder="Enter estate or street number">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="streetName">Street Name *</label>
+                                <input type="text" id="streetName" name="streetName" required placeholder="Enter street name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="suburb">Suburb *</label>
+                                <input type="text" id="suburb" name="suburb" required placeholder="Enter suburb">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="town">Town/City *</label>
+                                <input type="text" id="town" name="town" required placeholder="Enter town or city">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="postalCode">Postal Code</label>
+                                <input type="text" id="postalCode" name="postalCode" placeholder="Enter postal code">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="constituency">Constituency *</label>
+                                <select id="constituency" name="constituency" class="role-selector" required onchange="updateWards()">
+                                    <option value="">Select Constituency</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ward">Ward *</label>
+                            <select id="ward" name="ward" class="role-selector" required>
+                                <option value="">Select Ward</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Generic Address Field for Non-Farmers -->
+                    <div id="genericAddressField">
+                        <div class="form-group">
+                            <label for="address">Address *</label>
+                            <textarea id="address" name="address" rows="3" required placeholder="Enter your complete address"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="province">Province *</label>
+                        <select id="province" name="province" class="role-selector" required onchange="updateDistricts()">
+                            <option value="">Select Province</option>
+                            <option value="harare">Harare</option>
+                            <option value="bulawayo">Bulawayo</option>
+                            <option value="manicaland">Manicaland</option>
+                            <option value="mashonaland-central">Mashonaland Central</option>
+                            <option value="mashonaland-east">Mashonaland East</option>
+                            <option value="mashonaland-west">Mashonaland West</option>
+                            <option value="masvingo">Masvingo</option>
+                            <option value="matabeleland-north">Matabeleland North</option>
+                            <option value="matabeleland-south">Matabeleland South</option>
+                            <option value="midlands">Midlands</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="district">District *</label>
+                        <select id="district" name="district" class="role-selector" required onchange="updateConstituencies()">
+                            <option value="">Select District</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- KYC Documents Section -->
+                <h3 class="section-header">Identity Verification Documents</h3>
+                
+                <!-- Zimbabwean KYC -->
+                <div id="zimbabweanKYC" style="display: none;">
+                    <div class="form-group">
+                        <label for="nationalId">National ID Number *</label>
+                        <input type="text" id="nationalId" name="nationalId" required placeholder="Enter national ID number" maxlength="11" pattern="[0-9]{2}-[0-9]{6,7}[A-Z][0-9]{2}" title="Format: XX-XXXXXXXZXX">
+                        <small style="color: #6c757d; font-size: 0.8rem;">Format: XX-XXXXXXXZXX</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload National ID *</label>
+                        <div class="file-upload" onclick="document.getElementById('nationalIdUpload').click()">
+                            <input type="file" id="nationalIdUpload" name="nationalIdDocument" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <i class="fas fa-upload"></i>
+                            <p>Click to upload National ID (both sides)</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Proof of Residence *</label>
+                        <div class="file-upload" onclick="document.getElementById('proofResidenceUpload').click()">
+                            <input type="file" id="proofResidenceUpload" name="proofResidenceDocument" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <i class="fas fa-upload"></i>
+                            <p>Click to upload utility bill (ZESA, ZINWA, etc.)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Foreign National KYC -->
+                <div id="foreignKYC" style="display: none;">
+                    <div class="form-group">
+                        <label for="passportNumber">Passport Number *</label>
+                        <input type="text" id="passportNumber" name="passportNumber" required placeholder="Enter passport number">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="passportIssueDate">Passport Issue Date *</label>
+                            <input type="date" id="passportIssueDate" name="passportIssueDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="passportExpiryDate">Passport Expiry Date *</label>
+                            <input type="date" id="passportExpiryDate" name="passportExpiryDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="permitNumber">Permit Number (if applicable)</label>
+                        <input type="text" id="permitNumber" name="permitNumber" placeholder="Enter work/residence permit number">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="permitIssueDate">Permit Issue Date</label>
+                            <input type="date" id="permitIssueDate" name="permitIssueDate">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="permitExpiryDate">Permit Expiry Date</label>
+                            <input type="date" id="permitExpiryDate" name="permitExpiryDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Passport *</label>
+                        <div class="file-upload" onclick="document.getElementById('passportUpload').click()">
+                            <input type="file" id="passportUpload" name="passportDocument" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <i class="fas fa-upload"></i>
+                            <p>Click to upload passport (photo and info pages)</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Permit (if applicable)</label>
+                        <div class="file-upload" onclick="document.getElementById('permitUpload').click()">
+                            <input type="file" id="permitUpload" name="permitDocument" accept=".pdf,.jpg,.jpeg,.png">
+                            <i class="fas fa-upload"></i>
+                            <p>Click to upload work/residence permit</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foreignNationalId">National ID from Home Country</label>
+                        <input type="text" id="foreignNationalId" name="foreignNationalId" placeholder="Enter national ID from your home country">
+                    </div>
+                </div>
+
+                <!-- Banking and Payment Information -->
+                <h3 class="section-header">Banking & Payment Information</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bankName">Bank Name *</label>
+                        <div id="zimbabweBanks">
+                            <select id="bankName" name="bankName" class="role-selector" required>
+                                <option value="">Select your bank</option>
+                                <option value="cabs">CABS</option>
+                                <option value="fbc">FBC Bank</option>
+                                <option value="steward">Steward Bank</option>
+                                <option value="stanbic">Stanbic Bank</option>
+                                <option value="nedbank">Nedbank</option>
+                                <option value="ecobank">Ecobank</option>
+                                <option value="agribank">Agribank</option>
+                                <option value="zvb">ZB Bank</option>
+                                <option value="cbz">CBZ Bank</option>
+                                <option value="first-capital">First Capital Bank</option>
+                                <option value="other">Other Bank</option>
+                            </select>
+                        </div>
+                        <div id="foreignBankInput" style="display: none;">
+                            <input type="text" id="foreignBankName" name="foreignBankName" placeholder="Enter bank name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="accountNumber">Account Number *</label>
+                        <input type="text" id="accountNumber" name="accountNumber" required placeholder="Enter account number">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="accountHolderName">Account Holder Name *</label>
+                        <input type="text" id="accountHolderName" name="accountHolderName" required placeholder="Full name as per bank records">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="branchName">Branch Name</label>
+                        <input type="text" id="branchName" name="branchName" placeholder="Enter branch name">
+                    </div>
+                </div>
+
+                <!-- E-Wallet Information -->
+                <div id="zimbabweEwallets">
+                    <h4 style="color: #28a745; margin: 1.5rem 0 1rem 0;">Mobile Money / E-Wallet (Optional)</h4>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ewalletProvider">E-Wallet Provider</label>
+                            <select id="ewalletProvider" name="ewalletProvider" class="role-selector">
+                                <option value="">Select provider (optional)</option>
+                                <option value="ecocash">EcoCash</option>
+                                <option value="innbucks">InnBucks</option>
+                                <option value="onemoney">OneMoney</option>
+                                <option value="telecash">TeleCash</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ewalletPhone">E-Wallet Phone Number</label>
+                            <input type="tel" id="ewalletPhone" name="ewalletPhone" placeholder="7xxxxxxxx">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="foreignPaymentMethods" style="display: none;">
+                    <h4 style="color: #28a745; margin: 1.5rem 0 1rem 0;">Payment Methods</h4>
+                    
+                    <div class="form-group">
+                        <label for="paymentMethod">Preferred Payment Method</label>
+                        <select id="paymentMethod" name="paymentMethod" class="role-selector">
+                            <option value="">Select payment method</option>
+                            <option value="bank-transfer">Bank Transfer</option>
+                            <option value="mobile-money">Mobile Money</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="paymentDetails">Payment Details</label>
+                        <textarea id="paymentDetails" name="paymentDetails" rows="2" placeholder="Enter relevant payment details (account numbers, phone numbers, etc.)"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="registration-btn">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let selectedUserRole = '';
+
+        function selectRole(role) {
+            // Remove selected class from all cards
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            document.querySelector(`[data-role="${role}"]`).classList.add('selected');
+            
+            selectedUserRole = role;
+            document.getElementById('selectedRole').value = role;
+            
+            // Show/hide role-specific sections
+            const sellerSection = document.getElementById('sellerServicesSection');
+            const logisticsSection = document.getElementById('logisticsServicesSection');
+            const farmerBusinessSection = document.getElementById('farmerBusinessSection');
+            const farmerAddressFields = document.getElementById('farmerAddressFields');
+            const genericAddressField = document.getElementById('genericAddressField');
+            const addressSectionTitle = document.getElementById('addressSectionTitle');
+            
+            // Reset all sections
+            sellerSection.classList.remove('show');
+            logisticsSection.classList.remove('show');
+            farmerBusinessSection.classList.remove('show');
+            
+            if (role === 'seller') {
+                sellerSection.classList.add('show');
+                // Make service description required for sellers
+                document.getElementById('serviceDescription').required = true;
+                document.getElementById('yearsExperience').required = true;
+                // Remove other requirements
+                document.getElementById('logisticsServiceDescription').required = false;
+                document.getElementById('logisticsExperience').required = false;
+                resetFarmerRequirements();
+            } else if (role === 'logistics-provider') {
+                logisticsSection.classList.add('show');
+                // Make logistics description required
+                document.getElementById('logisticsServiceDescription').required = true;
+                document.getElementById('logisticsExperience').required = true;
+                // Remove other requirements
+                document.getElementById('serviceDescription').required = false;
+                document.getElementById('yearsExperience').required = false;
+                resetFarmerRequirements();
+            } else if (role === 'farmer') {
+                farmerBusinessSection.classList.add('show');
+                farmerAddressFields.style.display = 'block';
+                genericAddressField.style.display = 'none';
+                addressSectionTitle.textContent = 'Residential Address';
+                // Make farmer fields required
+                setFarmerRequirements();
+                // Remove service requirements
+                document.getElementById('serviceDescription').required = false;
+                document.getElementById('yearsExperience').required = false;
+                document.getElementById('logisticsServiceDescription').required = false;
+                document.getElementById('logisticsExperience').required = false;
+            } else {
+                // Standard roles
+                farmerAddressFields.style.display = 'none';
+                genericAddressField.style.display = 'block';
+                addressSectionTitle.textContent = 'Address';
+                // Remove all service requirements
+                document.getElementById('serviceDescription').required = false;
+                document.getElementById('yearsExperience').required = false;
+                document.getElementById('logisticsServiceDescription').required = false;
+                document.getElementById('logisticsExperience').required = false;
+                resetFarmerRequirements();
+            }
+        }
+
+        function setFarmerRequirements() {
+            const businessType = document.getElementById('businessType');
+            const farmType = document.getElementById('farmType');
+            const totalHectarage = document.getElementById('totalHectarage');
+            const farmCount = document.getElementById('farmCount');
+            const streetName = document.getElementById('streetName');
+            const suburb = document.getElementById('suburb');
+            const town = document.getElementById('town');
+            const constituency = document.getElementById('constituency');
+            const ward = document.getElementById('ward');
+
+            if (businessType) businessType.required = true;
+            if (farmType) farmType.required = true;
+            if (totalHectarage) totalHectarage.required = true;
+            if (farmCount) farmCount.required = true;
+            if (streetName) streetName.required = true;
+            if (suburb) suburb.required = true;
+            if (town) town.required = true;
+            if (constituency) constituency.required = true;
+            if (ward) ward.required = true;
+        }
+
+        function resetFarmerRequirements() {
+            const businessType = document.getElementById('businessType');
+            const farmType = document.getElementById('farmType');
+            const totalHectarage = document.getElementById('totalHectarage');
+            const farmCount = document.getElementById('farmCount');
+            const streetName = document.getElementById('streetName');
+            const suburb = document.getElementById('suburb');
+            const town = document.getElementById('town');
+            const constituency = document.getElementById('constituency');
+            const ward = document.getElementById('ward');
+
+            if (businessType) businessType.required = false;
+            if (farmType) farmType.required = false;
+            if (totalHectarage) totalHectarage.required = false;
+            if (farmCount) farmCount.required = false;
+            if (streetName) streetName.required = false;
+            if (suburb) suburb.required = false;
+            if (town) town.required = false;
+            if (constituency) constituency.required = false;
+            if (ward) ward.required = false;
+        }
+
+        function updateFarmTypeLabel() {
+            const farmType = document.getElementById('farmType').value;
+            const label = document.getElementById('farmTypeLabel');
+            if (farmType === 'plot') {
+                label.textContent = 'plots';
+            } else {
+                label.textContent = 'farms';
+            }
+        }
+
+        function generateFarmDetailsSection() {
+            const farmCount = parseInt(document.getElementById('farmCount').value);
+            const farmType = document.getElementById('farmType').value;
+            const container = document.getElementById('farmDetailsContainer');
+            
+            if (!farmCount || !farmType) return;
+            
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= farmCount; i++) {
+                const farmDiv = document.createElement('div');
+                farmDiv.className = 'farm-details';
+                farmDiv.style.marginTop = '1.5rem';
+                
+                farmDiv.innerHTML = `
+                    <h4 style="color: #28a745; margin-bottom: 1rem;">${farmType.charAt(0).toUpperCase() + farmType.slice(1)} ${i} Details</h4>
+                    
+                    <div class="form-group">
+                        <label for="farmName${i}">${farmType.charAt(0).toUpperCase() + farmType.slice(1)} Name *</label>
+                        <input type="text" id="farmName${i}" name="farmName${i}" required placeholder="Enter ${farmType} name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="farmLocalName${i}">Local Name / Description</label>
+                        <input type="text" id="farmLocalName${i}" name="farmLocalName${i}" placeholder="Local name, road description, etc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload Ownership Documents for ${farmType.charAt(0).toUpperCase() + farmType.slice(1)} ${i} *</label>
+                        <div class="file-upload" onclick="document.getElementById('farmDoc${i}').click()">
+                            <input type="file" id="farmDoc${i}" name="farmDocument${i}" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <i class="fas fa-upload"></i>
+                            <p>Click to upload ownership documents</p>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="farmLat${i}">GPS Latitude *</label>
+                            <input type="number" id="farmLat${i}" name="farmLatitude${i}" step="any" required placeholder="e.g., -17.8216">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="farmLng${i}">GPS Longitude *</label>
+                            <input type="number" id="farmLng${i}" name="farmLongitude${i}" step="any" required placeholder="e.g., 31.0492">
+                        </div>
+                    </div>
+
+                    <button type="button" class="location-btn" onclick="getCurrentFarmLocation(${i})">
+                        <i class="fas fa-map-marker-alt"></i> Use Current Location for ${farmType.charAt(0).toUpperCase() + farmType.slice(1)} ${i}
+                    </button>
+                `;
+                container.appendChild(farmDiv);
+            }
+        }
+
+        function getCurrentFarmLocation(farmNumber) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        document.getElementById(`farmLat${farmNumber}`).value = position.coords.latitude.toFixed(6);
+                        document.getElementById(`farmLng${farmNumber}`).value = position.coords.longitude.toFixed(6);
+                        alert(`Location set successfully for farm ${farmNumber}`);
+                    },
+                    function(error) {
+                        alert('Error getting location: ' + error.message);
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function updatePhoneFormat() {
+            const countryCode = document.getElementById('countryCode').value;
+            const phoneInput = document.getElementById('phone');
+            const customCodeInput = document.getElementById('customCountryCode');
+            const formatText = document.getElementById('phoneFormat');
+            
+            if (countryCode === 'other') {
+                customCodeInput.style.display = 'block';
+                phoneInput.placeholder = 'Enter phone number';
+                formatText.textContent = 'Enter country code in the separate field';
+            } else {
+                customCodeInput.style.display = 'none';
+                if (countryCode === '+263') {
+                    phoneInput.placeholder = '7xxxxxxxx';
+                    formatText.textContent = 'Format: 7xxxxxxxx (9 digits)';
+                } else {
+                    phoneInput.placeholder = 'Enter phone number';
+                    formatText.textContent = 'Enter phone number without country code';
+                }
+            }
+        }
+
+        function updateKYCRequirements() {
+            const country = document.getElementById('country').value;
+            const zimbabweanKYC = document.getElementById('zimbabweanKYC');
+            const foreignKYC = document.getElementById('foreignKYC');
+            const zimbabweBanks = document.getElementById('zimbabweBanks');
+            const foreignBankInput = document.getElementById('foreignBankInput');
+            const zimbabweEwallets = document.getElementById('zimbabweEwallets');
+            const foreignPaymentMethods = document.getElementById('foreignPaymentMethods');
+            
+            if (country === 'zimbabwe') {
+                zimbabweanKYC.style.display = 'block';
+                foreignKYC.style.display = 'none';
+                zimbabweBanks.style.display = 'block';
+                foreignBankInput.style.display = 'none';
+                zimbabweEwallets.style.display = 'block';
+                foreignPaymentMethods.style.display = 'none';
+                
+                // Set requirements
+                document.getElementById('nationalId').required = true;
+                document.getElementById('nationalIdUpload').required = true;
+                document.getElementById('proofResidenceUpload').required = true;
+                document.getElementById('bankName').required = true;
+                
+                // Remove foreign requirements
+                document.getElementById('passportNumber').required = false;
+                document.getElementById('passportIssueDate').required = false;
+                document.getElementById('passportExpiryDate').required = false;
+                document.getElementById('passportUpload').required = false;
+                document.getElementById('foreignBankName').required = false;
+            } else {
+                zimbabweanKYC.style.display = 'none';
+                foreignKYC.style.display = 'block';
+                zimbabweBanks.style.display = 'none';
+                foreignBankInput.style.display = 'block';
+                zimbabweEwallets.style.display = 'none';
+                foreignPaymentMethods.style.display = 'block';
+                
+                // Set foreign requirements
+                document.getElementById('passportNumber').required = true;
+                document.getElementById('passportIssueDate').required = true;
+                document.getElementById('passportExpiryDate').required = true;
+                document.getElementById('passportUpload').required = true;
+                document.getElementById('foreignBankName').required = true;
+                
+                // Remove Zimbabwean requirements
+                document.getElementById('nationalId').required = false;
+                document.getElementById('nationalIdUpload').required = false;
+                document.getElementById('proofResidenceUpload').required = false;
+                document.getElementById('bankName').required = false;
+            }
+        }
+
+        function validateZimbabweanID(idNumber) {
+            const regex = /^[0-9]{2}-[0-9]{6,7}[A-Z][0-9]{2}$/;
+            return regex.test(idNumber);
+        }
+
+        function validatePhoneNumber(phone, countryCode) {
+            if (countryCode === '+263') {
+                // Zimbabwe format: 7xxxxxxxx (9 digits starting with 7)
+                const regex = /^7[0-9]{8}$/;
+                return regex.test(phone);
+            }
+            // For other countries, just check it's not empty and contains digits
+            return phone.length >= 7 && /^[0-9+\-\s()]+$/.test(phone);
+        }
+
+        function toggleService(serviceItem) {
+            const checkbox = serviceItem.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                serviceItem.classList.add('checked');
+            } else {
+                serviceItem.classList.remove('checked');
+            }
+
+            // Show/hide other services description
+            const otherServiceDiv = document.getElementById('otherServiceDescription');
+            const otherCheckbox = document.querySelector('input[name="services"][value="other"]');
+            
+            if (otherCheckbox.checked) {
+                otherServiceDiv.style.display = 'block';
+            } else {
+                otherServiceDiv.style.display = 'none';
+                document.getElementById('otherServices').value = '';
+            }
+        }
+
+        function toggleLogisticsService(serviceItem) {
+            const checkbox = serviceItem.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                serviceItem.classList.add('checked');
+            } else {
+                serviceItem.classList.remove('checked');
+            }
+
+            // Show/hide other logistics services description
+            const otherLogisticsDiv = document.getElementById('otherLogisticsDescription');
+            const otherLogisticsCheckbox = document.querySelector('input[name="logisticsServices"][value="other"]');
+            
+            if (otherLogisticsCheckbox && otherLogisticsCheckbox.checked) {
+                otherLogisticsDiv.style.display = 'block';
+            } else {
+                otherLogisticsDiv.style.display = 'none';
+                document.getElementById('otherLogisticsServices').value = '';
+            }
+        }
+
+        function updateDistricts() {
+            const province = document.getElementById('province').value;
+            const districtSelect = document.getElementById('district');
+            const constituencySelect = document.getElementById('constituency');
+            const wardSelect = document.getElementById('ward');
+            
+            // Clear existing options
+            districtSelect.innerHTML = '<option value="">Select District</option>';
+            constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
+            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+            
+            const districts = {
+                'harare': ['Harare', 'Chitungwiza', 'Epworth'],
+                'bulawayo': ['Bulawayo'],
+                'manicaland': ['Mutare', 'Rusape', 'Chipinge', 'Makoni', 'Nyanga'],
+                'mashonaland-central': ['Bindura', 'Guruve', 'Centenary', 'Shamva'],
+                'mashonaland-east': ['Marondera', 'Murehwa', 'Seke', 'Goromonzi'],
+                'mashonaland-west': ['Chinhoyi', 'Kariba', 'Hurungwe', 'Makonde'],
+                'masvingo': ['Masvingo', 'Chivi', 'Gutu', 'Bikita', 'Zaka'],
+                'matabeleland-north': ['Hwange', 'Binga', 'Lupane', 'Nkayi'],
+                'matabeleland-south': ['Gwanda', 'Beitbridge', 'Insiza', 'Umzingwane'],
+                'midlands': ['Gweru', 'Kwekwe', 'Shurugwi', 'Gokwe']
+            };
+            
+            if (districts[province]) {
+                districts[province].forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district.toLowerCase().replace(/\s+/g, '-');
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateConstituencies() {
+            const province = document.getElementById('province').value;
+            const district = document.getElementById('district').value;
+            const constituencySelect = document.getElementById('constituency');
+            const wardSelect = document.getElementById('ward');
+            
+            // Clear existing options
+            constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
+            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+            
+            const constituencies = {
+                // Harare Province
+                'harare': {
+                    'harare': ['Harare Central', 'Harare East', 'Harare North', 'Harare South', 'Harare West', 'Glen View North', 'Glen View South', 'Hatfield', 'Highfield East', 'Highfield West', 'Kuwadzana East', 'Kuwadzana West', 'Mbare', 'Mount Pleasant', 'Mufakose', 'Warren Park'],
+                    'chitungwiza': ['Chitungwiza North', 'Chitungwiza South'],
+                    'epworth': ['Epworth']
+                },
+                
+                // Bulawayo Province
+                'bulawayo': {
+                    'bulawayo': ['Bulawayo Central', 'Bulawayo East', 'Bulawayo North', 'Bulawayo South', 'Entumbane-Emakhandeni', 'Lobengula-Magwegwe', 'Luveve', 'Makokoba', 'Mpopoma-Pelandaba', 'Nketa', 'Nkulumane', 'Pelandaba-Tshabalala']
+                },
+                
+                // Manicaland Province
+                'manicaland': {
+                    'mutare': ['Mutare Central', 'Mutare North', 'Mutare South', 'Mutare West'],
+                    'rusape': ['Rusape'],
+                    'chipinge': ['Chipinge Central', 'Chipinge East', 'Chipinge South'],
+                    'makoni': ['Makoni Central', 'Makoni East', 'Makoni North', 'Makoni South', 'Makoni West'],
+                    'nyanga': ['Nyanga North', 'Nyanga South']
+                },
+                
+                // Mashonaland Central
+                'mashonaland-central': {
+                    'bindura': ['Bindura', 'Mount Darwin East', 'Mount Darwin West'],
+                    'guruve': ['Guruve North', 'Guruve South'],
+                    'centenary': ['Centenary'],
+                    'shamva': ['Shamva']
+                },
+                
+                // Mashonaland East
+                'mashonaland-east': {
+                    'marondera': ['Marondera Central', 'Marondera East', 'Marondera West'],
+                    'murehwa': ['Murehwa North', 'Murehwa South'],
+                    'seke': ['Seke'],
+                    'goromonzi': ['Goromonzi']
+                },
+                
+                // Mashonaland West
+                'mashonaland-west': {
+                    'chinhoyi': ['Chinhoyi'],
+                    'kariba': ['Kariba'],
+                    'hurungwe': ['Hurungwe Central', 'Hurungwe East', 'Hurungwe West'],
+                    'makonde': ['Makonde']
+                },
+                
+                // Masvingo Province
+                'masvingo': {
+                    'masvingo': ['Masvingo Central', 'Masvingo North', 'Masvingo South', 'Masvingo West'],
+                    'chivi': ['Chivi North', 'Chivi South'],
+                    'gutu': ['Gutu Central', 'Gutu North', 'Gutu South', 'Gutu West'],
+                    'bikita': ['Bikita East', 'Bikita West'],
+                    'zaka': ['Zaka Central', 'Zaka East', 'Zaka West']
+                },
+                
+                // Matabeleland North
+                'matabeleland-north': {
+                    'hwange': ['Hwange Central', 'Hwange East', 'Hwange West'],
+                    'binga': ['Binga North', 'Binga South'],
+                    'lupane': ['Lupane East', 'Lupane West'],
+                    'nkayi': ['Nkayi North', 'Nkayi South']
+                },
+                
+                // Matabeleland South
+                'matabeleland-south': {
+                    'gwanda': ['Gwanda Central', 'Gwanda North', 'Gwanda South'],
+                    'beitbridge': ['Beitbridge East', 'Beitbridge West'],
+                    'insiza': ['Insiza North', 'Insiza South'],
+                    'umzingwane': ['Umzingwane']
+                },
+                
+                // Midlands Province
+                'midlands': {
+                    'gweru': ['Gweru Central', 'Gweru North', 'Gweru South'],
+                    'kwekwe': ['Kwekwe Central'],
+                    'shurugwi': ['Shurugwi'],
+                    'gokwe': ['Gokwe Central', 'Gokwe North', 'Gokwe South']
+                }
+            };
+            
+            if (constituencies[province] && constituencies[province][district]) {
+                constituencies[province][district].forEach(constituency => {
+                    const option = document.createElement('option');
+                    option.value = constituency.toLowerCase().replace(/\s+/g, '-');
+                    option.textContent = constituency;
+                    constituencySelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateWards() {
+            const province = document.getElementById('province').value;
+            const district = document.getElementById('district').value;
+            const constituency = document.getElementById('constituency').value;
+            const wardSelect = document.getElementById('ward');
+            
+            // Clear existing options
+            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+            
+            // Generate ward numbers based on constituency (simplified approach)
+            // In a real application, this would come from a comprehensive database
+            const wardCounts = {
+                // Urban constituencies typically have fewer wards
+                'harare-central': 8,
+                'harare-east': 12,
+                'harare-north': 10,
+                'harare-south': 14,
+                'harare-west': 11,
+                'glen-view-north': 6,
+                'glen-view-south': 7,
+                'hatfield': 5,
+                'highfield-east': 8,
+                'highfield-west': 9,
+                'kuwadzana-east': 7,
+                'kuwadzana-west': 8,
+                'mbare': 6,
+                'mount-pleasant': 4,
+                'mufakose': 9,
+                'warren-park': 7,
+                
+                'chitungwiza-north': 15,
+                'chitungwiza-south': 16,
+                'epworth': 12,
+                
+                'bulawayo-central': 8,
+                'bulawayo-east': 10,
+                'bulawayo-north': 9,
+                'bulawayo-south': 11,
+                'entumbane-emakhandeni': 7,
+                'lobengula-magwegwe': 8,
+                'luveve': 6,
+                'makokoba': 5,
+                'mpopoma-pelandaba': 9,
+                'nketa': 7,
+                'nkulumane': 8,
+                'pelandaba-tshabalala': 6
+            };
+            
+            // Default ward count for rural constituencies
+            const defaultWardCount = constituency ? (wardCounts[constituency] || 25) : 0;
+            
+            if (constituency && defaultWardCount > 0) {
+                for (let i = 1; i <= defaultWardCount; i++) {
+                    const option = document.createElement('option');
+                    option.value = `ward-${i}`;
+                    option.textContent = `Ward ${i}`;
+                    wardSelect.appendChild(option);
+                }
+            }
+        }
+
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate role selection
+            if (!selectedUserRole) {
+                alert('Please select your role');
+                return;
+            }
+
+            // Validate password matching
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Validate phone number format
+            const phone = document.getElementById('phone').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const customCountryCode = document.getElementById('customCountryCode').value;
+            
+            const finalCountryCode = countryCode === 'other' ? customCountryCode : countryCode;
+            
+            if (!validatePhoneNumber(phone, finalCountryCode)) {
+                if (finalCountryCode === '+263') {
+                    alert('Phone number must be in format 7xxxxxxxx (9 digits starting with 7)');
+                } else {
+                    alert('Please enter a valid phone number');
+                }
+                return;
+            }
+
+            // Validate Zimbabwean ID format
+            const country = document.getElementById('country').value;
+            if (country === 'zimbabwe') {
+                const nationalId = document.getElementById('nationalId').value;
+                if (nationalId && !validateZimbabweanID(nationalId)) {
+                    alert('National ID must be in format XX-XXXXXXXZXX (e.g., 63-123456A12)');
+                    return;
+                }
+            }
+
+            // Validate passport dates for foreign nationals
+            if (country !== 'zimbabwe') {
+                const issueDate = new Date(document.getElementById('passportIssueDate').value);
+                const expiryDate = new Date(document.getElementById('passportExpiryDate').value);
+                const today = new Date();
+                
+                if (expiryDate <= today) {
+                    alert('Passport has expired. Please provide a valid passport.');
+                    return;
+                }
+                
+                if (issueDate >= expiryDate) {
+                    alert('Passport issue date cannot be after expiry date.');
+                    return;
+                }
+                
+                // Check permit dates if provided
+                const permitIssueDate = document.getElementById('permitIssueDate').value;
+                const permitExpiryDate = document.getElementById('permitExpiryDate').value;
+                
+                if (permitIssueDate && permitExpiryDate) {
+                    const pIssue = new Date(permitIssueDate);
+                    const pExpiry = new Date(permitExpiryDate);
+                    
+                    if (pExpiry <= today) {
+                        alert('Permit has expired. Please provide a valid permit or leave empty.');
+                        return;
+                    }
+                    
+                    if (pIssue >= pExpiry) {
+                        alert('Permit issue date cannot be after expiry date.');
+                        return;
+                    }
+                }
+            }
+
+            // Validate seller services if seller is selected
+            if (selectedUserRole === 'seller') {
+                const selectedServices = document.querySelectorAll('input[name="services"]:checked');
+                if (selectedServices.length === 0) {
+                    alert('Please select at least one service you provide');
+                    return;
+                }
+
+                const serviceDescription = document.getElementById('serviceDescription').value;
+                if (!serviceDescription.trim()) {
+                    alert('Please provide a detailed service description');
+                    return;
+                }
+
+                const yearsExperience = document.getElementById('yearsExperience').value;
+                if (!yearsExperience) {
+                    alert('Please select your years of experience');
+                    return;
+                }
+
+                // Check if "other" is selected and description is provided
+                const otherSelected = document.querySelector('input[name="services"][value="other"]').checked;
+                const otherDescription = document.getElementById('otherServices').value;
+                if (otherSelected && !otherDescription.trim()) {
+                    alert('Please specify the other services you provide');
+                    return;
+                }
+            }
+
+            // Validate logistics services if logistics provider is selected
+            if (selectedUserRole === 'logistics-provider') {
+                const selectedLogisticsServices = document.querySelectorAll('input[name="logisticsServices"]:checked');
+                if (selectedLogisticsServices.length === 0) {
+                    alert('Please select at least one logistics service you provide');
+                    return;
+                }
+
+                const logisticsServiceDescription = document.getElementById('logisticsServiceDescription').value;
+                if (!logisticsServiceDescription.trim()) {
+                    alert('Please provide a detailed logistics service description');
+                    return;
+                }
+
+                const logisticsExperience = document.getElementById('logisticsExperience').value;
+                if (!logisticsExperience) {
+                    alert('Please select your years of logistics experience');
+                    return;
+                }
+
+                // Check if "other" is selected and description is provided
+                const otherLogisticsSelected = document.querySelector('input[name="logisticsServices"][value="other"]');
+                if (otherLogisticsSelected && otherLogisticsSelected.checked) {
+                    const otherLogisticsDescription = document.getElementById('otherLogisticsServices').value;
+                    if (!otherLogisticsDescription.trim()) {
+                        alert('Please specify the other logistics services you provide');
+                        return;
+                    }
+                }
+            }
+
+            // Validate farmer-specific fields
+            if (selectedUserRole === 'farmer') {
+                const farmCount = parseInt(document.getElementById('farmCount').value);
+                
+                if (!farmCount) {
+                    alert('Please select the number of farms you have');
+                    return;
+                }
+                
+                // Validate each farm's details
+                for (let i = 1; i <= farmCount; i++) {
+                    const farmName = document.getElementById(`farmName${i}`).value;
+                    const farmLat = document.getElementById(`farmLat${i}`).value;
+                    const farmLng = document.getElementById(`farmLng${i}`).value;
+                    const farmDoc = document.getElementById(`farmDoc${i}`).files.length;
+                    
+                    if (!farmName.trim()) {
+                        alert(`Please enter the name for farm ${i}`);
+                        return;
+                    }
+                    
+                    if (!farmLat || !farmLng) {
+                        alert(`Please provide GPS coordinates for farm ${i}`);
+                        return;
+                    }
+                    
+                    if (!farmDoc) {
+                        alert(`Please upload ownership documents for farm ${i}`);
+                        return;
+                    }
+                }
+                
+                // Validate total hectarage is reasonable
+                const totalHectarage = parseFloat(document.getElementById('totalHectarage').value);
+                if (totalHectarage <= 0) {
+                    alert('Total hectarage must be greater than 0');
+                    return;
+                }
+            }
+
+            // Collect form data
+            const formData = new FormData(this);
+            
+            // Add selected services for sellers
+            if (selectedUserRole === 'seller') {
+                const selectedServices = Array.from(document.querySelectorAll('input[name="services"]:checked'))
+                    .map(cb => cb.value);
+                formData.append('selectedServices', selectedServices.join(','));
+            }
+
+            // Add selected logistics services for logistics providers
+            if (selectedUserRole === 'logistics-provider') {
+                const selectedLogisticsServices = Array.from(document.querySelectorAll('input[name="logisticsServices"]:checked'))
+                    .map(cb => cb.value);
+                formData.append('selectedLogisticsServices', selectedLogisticsServices.join(','));
+            }
+            
+            console.log('Registration data collected for role:', selectedUserRole);
+            console.log('Form data:', Object.fromEntries(formData));
+            
+            // In a real application, this would be sent to the backend
+            alert('Registration successful! You can now log in with your credentials.');
+            
+            // Redirect to login page
+            window.location.href = 'login.html';
+        });
+
+        // Real-time validation
+        document.getElementById('nationalId').addEventListener('input', function() {
+            const idValue = this.value;
+            if (idValue && !validateZimbabweanID(idValue)) {
+                this.classList.add('validation-error');
+                this.classList.remove('validation-success');
+            } else if (idValue) {
+                this.classList.add('validation-success');
+                this.classList.remove('validation-error');
+            } else {
+                this.classList.remove('validation-error', 'validation-success');
+            }
+        });
+
+        document.getElementById('phone').addEventListener('input', function() {
+            const phone = this.value;
+            const countryCode = document.getElementById('countryCode').value;
+            
+            if (phone && !validatePhoneNumber(phone, countryCode)) {
+                this.classList.add('validation-error');
+                this.classList.remove('validation-success');
+            } else if (phone) {
+                this.classList.add('validation-success');
+                this.classList.remove('validation-error');
+            } else {
+                this.classList.remove('validation-error', 'validation-success');
+            }
+        });
+
+        // Initialize form on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default country to Zimbabwe
+            document.getElementById('country').value = 'zimbabwe';
+            updateKYCRequirements();
+            
+            // Set default phone format
+            updatePhoneFormat();
+            
+            // Initialize administrative dropdowns
+            const provinceSelect = document.getElementById('province');
+            const districtSelect = document.getElementById('district');
+            const constituencySelect = document.getElementById('constituency');
+            const wardSelect = document.getElementById('ward');
+            
+            if (provinceSelect) provinceSelect.value = '';
+            if (districtSelect) {
+                districtSelect.disabled = true;
+                districtSelect.innerHTML = '<option value="">Select Province First</option>';
+            }
+            if (constituencySelect) {
+                constituencySelect.disabled = true;
+                constituencySelect.innerHTML = '<option value="">Select District First</option>';
+            }
+            if (wardSelect) {
+                wardSelect.disabled = true;
+                wardSelect.innerHTML = '<option value="">Select Constituency First</option>';
+            }
+        });
+    </script>
+</body>
+</html>

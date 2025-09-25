@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFF Registration System - Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .demo-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .highlight {
+            background: #fffbf0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌱 LFF Marketplace Registration System</h1>
+    
+    <div class="demo-section">
+        <h2>System Overview</h2>
+        <p>The LFF Marketplace features a comprehensive role-based registration system designed for the agricultural marketplace ecosystem in Zimbabwe and internationally.</p>
+        
+        <div class="highlight">
+            <strong>Key Enhancement:</strong> Cascading administrative dropdown system for accurate location selection with Province → District → Constituency → Ward hierarchy.
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>Implemented Features</h2>
+        <ul class="feature-list">
+            <li><strong>8 User Roles:</strong> Farmer, Trader, Banking Official, Buyer, Seller, Input Seller, Employee, Logistics Provider</li>
+            <li><strong>Role-Specific Forms:</strong> Tailored registration fields for each user type</li>
+            <li><strong>Seller Services:</strong> Equipment rental, transport, storage, processing, consultancy, packaging</li>
+            <li><strong>Logistics Services:</strong> Transportation, warehousing, cold storage, distribution, customs clearance</li>
+            <li><strong>Comprehensive Farmer Registration:</strong> Business type, farm details, location, KYC documents</li>
+            <li><strong>International Support:</strong> Multi-country phone formats and ID validation</li>
+            <li><strong>Cascading Location System:</strong> Province → District → Constituency → Ward dropdowns</li>
+            <li><strong>Banking Integration:</strong> Multiple payment methods and banking details</li>
+            <li><strong>Document Upload:</strong> KYC documents with country-specific requirements</li>
+            <li><strong>GPS Integration:</strong> Automatic location detection for farms</li>
+            <li><strong>Form Validation:</strong> Real-time validation with visual feedback</li>
+            <li><strong>Simplified Login:</strong> Email and password only authentication</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>Administrative Hierarchy System</h2>
+        <p>The cascading dropdown system provides accurate location selection for Zimbabwean users:</p>
+        <ul class="feature-list">
+            <li><strong>10 Provinces:</strong> All major provinces of Zimbabwe</li>
+            <li><strong>63+ Districts:</strong> Complete district coverage per province</li>
+            <li><strong>200+ Constituencies:</strong> Parliamentary constituencies mapped to districts</li>
+            <li><strong>Smart Ward Generation:</strong> Realistic ward counts (urban: 4-16, rural: ~25)</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>Technical Implementation</h2>
+        <ul class="feature-list">
+            <li><strong>Frontend:</strong> HTML5, CSS3, Vanilla JavaScript</li>
+            <li><strong>Icons:</strong> Font Awesome 6.4.0 for professional UI</li>
+            <li><strong>Validation:</strong> Real-time form validation with visual feedback</li>
+            <li><strong>Responsive:</strong> Mobile-friendly design</li>
+            <li><strong>Accessibility:</strong> Proper labels and ARIA attributes</li>
+            <li><strong>Performance:</strong> Optimized dropdown loading and validation</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>Test the System</h2>
+        <p>Experience the complete registration flow with all implemented features:</p>
+        
+        <a href="registration.html" class="btn">🚀 Try Registration System</a>
+        <a href="login.html" class="btn">🔐 Test Login System</a>
+        
+        <h3>Testing Scenarios</h3>
+        <ol>
+            <li><strong>Farmer Registration:</strong> Select "Farmer" role and fill out comprehensive business details</li>
+            <li><strong>Location Testing:</strong> Choose Province → District → Constituency → Ward cascade</li>
+            <li><strong>Service Provider:</strong> Test "Seller" or "Logistics Provider" with service selections</li>
+            <li><strong>International User:</strong> Change country to test different phone/ID formats</li>
+            <li><strong>Validation Testing:</strong> Submit incomplete forms to see validation in action</li>
+        </ol>
+    </div>
+
+    <div class="demo-section">
+        <h2>Recent Updates</h2>
+        <ul class="feature-list">
+            <li>✅ Converted constituency and ward fields from text inputs to dependent dropdowns</li>
+            <li>✅ Implemented comprehensive constituency mappings for all Zimbabwean provinces</li>
+            <li>✅ Added realistic ward count generation based on constituency type</li>
+            <li>✅ Enhanced form initialization with proper dropdown state management</li>
+            <li>✅ Updated validation functions to handle new dropdown requirements</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>File Structure</h2>
+        <ul class="feature-list">
+            <li><code>registration.html</code> - Main registration system (2000+ lines)</li>
+            <li><code>login.html</code> - Simplified login interface</li>
+            <li><code>dashboard.html</code> - Post-authentication dashboard</li>
+            <li><code>AUTHENTICATION_UPDATES.md</code> - Complete documentation</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin: 40px 0; padding: 20px; background: #e8f5e8; border-radius: 8px;">
+        <h3>🎉 Registration System Complete!</h3>
+        <p>The LFF Marketplace now features a fully functional, role-based registration system with comprehensive location selection and international support.</p>
+    </div>
+</body>
+</html>

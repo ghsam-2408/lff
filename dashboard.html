@@ -17,24 +17,19 @@
             min-height: 100vh;
         }
 
-        /* Top Navigation Bar */
-        .top-navbar {
-            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+        /* Updated Navigation Bar */
+        .navbar {
+            background: white;
+            border-bottom: 2px solid #e9ecef;
             padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            height: 70px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .top-nav-container {
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -44,10 +39,17 @@
             gap: 1rem;
         }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         .nav-logo {
             width: 40px;
             height: 40px;
-            background: white;
+            background: #f8f9fa;
+            border: 2px solid #28a745;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -61,97 +63,134 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
-        .logo-text {
-            color: white;
-            font-size: 1.5rem;
+        .logo {
+            color: #212529;
+            font-size: 1.8rem;
             font-weight: bold;
             text-decoration: none;
         }
 
-        .nav-right {
+        /* Navigation Action Items */
+        .nav-action {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-        }
-
-        .nav-item {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
-            transition: background-color 0.3s;
-            position: relative;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
             cursor: pointer;
+            transition: all 0.3s;
+            color: #495057;
         }
 
-        .nav-item:hover {
-            background-color: rgba(255,255,255,0.2);
+        .nav-action:hover {
+            background: #e9ecef;
+            border-color: #28a745;
+            color: #28a745;
         }
 
-        .nav-item i {
-            font-size: 1.2rem;
+        .nav-action i {
+            font-size: 1.1rem;
         }
 
+        /* Notification Badge */
         .notification-badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: #ffc107;
-            color: #212529;
+            background: #dc3545;
+            color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.8rem;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-weight: 600;
         }
 
-        .profile-dropdown {
+        /* User Profile Dropdown */
+        .user-profile {
             position: relative;
-            display: inline-block;
-        }
-
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            color: #28a745;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.9rem;
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: all 0.3s;
-        }
-
-        .profile-img:hover {
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
             background: #f8f9fa;
-            transform: scale(1.05);
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 100%;
-            margin-top: 0.5rem;
-            background-color: white;
-            min-width: 250px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
             border-radius: 8px;
-            z-index: 1001;
+            cursor: pointer;
+            transition: all 0.3s;
             border: 1px solid #e9ecef;
         }
 
-        .dropdown-content.show {
+        .user-profile:hover {
+            background: #e9ecef;
+            border-color: #28a745;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #28a745;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #212529;
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+
+        .dropdown-arrow {
+            color: #6c757d;
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .user-profile.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 250px;
+            z-index: 1000;
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-menu.show {
             display: block;
         }
 
@@ -162,289 +201,421 @@
             border-radius: 8px 8px 0 0;
         }
 
-        .dropdown-header h4 {
-            color: #28a745;
-            margin: 0;
+        .dropdown-user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .dropdown-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #28a745;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .dropdown-details h4 {
+            margin: 0 0 0.25rem 0;
+            color: #212529;
             font-size: 1rem;
         }
 
-        .dropdown-header p {
+        .dropdown-details p {
+            margin: 0;
             color: #6c757d;
-            margin: 0.25rem 0 0 0;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+        }
+
+        .user-id {
+            background: #e9ecef;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: inline-block;
         }
 
         .dropdown-body {
-            padding: 1rem;
+            padding: 0.5rem 0;
         }
 
-        .user-info {
+        .dropdown-item {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
-        }
-
-        .info-label {
-            font-weight: 600;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
             color: #495057;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .info-value {
-            color: #6c757d;
+        .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #28a745;
+        }
+
+        .dropdown-item i {
+            width: 16px;
+            font-size: 1rem;
         }
 
         .dropdown-divider {
             height: 1px;
             background: #e9ecef;
-            margin: 1rem 0;
+            margin: 0.5rem 0;
         }
 
-        .dropdown-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .dropdown-item.danger {
+            color: #dc3545;
         }
 
-        .dropdown-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            font-size: 0.9rem;
-            transition: all 0.3s;
+        .dropdown-item.danger:hover {
+            background: #f8d7da;
+            color: #721c24;
         }
 
-        .btn-primary {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #218838;
-        }
-
-        .btn-logout {
-            background: #dc3545;
-            color: white;
-        }
-
-        .btn-logout:hover {
-            background: #c82333;
-        }
-
-        /* Sidebar */
+        /* Updated Sidebar */
         .sidebar {
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 250px;
-            height: calc(100vh - 70px);
+            width: 280px;
             background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            z-index: 999;
+            color: #495057;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
             overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+            border-right: 2px solid #e9ecef;
         }
 
         .sidebar-header {
             padding: 1.5rem;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: 2px solid #e9ecef;
+            text-align: center;
             background: #f8f9fa;
         }
 
         .sidebar-header h3 {
-            color: #28a745;
-            font-size: 1.1rem;
+            color: #212529;
+            margin: 0.5rem 0 0 0;
+            font-size: 1.2rem;
         }
 
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
+        .sidebar-nav {
+            padding: 1rem 0;
         }
 
-        .menu-item {
-            border-bottom: 1px solid #f1f3f4;
+        .nav-section {
+            margin-bottom: 1.5rem;
         }
 
-        .menu-link {
-            display: block;
-            padding: 1rem 1.5rem;
+        .section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-left: 3px solid #28a745;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
             color: #495057;
             text-decoration: none;
             transition: all 0.3s;
-            border-left: 4px solid transparent;
-            cursor: pointer;
+            border-left: 3px solid transparent;
+            font-weight: 500;
         }
 
-        .menu-link:hover {
+        .nav-link:hover {
             background: #f8f9fa;
-            border-left-color: #ffc107;
+            border-left-color: #28a745;
             color: #28a745;
         }
 
-        .menu-link.active {
+        .nav-link.active {
             background: #e8f5e8;
             border-left-color: #28a745;
             color: #28a745;
             font-weight: 600;
         }
 
-        .menu-icon {
-            margin-right: 0.75rem;
+        .nav-link i {
             width: 20px;
-            display: inline-block;
-        }
-
-        .expand-icon {
-            float: right;
-            margin-top: 2px;
-            transition: transform 0.3s;
-        }
-
-        .expand-icon.expanded {
-            transform: rotate(90deg);
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            color: inherit;
         }
 
         .submenu {
-            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
             background: #f8f9fa;
-            border-left: 4px solid #e9ecef;
+            border-left: 3px solid #dee2e6;
         }
 
-        .submenu.show {
-            display: block;
+        .submenu.open {
+            max-height: 500px;
         }
 
-        .submenu-item {
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .submenu-link {
-            display: block;
-            padding: 0.75rem 1.5rem 0.75rem 3rem;
-            color: #6c757d;
-            text-decoration: none;
-            transition: all 0.3s;
+        .submenu .nav-link {
+            padding-left: 3.5rem;
             font-size: 0.9rem;
+            font-weight: 400;
+            color: #6c757d;
         }
 
-        .submenu-link:hover {
-            background: #ffffff;
+        .submenu .nav-link:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .submenu .nav-link.active {
+            background: #28a745;
+            color: white;
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            margin-left: auto;
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+            color: #6c757d;
+        }
+
+        .dropdown-toggle.open::after {
+            transform: rotate(180deg);
+        }
+
+        /* Role badges */
+        .role-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            border: 1px solid;
+        }
+
+        .role-admin {
+            background: #fff;
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .role-employee {
+            background: #fff;
+            color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .role-user {
+            background: #fff;
             color: #28a745;
-            border-left: 3px solid #ffc107;
+            border-color: #28a745;
         }
 
-        .submenu-link.active {
-            background: #ffffff;
-            color: #28a745;
-            border-left: 3px solid #28a745;
-            font-weight: 500;
+        /* Module access indicators */
+        .access-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: auto;
         }
 
-        /* Main Content Area */
+        .access-full {
+            background: #28a745;
+        }
+
+        .access-limited {
+            background: #ffc107;
+        }
+
+        .access-denied {
+            background: #dc3545;
+        }
+
+        /* Main content area */
         .main-content {
-            margin-left: 250px;
-            margin-top: 70px;
+            margin-left: 280px;
             padding: 2rem;
-            min-height: calc(100vh - 70px);
+            background: #f8f9fa;
+            min-height: 100vh;
         }
 
+        /* Header styling */
         .content-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             margin-bottom: 2rem;
+            border-left: 4px solid #28a745;
         }
 
         .content-header h1 {
-            color: #28a745;
+            color: #212529;
             margin-bottom: 0.5rem;
         }
 
         .content-header p {
             color: #6c757d;
+            margin: 0;
         }
 
-        .dashboard-cards {
+        /* Stats cards */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .card {
+        .stat-card {
             background: white;
             padding: 1.5rem;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-left: 4px solid #28a745;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .card h3 {
-            color: #28a745;
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-card.primary {
+            border-left-color: #007bff;
+        }
+
+        .stat-card.success {
+            border-left-color: #28a745;
+        }
+
+        .stat-card.warning {
+            border-left-color: #ffc107;
+        }
+
+        .stat-card.danger {
+            border-left-color: #dc3545;
+        }
+
+        .stat-card h3 {
+            color: #495057;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 0.5rem;
         }
 
-        .card-number {
+        .stat-card .value {
             font-size: 2rem;
             font-weight: bold;
-            color: #495057;
+            color: #212529;
+            margin-bottom: 0.5rem;
         }
 
-        .card-label {
+        .stat-card .change {
+            font-size: 0.8rem;
             color: #6c757d;
-            font-size: 0.9rem;
+        }
+
+        .stat-card .change.positive {
+            color: #28a745;
+        }
+
+        .stat-card .change.negative {
+            color: #dc3545;
+        }
+
+        /* Module content */
+        .module-content {
+            display: none;
+        }
+
+        .module-content.active {
+            display: block;
+        }
+
+        .module-body {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-info {
+            background: #e7f3ff;
+            border-color: #b3d9ff;
+            color: #0c5aa6;
+        }
+
+        .alert i {
+            font-size: 1.1rem;
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
-                transition: transform 0.3s;
             }
 
-            .sidebar.active {
+            .sidebar.open {
                 transform: translateX(0);
             }
 
             .main-content {
                 margin-left: 0;
+                padding: 1rem;
             }
 
-            .top-nav-container {
-                padding: 0;
+            .navbar {
+                padding: 1rem;
             }
 
-            .nav-right {
+            .nav-container {
+                flex-direction: column;
                 gap: 1rem;
             }
 
-            .logo-text {
-                display: none;
-            }
-
-            .dashboard-cards {
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
-        }
 
-        .mobile-menu-btn {
-            display: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
+            .content-header {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -452,64 +623,68 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Top Navigation Bar -->
-    <nav class="top-navbar">
-        <div class="top-nav-container">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
             <div class="nav-left">
-                <div class="mobile-menu-btn" onclick="toggleSidebar()">
-                    <i class="fas fa-bars"></i>
-                </div>
                 <div class="nav-logo">
                     <img src="Assets/logo.png" alt="LFF Logo">
-                    <!-- LFF -->
                 </div>
-                <a href="#" class="logo-text">LFF Marketplace</a>
+                <a href="#" class="logo">LFF Marketplace</a>
             </div>
+            
             <div class="nav-right">
-                <a href="#" class="nav-item" title="Settings">
-                    <i class="fas fa-cog"></i>
-                </a>
-                <a href="#" class="nav-item" title="Notifications">
+                <!-- Notifications -->
+                <div class="nav-action" onclick="showNotifications()">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
-                </a>
-                <div class="profile-dropdown">
-                    <div class="profile-img" onclick="toggleProfileDropdown()" id="profileImg">
-                        JS
+                    <span class="notification-badge" id="notificationCount">3</span>
+                </div>
+
+                <!-- Settings -->
+                <div class="nav-action" onclick="showSettings()">
+                    <i class="fas fa-cog"></i>
+                </div>
+
+                <!-- User Profile -->
+                <div class="user-profile" onclick="toggleUserDropdown()">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <div class="user-info">
+                        <span class="user-name" id="userName">John Doe</span>
+                        <span class="user-role" id="userRole">Admin</span>
                     </div>
-                    <div class="dropdown-content" id="profileDropdown">
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    
+                    <!-- Dropdown Menu -->
+                    <div class="dropdown-menu" id="userDropdown">
                         <div class="dropdown-header">
-                            <h4 id="userName">John Smith</h4>
-                            <p id="userRole">Farmer</p>
+                            <div class="dropdown-user-info">
+                                <div class="dropdown-avatar" id="dropdownAvatar">JD</div>
+                                <div class="dropdown-details">
+                                    <h4 id="dropdownName">John Doe</h4>
+                                    <p id="dropdownEmail">john@example.com</p>
+                                    <span class="user-id" id="dropdownUserId">USR-ABC123</span>
+                                </div>
+                            </div>
                         </div>
+                        
                         <div class="dropdown-body">
-                            <div class="user-info">
-                                <div class="info-item">
-                                    <span class="info-label">Full Name:</span>
-                                    <span class="info-value" id="fullName">John Smith</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Role:</span>
-                                    <span class="info-value" id="roleDisplay">Farmer</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">User ID:</span>
-                                    <span class="info-value" id="userId">USR-001234</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Email:</span>
-                                    <span class="info-value" id="userEmail">john.smith@example.com</span>
-                                </div>
-                            </div>
+                            <a href="#" class="dropdown-item" onclick="editProfile()">
+                                <i class="fas fa-edit"></i>
+                                <span>Edit Details</span>
+                            </a>
+                            <a href="#" class="dropdown-item" onclick="viewProfile()">
+                                <i class="fas fa-user"></i>
+                                <span>View Profile</span>
+                            </a>
+                            <a href="#" class="dropdown-item" onclick="accountSettings()">
+                                <i class="fas fa-cog"></i>
+                                <span>Account Settings</span>
+                            </a>
                             <div class="dropdown-divider"></div>
-                            <div class="dropdown-actions">
-                                <a href="#" class="dropdown-btn btn-primary">
-                                    <i class="fas fa-user-edit"></i> Edit Profile
-                                </a>
-                                <a href="login.html" class="dropdown-btn btn-logout">
-                                    <i class="fas fa-sign-out-alt"></i> Logout
-                                </a>
-                            </div>
+                            <a href="#" class="dropdown-item danger" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -518,56 +693,292 @@
     </nav>
 
     <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h3>Dashboard Modules</h3>
-        </div>
-        <ul class="sidebar-menu" id="sidebarMenu">
-            <li class="menu-item">
-                <a href="#" class="menu-link active" onclick="showDashboard(event)">
-                    <i class="fas fa-home menu-icon"></i>
-                    Dashboard
-                </a>
-            </li>
-            <!-- Dynamic menu items will be inserted here -->
-        </ul>
-    </aside>
-
-    <!-- Main Content Area -->
-    <main class="main-content">
-        <div class="content-header">
-            <h1>Welcome to LFF Marketplace</h1>
-            <p>Your agricultural marketplace dashboard</p>
+            <div class="nav-logo">
+                <img src="Assets/logo.png" alt="LFF Logo" style="width: 40px; height: 40px;">
+            </div>
+            <h3>LFF Marketplace</h3>
+            <div id="userRole" class="role-badge role-admin">Admin</div>
         </div>
 
-        <div class="dashboard-cards">
-            <div class="card">
-                <h3>Total Farms</h3>
-                <div class="card-number">25</div>
-                <div class="card-label">Active Farms</div>
+        <nav class="sidebar-nav">
+            <!-- Core Modules -->
+            <div class="nav-section">
+                <div class="section-title">Core Platform</div>
+                <div class="nav-item">
+                    <a href="#dashboard" class="nav-link active" onclick="showModule('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#user-management" class="nav-link" onclick="showModule('user-management')">
+                        <i class="fas fa-users-cog"></i>
+                        <span>User Management</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#audit" class="nav-link" onclick="showModule('audit')">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Audit</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
             </div>
-            <div class="card">
-                <h3>Active Orders</h3>
-                <div class="card-number">142</div>
-                <div class="card-label">Pending Orders</div>
+
+            <!-- Ecommerce -->
+            <div class="nav-section">
+                <div class="section-title">Ecommerce</div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link dropdown-toggle" onclick="toggleSubmenu(this)">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Ecommerce</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="#e-store" class="nav-link" onclick="showModule('e-store')">
+                            <i class="fas fa-store"></i>
+                            <span>e-Store</span>
+                        </a>
+                        <a href="#abattoir" class="nav-link" onclick="showModule('abattoir')">
+                            <i class="fas fa-cut"></i>
+                            <span>Abattoir</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <h3>Revenue</h3>
-                <div class="card-number">$12,450</div>
-                <div class="card-label">This Month</div>
+
+            <!-- Operations -->
+            <div class="nav-section">
+                <div class="section-title">Operations</div>
+                <div class="nav-item">
+                    <a href="#logistics" class="nav-link" onclick="showModule('logistics')">
+                        <i class="fas fa-truck"></i>
+                        <span>Logistics</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#livestock-tracking" class="nav-link" onclick="showModule('livestock-tracking')">
+                        <i class="fas fa-tags"></i>
+                        <span>Livestock Tagging & Tracking</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#warehouse" class="nav-link" onclick="showModule('warehouse')">
+                        <i class="fas fa-warehouse"></i>
+                        <span>Warehouse</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#evaluation-monitoring" class="nav-link" onclick="showModule('evaluation-monitoring')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Evaluation & Monitoring</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
             </div>
-            <div class="card">
-                <h3>Users</h3>
-                <div class="card-number">1,234</div>
-                <div class="card-label">Registered Users</div>
+
+            <!-- Financial Services -->
+            <div class="nav-section">
+                <div class="section-title">Financial Services</div>
+                <div class="nav-item">
+                    <a href="#invoicing" class="nav-link" onclick="showModule('invoicing')">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoicing</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link dropdown-toggle" onclick="toggleSubmenu(this)">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Insurance Broking</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="#insurance-funeral" class="nav-link" onclick="showModule('insurance-funeral')">
+                            <span>Funeral</span>
+                        </a>
+                        <a href="#insurance-health" class="nav-link" onclick="showModule('insurance-health')">
+                            <span>Health</span>
+                        </a>
+                        <a href="#insurance-homeowners" class="nav-link" onclick="showModule('insurance-homeowners')">
+                            <span>Homeowners</span>
+                        </a>
+                        <a href="#insurance-commercial" class="nav-link" onclick="showModule('insurance-commercial')">
+                            <span>Commercial</span>
+                        </a>
+                        <a href="#insurance-sector" class="nav-link" onclick="showModule('insurance-sector')">
+                            <span>Sector Specific</span>
+                        </a>
+                        <a href="#insurance-umbrella" class="nav-link" onclick="showModule('insurance-umbrella')">
+                            <span>Umbrella</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="#payments" class="nav-link" onclick="showModule('payments')">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#smart-accounts" class="nav-link" onclick="showModule('smart-accounts')">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>LFF Smart Accounts</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Trading -->
+            <div class="nav-section">
+                <div class="section-title">Trading</div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link dropdown-toggle" onclick="toggleSubmenu(this)">
+                        <i class="fas fa-handshake"></i>
+                        <span>Trading</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="#trading-agricultural" class="nav-link" onclick="showModule('trading-agricultural')">
+                            <span>Agricultural/Farming</span>
+                        </a>
+                        <a href="#trading-construction" class="nav-link" onclick="showModule('trading-construction')">
+                            <span>Construction</span>
+                        </a>
+                        <a href="#trading-energy" class="nav-link" onclick="showModule('trading-energy')">
+                            <span>Energy</span>
+                        </a>
+                        <a href="#trading-engineering" class="nav-link" onclick="showModule('trading-engineering')">
+                            <span>Engineering</span>
+                        </a>
+                        <a href="#trading-equipment" class="nav-link" onclick="showModule('trading-equipment')">
+                            <span>Equipment</span>
+                        </a>
+                        <a href="#trading-fuels" class="nav-link" onclick="showModule('trading-fuels')">
+                            <span>Fuels</span>
+                        </a>
+                        <a href="#trading-food" class="nav-link" onclick="showModule('trading-food')">
+                            <span>Food & Beverage</span>
+                        </a>
+                        <a href="#trading-ict" class="nav-link" onclick="showModule('trading-ict')">
+                            <span>ICT</span>
+                        </a>
+                        <a href="#trading-irrigation" class="nav-link" onclick="showModule('trading-irrigation')">
+                            <span>Irrigation</span>
+                        </a>
+                        <a href="#trading-manufacturing" class="nav-link" onclick="showModule('trading-manufacturing')">
+                            <span>Manufacturing</span>
+                        </a>
+                        <a href="#trading-mining" class="nav-link" onclick="showModule('trading-mining')">
+                            <span>Mining</span>
+                        </a>
+                        <a href="#trading-power" class="nav-link" onclick="showModule('trading-power')">
+                            <span>Power</span>
+                        </a>
+                        <a href="#trading-services" class="nav-link" onclick="showModule('trading-services')">
+                            <span>Service Sectors</span>
+                        </a>
+                        <a href="#trading-water" class="nav-link" onclick="showModule('trading-water')">
+                            <span>Water</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Services -->
+            <div class="nav-section">
+                <div class="section-title">Customer Services</div>
+                <div class="nav-item">
+                    <a href="#customer-management" class="nav-link" onclick="showModule('customer-management')">
+                        <i class="fas fa-users"></i>
+                        <span>LFF Customer Management</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#customer-rewards" class="nav-link" onclick="showModule('customer-rewards')">
+                        <i class="fas fa-gift"></i>
+                        <span>LFF Customer Rewards</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Regulatory -->
+            <div class="nav-section">
+                <div class="section-title">Regulatory</div>
+                <div class="nav-item">
+                    <a href="#permits-clearing" class="nav-link" onclick="showModule('permits-clearing')">
+                        <i class="fas fa-file-contract"></i>
+                        <span>Permits, Clearing & Collateral</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Content -->
+        <div id="dashboard-content" class="module-content active">
+            <div class="content-header">
+                <h1>Dashboard</h1>
+                <p>Welcome to the LFF Marketplace platform overview</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card primary">
+                    <h3>Total Users</h3>
+                    <div class="value">2,847</div>
+                    <div class="change positive">↗ +12% from last month</div>
+                </div>
+                
+                <div class="stat-card success">
+                    <h3>Active Transactions</h3>
+                    <div class="value">1,429</div>
+                    <div class="change positive">↗ +8% from last month</div>
+                </div>
+                
+                <div class="stat-card warning">
+                    <h3>Pending Approvals</h3>
+                    <div class="value">87</div>
+                    <div class="change negative">↓ -3% from last month</div>
+                </div>
+                
+                <div class="stat-card danger">
+                    <h3>System Alerts</h3>
+                    <div class="value">5</div>
+                    <div class="change">No change</div>
+                </div>
+            </div>
+
+            <div class="module-body">
+                <h3>Recent Activity</h3>
+                <p>Platform activity and system status will be displayed here.</p>
             </div>
         </div>
 
-        <div class="card">
-            <h3>Quick Actions</h3>
-            <p>Select a module from the sidebar to get started with managing your agricultural marketplace.</p>
+        <!-- Placeholder for other modules -->
+        <div id="module-placeholder" class="module-content" style="display: none;">
+            <div class="content-header">
+                <h2 id="module-title">Module Title</h2>
+                <p id="module-description">Module description will appear here</p>
+            </div>
+            <div class="module-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>This module is under development. Features will be available soon.</span>
+                </div>
+            </div>
         </div>
-    </main>
+    </div>
 
     <script>
         // Load user data from sessionStorage or redirect to login
@@ -827,68 +1238,214 @@
             initializeUserProfile();
         });
 
-        // Get access level description
-        function getAccessLevel(moduleId) {
-            if (currentUser.role === 'Admin') return 'Full Access';
-            if (currentUser.role === 'Logistics Provider' && moduleId === 'assigned-loads') return 'View Only';
-            if (currentUser.role === 'Farmer' && moduleId === 'sell-commodity') return 'Full Access';
-            if (currentUser.role === 'Trader') return 'Full Access';
-            return 'Limited Access';
+        // Initialize dashboard with role-based access
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRoleBasedAccess();
+            // ...existing code...
+        });
+
+        function initializeRoleBasedAccess() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Determine user role
+            let userRole = 'user';
+            if (currentUser.email.endsWith('@lff.co.zw')) {
+                userRole = 'employee';
+            }
+            if (currentUser.role === 'Admin' || currentUser.email === 'admin@lff.co.zw') {
+                userRole = 'admin';
+            }
+
+            // Update role badge
+            const roleBadge = document.getElementById('userRole');
+            roleBadge.textContent = userRole.charAt(0).toUpperCase() + userRole.slice(1);
+            roleBadge.className = `role-badge role-${userRole}`;
+
+            // Show/hide modules based on role
+            updateModuleAccess(userRole);
         }
 
-        function showDashboardContent() {
-            const contentHeader = document.querySelector('.content-header');
-            const dashboardCards = document.querySelector('.dashboard-cards');
-            const quickActions = document.querySelector('.card:last-child');
-            const moduleContent = document.getElementById('moduleContent');
+        function updateModuleAccess(userRole) {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const moduleId = link.getAttribute('onclick')?.match(/showModule\('(.+?)'\)/)?.[1];
+                if (moduleId && modules[moduleId]) {
+                    const module = modules[moduleId];
+                    const hasAccess = module.access.includes(userRole);
+                    
+                    if (!hasAccess) {
+                        link.style.display = 'none';
+                    } else {
+                        // Update access indicator
+                        const indicator = link.querySelector('.access-indicator');
+                        if (indicator) {
+                            if (userRole === 'admin') {
+                                indicator.className = 'access-indicator access-full';
+                            } else if (userRole === 'employee') {
+                                indicator.className = 'access-indicator access-limited';
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Hide sections that have no visible items
+            const sections = document.querySelectorAll('.nav-section');
+            sections.forEach(section => {
+                const visibleLinks = section.querySelectorAll('.nav-link:not([style*="display: none"])');
+                if (visibleLinks.length <= 1) { // Only section title
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            const isOpen = submenu.classList.contains('open');
             
-            // Reset header
-            contentHeader.innerHTML = `
-                <h1>Welcome ${currentUser.fullName}</h1>
-                <p>Your ${currentUser.role.toLowerCase()} dashboard for LFF Marketplace</p>
-            `;
+            // Close all other submenus
+            document.querySelectorAll('.submenu.open').forEach(menu => {
+                menu.classList.remove('open');
+            });
+            document.querySelectorAll('.dropdown-toggle.open').forEach(toggle => {
+                toggle.classList.remove('open');
+            });
             
-            // Show dashboard elements
-            dashboardCards.style.display = 'grid';
-            quickActions.style.display = 'block';
-            
-            // Hide module content
-            if (moduleContent) {
-                moduleContent.style.display = 'none';
+            if (!isOpen) {
+                submenu.classList.add('open');
+                element.classList.add('open');
             }
         }
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
+        function showModule(moduleId) {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            let userRole = 'user';
+            
+            if (currentUser.email.endsWith('@lff.co.zw')) {
+                userRole = 'employee';
+            }
+            if (currentUser.role === 'Admin' || currentUser.email === 'admin@lff.co.zw') {
+                userRole = 'admin';
+            }
+
+            // Check access
+            const module = modules[moduleId];
+            if (!module || !module.access.includes(userRole)) {
+                alert('Access denied. You do not have permission to view this module.');
+                return;
+            }
+
+            // Hide all content areas
+            document.querySelectorAll('.module-content').forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+
+            // Show module content
+            if (moduleId === 'dashboard') {
+                document.getElementById('dashboard-content').style.display = 'block';
+                document.getElementById('dashboard-content').classList.add('active');
+            } else {
+                const placeholder = document.getElementById('module-placeholder');
+                document.getElementById('module-title').textContent = module.title;
+                document.getElementById('module-description').textContent = module.description;
+                placeholder.style.display = 'block';
+                placeholder.classList.add('active');
+            }
+
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.closest('.nav-link').classList.add('active');
         }
 
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const menuBtn = document.querySelector('.mobile-menu-btn');
+        // Initialize user profile
+        function initializeUserProfile() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (currentUser) {
+                // Update navbar user info
+                document.getElementById('userName').textContent = currentUser.fullName;
+                document.getElementById('userRole').textContent = currentUser.role;
+                document.getElementById('userAvatar').textContent = currentUser.initials;
+                
+                // Update dropdown info
+                document.getElementById('dropdownName').textContent = currentUser.fullName;
+                document.getElementById('dropdownEmail').textContent = currentUser.email;
+                document.getElementById('dropdownUserId').textContent = currentUser.userId;
+                document.getElementById('dropdownAvatar').textContent = currentUser.initials;
+            }
+        }
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            const profile = document.querySelector('.user-profile');
             
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
-                    sidebar.classList.remove('active');
-                }
+            dropdown.classList.toggle('show');
+            profile.classList.toggle('open');
+        }
+
+        function showNotifications() {
+            // Implement notifications functionality
+            alert('Notifications feature will be implemented here');
+        }
+
+        function showSettings() {
+            // Implement settings functionality
+            alert('Settings feature will be implemented here');
+        }
+
+        function editProfile() {
+            // Implement edit profile functionality
+            alert('Edit Profile feature will be implemented here');
+            toggleUserDropdown();
+        }
+
+        function viewProfile() {
+            // Implement view profile functionality
+            alert('View Profile feature will be implemented here');
+            toggleUserDropdown();
+        }
+
+        function accountSettings() {
+            // Implement account settings functionality
+            alert('Account Settings feature will be implemented here');
+            toggleUserDropdown();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('userDropdown');
+            const profile = document.querySelector('.user-profile');
+            
+            if (!profile.contains(event.target)) {
+                dropdown.classList.remove('show');
+                profile.classList.remove('open');
             }
         });
 
-        // Handle menu item clicks
-        document.querySelectorAll('.menu-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all links
-                document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
-                
-                // Add active class to clicked link
-                this.classList.add('active');
-                
-                // Close sidebar on mobile after selection
-                if (window.innerWidth <= 768) {
-                    document.getElementById('sidebar').classList.remove('active');
+        // Initialize dashboard with role-based access
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRoleBasedAccess();
+            initializeUserProfile();
+            // ...existing code...
+        });
+
+        // ...existing code...
+    </script>
+</body>
+</html>
                 }
             });
         });
@@ -1131,158 +1688,131 @@
             initializeUserProfile();
         });
 
-        function showDashboardContent() {
-            const contentHeader = document.querySelector('.content-header');
-            const dashboardCards = document.querySelector('.dashboard-cards');
-            const quickActions = document.querySelector('.card:last-child');
-            const moduleContent = document.getElementById('moduleContent');
-            
-            // Reset header
-            contentHeader.innerHTML = `
-                <h1>Welcome ${currentUser.fullName}</h1>
-                <p>Your ${currentUser.role.toLowerCase()} dashboard for LFF Marketplace</p>
-            `;
-            
-            // Show dashboard elements
-            dashboardCards.style.display = 'grid';
-            quickActions.style.display = 'block';
-            
-            // Hide module content
-            if (moduleContent) {
-                moduleContent.style.display = 'none';
+        // Initialize dashboard with role-based access
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRoleBasedAccess();
+            // ...existing code...
+        });
+
+        function initializeRoleBasedAccess() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
             }
+
+            // Determine user role
+            let userRole = 'user';
+            if (currentUser.email.endsWith('@lff.co.zw')) {
+                userRole = 'employee';
+            }
+            if (currentUser.role === 'Admin' || currentUser.email === 'admin@lff.co.zw') {
+                userRole = 'admin';
+            }
+
+            // Update role badge
+            const roleBadge = document.getElementById('userRole');
+            roleBadge.textContent = userRole.charAt(0).toUpperCase() + userRole.slice(1);
+            roleBadge.className = `role-badge role-${userRole}`;
+
+            // Show/hide modules based on role
+            updateModuleAccess(userRole);
         }
-    </script>
-</body>
-</html>
-                icon.classList.remove('expanded');
+
+        function updateModuleAccess(userRole) {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const moduleId = link.getAttribute('onclick')?.match(/showModule\('(.+?)'\)/)?.[1];
+                if (moduleId && modules[moduleId]) {
+                    const module = modules[moduleId];
+                    const hasAccess = module.access.includes(userRole);
+                    
+                    if (!hasAccess) {
+                        link.style.display = 'none';
+                    } else {
+                        // Update access indicator
+                        const indicator = link.querySelector('.access-indicator');
+                        if (indicator) {
+                            if (userRole === 'admin') {
+                                indicator.className = 'access-indicator access-full';
+                            } else if (userRole === 'employee') {
+                                indicator.className = 'access-indicator access-limited';
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Hide sections that have no visible items
+            const sections = document.querySelectorAll('.nav-section');
+            sections.forEach(section => {
+                const visibleLinks = section.querySelectorAll('.nav-link:not([style*="display: none"])');
+                if (visibleLinks.length <= 1) { // Only section title
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            const isOpen = submenu.classList.contains('open');
+            
+            // Close all other submenus
+            document.querySelectorAll('.submenu.open').forEach(menu => {
+                menu.classList.remove('open');
+            });
+            document.querySelectorAll('.dropdown-toggle.open').forEach(toggle => {
+                toggle.classList.remove('open');
             });
             
-            // Show dashboard content
-            showDashboardContent();
-            
-            // Close sidebar on mobile
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('active');
+            if (!isOpen) {
+                submenu.classList.add('open');
+                element.classList.add('open');
             }
         }
 
-        function updateMainContent(moduleId) {
-            const moduleNames = {
-                'sell-commodity': 'Sell/Onboard Commodity',
-                'buy-commodity': 'Buy Commodity (engage) negotiations',
-                'logistics': 'Logistics',
-                'evaluation': 'Evaluation and monitoring',
-                'assigned-loads': 'View Assigned Loads',
-                'invoicing-reconciliation': 'Invoicing and Reconciliation',
-                'livestock-tagging': 'Livestock Tagging and Tracking',
-                'user-roles': 'User roles & permissions',
-                'smart-accounts': 'Smart Accounts',
-                'customer-rewards': 'Customer Rewards',
-                'view-invoices': 'View Invoices',
-                'profile-kyc': 'Profile & KYC'
-            };
+        function showModule(moduleId) {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            let userRole = 'user';
             
-            const moduleName = moduleNames[moduleId];
-            const contentHeader = document.querySelector('.content-header');
-            const dashboardCards = document.querySelector('.dashboard-cards');
-            const quickActions = document.querySelector('.card:last-child');
-            
-            // Hide dashboard elements
-            dashboardCards.style.display = 'none';
-            quickActions.style.display = 'none';
-            
-            // Update header
-            contentHeader.innerHTML = `
-                <h1>${moduleName}</h1>
-                <p>Manage your ${moduleName.toLowerCase()}</p>
-            `;
-            
-            // Add module content
-            let moduleContent = document.getElementById('moduleContent');
-            if (!moduleContent) {
-                moduleContent = document.createElement('div');
-                moduleContent.id = 'moduleContent';
-                moduleContent.className = 'card';
-                document.querySelector('.main-content').appendChild(moduleContent);
+            if (currentUser.email.endsWith('@lff.co.zw')) {
+                userRole = 'employee';
             }
-            
-            moduleContent.style.display = 'block';
-            
-            // Customize content based on module
-            let moduleSpecificContent = '';
-            switch(moduleId) {
-                case 'assigned-loads':
-                    moduleSpecificContent = `
-                        <div style="margin-top: 1.5rem;">
-                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                                <h4 style="color: #28a745; margin-bottom: 0.5rem;">Current Assigned Loads</h4>
-                                <p>No loads currently assigned to you.</p>
-                            </div>
-                            <button class="dropdown-btn btn-primary" style="display: inline-block; margin-right: 1rem;">
-                                <i class="fas fa-refresh"></i> Refresh
-                            </button>
-                            <button class="dropdown-btn btn-primary" style="display: inline-block;">
-                                <i class="fas fa-truck"></i> Update Status
-                            </button>
-                        </div>
-                    `;
-                    break;
-                default:
-                    moduleSpecificContent = `
-                        <div style="margin-top: 1.5rem;">
-                            <button class="dropdown-btn btn-primary" style="display: inline-block; margin-right: 1rem;">
-                                <i class="fas fa-plus"></i> Add New
-                            </button>
-                            <button class="dropdown-btn btn-primary" style="display: inline-block; margin-right: 1rem;">
-                                <i class="fas fa-list"></i> View All
-                            </button>
-                            <button class="dropdown-btn btn-primary" style="display: inline-block;">
-                                <i class="fas fa-cog"></i> Settings
-                            </button>
-                        </div>
-                    `;
+            if (currentUser.role === 'Admin' || currentUser.email === 'admin@lff.co.zw') {
+                userRole = 'admin';
             }
-            
-            moduleContent.innerHTML = `
-                <h3>${moduleName}</h3>
-                <p>This is the ${moduleName} module. Specific functionality for this module will be implemented here.</p>
-                <div style="background: #e8f5e8; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-                    <small><strong>Role:</strong> ${currentUser.role} | <strong>Access Level:</strong> ${getAccessLevel(moduleId)}</small>
-                </div>
-                ${moduleSpecificContent}
-            `;
+
+            // Check access
+            const module = modules[moduleId];
+            if (!module || !module.access.includes(userRole)) {
+                alert('Access denied. You do not have permission to view this module.');
+                return;
+            }
+
+            // Hide all content areas
+            document.querySelectorAll('.module-content').forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+
+            // Show module content
+            if (moduleId === 'dashboard') {
+                document.getElementById('dashboard-content').style.display = 'block';
+                document.getElementById('dashboard-content').classList.add('active');
+            } else {
+                const placeholder = document.getElementById('module-placeholder');
+                document.getElementById('module-title').textContent = module.title;
+                document.getElementById('module-description').textContent = module.description;
+                placeholder.style.display = 'block';
+                placeholder.classList.add('active');
+            }
+
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.closest('.nav-link').classList.add('active');
         }
-
-        // Get access level description
-        function getAccessLevel(moduleId) {
-            if (currentUser.role === 'Admin') return 'Full Access';
-            if (currentUser.role === 'Logistics Provider' && moduleId === 'assigned-loads') return 'View Only';
-            if (currentUser.role === 'Farmer' && moduleId === 'sell-commodity') return 'Full Access';
-            if (currentUser.role === 'Trader') return 'Full Access';
-            return 'Limited Access';
-        }
-
-        // Initialize user profile and generate menu
-        function initializeUserProfile() {
-            document.getElementById('profileImg').textContent = currentUser.initials;
-            document.getElementById('userName').textContent = currentUser.fullName;
-            document.getElementById('userRole').textContent = currentUser.role;
-            document.getElementById('fullName').textContent = currentUser.fullName;
-            document.getElementById('roleDisplay').textContent = currentUser.role;
-            document.getElementById('userId').textContent = currentUser.userId;
-            document.getElementById('userEmail').textContent = currentUser.email;
-            
-            // Generate role-based menu
-            generateRoleBasedMenu();
-        }
-
-        // ...existing code for other functions...
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeUserProfile();
-        });
     </script>
 </body>
 </html>

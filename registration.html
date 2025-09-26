@@ -17,11 +17,12 @@
             min-height: 100vh;
         }
 
-        /* Navigation Bar */
+        /* Updated Navigation Bar */
         .navbar {
-            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            background: white;
+            border-bottom: 2px solid #e9ecef;
             padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .nav-container {
@@ -41,7 +42,8 @@
         .nav-logo {
             width: 40px;
             height: 40px;
-            background: white;
+            background: #f8f9fa;
+            border: 2px solid #28a745;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -55,11 +57,11 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .logo {
-            color: white;
+            color: #212529;
             font-size: 1.8rem;
             font-weight: bold;
             text-decoration: none;
@@ -72,15 +74,17 @@
         }
 
         .nav-links a {
-            color: white;
+            color: #495057;
             text-decoration: none;
             padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 500;
         }
 
         .nav-links a:hover {
-            background-color: rgba(255,255,255,0.2);
+            background-color: #f8f9fa;
+            color: #28a745;
         }
 
         /* Registration Container */
@@ -1318,6 +1322,12 @@
             const zimbabweEwallets = document.getElementById('zimbabweEwallets');
             const foreignPaymentMethods = document.getElementById('foreignPaymentMethods');
             
+            // Get location fields
+            const provinceGroup = document.getElementById('province').closest('.form-row');
+            const districtGroup = document.getElementById('district').closest('.form-group');
+            const constituencyGroup = document.getElementById('constituency')?.closest('.form-group');
+            const wardGroup = document.getElementById('ward')?.closest('.form-group');
+            
             if (country === 'zimbabwe') {
                 zimbabweanKYC.style.display = 'block';
                 foreignKYC.style.display = 'none';
@@ -1326,11 +1336,19 @@
                 zimbabweEwallets.style.display = 'block';
                 foreignPaymentMethods.style.display = 'none';
                 
+                // Show location fields for Zimbabweans
+                if (provinceGroup) provinceGroup.style.display = 'flex';
+                if (districtGroup) districtGroup.style.display = 'block';
+                if (constituencyGroup) constituencyGroup.style.display = 'block';
+                if (wardGroup) wardGroup.style.display = 'block';
+                
                 // Set requirements
                 document.getElementById('nationalId').required = true;
                 document.getElementById('nationalIdUpload').required = true;
                 document.getElementById('proofResidenceUpload').required = true;
                 document.getElementById('bankName').required = true;
+                document.getElementById('province').required = true;
+                document.getElementById('district').required = true;
                 
                 // Remove foreign requirements
                 document.getElementById('passportNumber').required = false;
@@ -1346,6 +1364,12 @@
                 zimbabweEwallets.style.display = 'none';
                 foreignPaymentMethods.style.display = 'block';
                 
+                // Hide location fields for non-Zimbabweans
+                if (provinceGroup) provinceGroup.style.display = 'none';
+                if (districtGroup) districtGroup.style.display = 'none';
+                if (constituencyGroup) constituencyGroup.style.display = 'none';
+                if (wardGroup) wardGroup.style.display = 'none';
+                
                 // Set foreign requirements
                 document.getElementById('passportNumber').required = true;
                 document.getElementById('passportIssueDate').required = true;
@@ -1353,70 +1377,23 @@
                 document.getElementById('passportUpload').required = true;
                 document.getElementById('foreignBankName').required = true;
                 
-                // Remove Zimbabwean requirements
+                // Remove Zimbabwean and location requirements
                 document.getElementById('nationalId').required = false;
                 document.getElementById('nationalIdUpload').required = false;
                 document.getElementById('proofResidenceUpload').required = false;
                 document.getElementById('bankName').required = false;
-            }
-        }
-
-        function validateZimbabweanID(idNumber) {
-            const regex = /^[0-9]{2}-[0-9]{6,7}[A-Z][0-9]{2}$/;
-            return regex.test(idNumber);
-        }
-
-        function validatePhoneNumber(phone, countryCode) {
-            if (countryCode === '+263') {
-                // Zimbabwe format: 7xxxxxxxx (9 digits starting with 7)
-                const regex = /^7[0-9]{8}$/;
-                return regex.test(phone);
-            }
-            // For other countries, just check it's not empty and contains digits
-            return phone.length >= 7 && /^[0-9+\-\s()]+$/.test(phone);
-        }
-
-        function toggleService(serviceItem) {
-            const checkbox = serviceItem.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
-            
-            if (checkbox.checked) {
-                serviceItem.classList.add('checked');
-            } else {
-                serviceItem.classList.remove('checked');
-            }
-
-            // Show/hide other services description
-            const otherServiceDiv = document.getElementById('otherServiceDescription');
-            const otherCheckbox = document.querySelector('input[name="services"][value="other"]');
-            
-            if (otherCheckbox.checked) {
-                otherServiceDiv.style.display = 'block';
-            } else {
-                otherServiceDiv.style.display = 'none';
-                document.getElementById('otherServices').value = '';
-            }
-        }
-
-        function toggleLogisticsService(serviceItem) {
-            const checkbox = serviceItem.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
-            
-            if (checkbox.checked) {
-                serviceItem.classList.add('checked');
-            } else {
-                serviceItem.classList.remove('checked');
-            }
-
-            // Show/hide other logistics services description
-            const otherLogisticsDiv = document.getElementById('otherLogisticsDescription');
-            const otherLogisticsCheckbox = document.querySelector('input[name="logisticsServices"][value="other"]');
-            
-            if (otherLogisticsCheckbox && otherLogisticsCheckbox.checked) {
-                otherLogisticsDiv.style.display = 'block';
-            } else {
-                otherLogisticsDiv.style.display = 'none';
-                document.getElementById('otherLogisticsServices').value = '';
+                document.getElementById('province').required = false;
+                document.getElementById('district').required = false;
+                
+                // Clear location selections for non-Zimbabweans
+                document.getElementById('province').value = '';
+                document.getElementById('district').innerHTML = '<option value="">Select District</option>';
+                if (document.getElementById('constituency')) {
+                    document.getElementById('constituency').innerHTML = '<option value="">Select Constituency</option>';
+                }
+                if (document.getElementById('ward')) {
+                    document.getElementById('ward').innerHTML = '<option value="">Select Ward</option>';
+                }
             }
         }
 
@@ -1428,8 +1405,14 @@
             
             // Clear existing options
             districtSelect.innerHTML = '<option value="">Select District</option>';
-            constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
-            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+            if (constituencySelect) {
+                constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
+                constituencySelect.disabled = true;
+            }
+            if (wardSelect) {
+                wardSelect.innerHTML = '<option value="">Select Ward</option>';
+                wardSelect.disabled = true;
+            }
             
             const districts = {
                 'harare': ['Harare', 'Chitungwiza', 'Epworth'],
@@ -1445,12 +1428,15 @@
             };
             
             if (districts[province]) {
+                districtSelect.disabled = false;
                 districts[province].forEach(district => {
                     const option = document.createElement('option');
                     option.value = district.toLowerCase().replace(/\s+/g, '-');
                     option.textContent = district;
                     districtSelect.appendChild(option);
                 });
+            } else {
+                districtSelect.disabled = true;
             }
         }
 
@@ -1460,9 +1446,14 @@
             const constituencySelect = document.getElementById('constituency');
             const wardSelect = document.getElementById('ward');
             
+            if (!constituencySelect) return; // Only for farmers
+            
             // Clear existing options
             constituencySelect.innerHTML = '<option value="">Select Constituency</option>';
-            wardSelect.innerHTML = '<option value="">Select Ward</option>';
+            if (wardSelect) {
+                wardSelect.innerHTML = '<option value="">Select Ward</option>';
+                wardSelect.disabled = true;
+            }
             
             const constituencies = {
                 // Harare Province
@@ -1545,26 +1536,28 @@
             };
             
             if (constituencies[province] && constituencies[province][district]) {
+                constituencySelect.disabled = false;
                 constituencies[province][district].forEach(constituency => {
                     const option = document.createElement('option');
                     option.value = constituency.toLowerCase().replace(/\s+/g, '-');
                     option.textContent = constituency;
                     constituencySelect.appendChild(option);
                 });
+            } else {
+                constituencySelect.disabled = true;
             }
         }
 
         function updateWards() {
-            const province = document.getElementById('province').value;
-            const district = document.getElementById('district').value;
             const constituency = document.getElementById('constituency').value;
             const wardSelect = document.getElementById('ward');
+            
+            if (!wardSelect) return; // Only for farmers
             
             // Clear existing options
             wardSelect.innerHTML = '<option value="">Select Ward</option>';
             
             // Generate ward numbers based on constituency (simplified approach)
-            // In a real application, this would come from a comprehensive database
             const wardCounts = {
                 // Urban constituencies typically have fewer wards
                 'harare-central': 8,
@@ -1606,12 +1599,15 @@
             const defaultWardCount = constituency ? (wardCounts[constituency] || 25) : 0;
             
             if (constituency && defaultWardCount > 0) {
+                wardSelect.disabled = false;
                 for (let i = 1; i <= defaultWardCount; i++) {
                     const option = document.createElement('option');
                     option.value = `ward-${i}`;
                     option.textContent = `Ward ${i}`;
                     wardSelect.appendChild(option);
                 }
+            } else {
+                wardSelect.disabled = true;
             }
         }
 
@@ -1861,13 +1857,11 @@
             // Set default phone format
             updatePhoneFormat();
             
-            // Initialize administrative dropdowns
-            const provinceSelect = document.getElementById('province');
+            // Initialize administrative dropdowns with proper disabled states
             const districtSelect = document.getElementById('district');
             const constituencySelect = document.getElementById('constituency');
             const wardSelect = document.getElementById('ward');
             
-            if (provinceSelect) provinceSelect.value = '';
             if (districtSelect) {
                 districtSelect.disabled = true;
                 districtSelect.innerHTML = '<option value="">Select Province First</option>';

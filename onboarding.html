@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LFF Marketplace - Commodity Onboarding</title>
+    <title>LFF Marketplace - Sell/Onboard Commodity</title>
     <style>
         * {
             margin: 0;
@@ -12,30 +12,24 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: #f8f9fa;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
             min-height: 100vh;
         }
 
-        /* Copy all dashboard styles for navigation and sidebar */
-        /* Top Navigation Bar */
-        .top-navbar {
-            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+        /* Updated Navigation Bar */
+        .navbar {
+            background: white;
+            border-bottom: 2px solid #e9ecef;
             padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            height: 70px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .top-nav-container {
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -45,10 +39,17 @@
             gap: 1rem;
         }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         .nav-logo {
             width: 40px;
             height: 40px;
-            background: white;
+            background: #f8f9fa;
+            border: 2px solid #28a745;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -62,327 +63,195 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .logo-text {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        /* ...existing code for nav-right, profile dropdown, sidebar styles... */
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .nav-item {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .nav-item:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-
-        .nav-item i {
-            font-size: 1.2rem;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ffc107;
-            color: #212529;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .profile-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            color: #28a745;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.9rem;
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: all 0.3s;
-        }
-
-        .profile-img:hover {
-            background: #f8f9fa;
-            transform: scale(1.05);
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 100%;
-            margin-top: 0.5rem;
-            background-color: white;
-            min-width: 250px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            border-radius: 8px;
-            z-index: 1001;
-            border: 1px solid #e9ecef;
-        }
-
-        .dropdown-content.show {
-            display: block;
-        }
-
-        .dropdown-header {
-            padding: 1rem;
-            border-bottom: 1px solid #e9ecef;
-            background: #f8f9fa;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .dropdown-header h4 {
-            color: #28a745;
-            margin: 0;
-            font-size: 1rem;
-        }
-
-        .dropdown-header p {
-            color: #6c757d;
-            margin: 0.25rem 0 0 0;
-            font-size: 0.85rem;
-        }
-
-        .dropdown-body {
-            padding: 1rem;
-        }
-
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #495057;
-        }
-
-        .info-value {
-            color: #6c757d;
-        }
-
-        .dropdown-divider {
-            height: 1px;
-            background: #e9ecef;
-            margin: 1rem 0;
-        }
-
-        .dropdown-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .dropdown-btn {
-            padding: 0.5rem 1rem;
-            border: none;
             border-radius: 6px;
-            cursor: pointer;
+        }
+
+        .logo {
+            color: #212529;
+            font-size: 1.8rem;
+            font-weight: bold;
             text-decoration: none;
-            text-align: center;
-            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: #495057;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
             transition: all 0.3s;
+            font-weight: 500;
         }
 
-        .btn-primary {
-            background: #28a745;
-            color: white;
+        .nav-links a:hover {
+            background-color: #f8f9fa;
+            color: #28a745;
         }
 
-        .btn-primary:hover {
-            background: #218838;
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+            font-weight: 500;
         }
 
-        .btn-logout {
-            background: #dc3545;
-            color: white;
-        }
-
-        .btn-logout:hover {
-            background: #c82333;
+        .back-btn:hover {
+            background: #e9ecef;
+            color: #28a745;
+            border-color: #28a745;
         }
 
         /* Sidebar - same as dashboard */
         .sidebar {
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 250px;
-            height: calc(100vh - 70px);
+            width: 280px;
             background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            z-index: 999;
+            color: #495057;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
             overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+            border-right: 2px solid #e9ecef;
         }
 
         .sidebar-header {
             padding: 1.5rem;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: 2px solid #e9ecef;
+            text-align: center;
             background: #f8f9fa;
         }
 
         .sidebar-header h3 {
-            color: #28a745;
-            font-size: 1.1rem;
+            color: #212529;
+            margin: 0.5rem 0 0 0;
+            font-size: 1.2rem;
         }
 
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
+        .sidebar-nav {
+            padding: 1rem 0;
         }
 
-        .menu-item {
-            border-bottom: 1px solid #f1f3f4;
+        .nav-section {
+            margin-bottom: 1.5rem;
         }
 
-        .menu-link {
-            display: block;
-            padding: 1rem 1.5rem;
+        .section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-left: 3px solid #28a745;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
             color: #495057;
             text-decoration: none;
             transition: all 0.3s;
-            border-left: 4px solid transparent;
-            cursor: pointer;
+            border-left: 3px solid transparent;
+            font-weight: 500;
         }
 
-        .menu-link:hover {
+        .nav-link:hover {
             background: #f8f9fa;
-            border-left-color: #ffc107;
+            border-left-color: #28a745;
             color: #28a745;
         }
 
-        .menu-link.active {
+        .nav-link.active {
             background: #e8f5e8;
             border-left-color: #28a745;
             color: #28a745;
             font-weight: 600;
         }
 
-        .menu-icon {
-            margin-right: 0.75rem;
+        .nav-link i {
             width: 20px;
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            color: inherit;
+        }
+
+        .role-badge {
             display: inline-block;
-        }
-
-        .expand-icon {
-            float: right;
-            margin-top: 2px;
-            transition: transform 0.3s;
-        }
-
-        .expand-icon.expanded {
-            transform: rotate(90deg);
-        }
-
-        .submenu {
-            display: none;
-            background: #f8f9fa;
-            border-left: 4px solid #e9ecef;
-        }
-
-        .submenu.show {
-            display: block;
-        }
-
-        .submenu-item {
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .submenu-link {
-            display: block;
-            padding: 0.75rem 1.5rem 0.75rem 3rem;
-            color: #6c757d;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .submenu-link:hover {
-            background: #ffffff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            border: 1px solid;
+            background: #fff;
             color: #28a745;
-            border-left: 3px solid #ffc107;
+            border-color: #28a745;
         }
 
-        .submenu-link.active {
-            background: #ffffff;
-            color: #28a745;
-            border-left: 3px solid #28a745;
-            font-weight: 500;
-        }
-
-        /* Main Content Area */
+        /* Adjust main content for sidebar */
         .main-content {
-            margin-left: 250px;
-            margin-top: 70px;
-            padding: 2rem;
-            min-height: calc(100vh - 70px);
+            margin-left: 280px;
+            padding: 2.5rem;
+            background: transparent;
+            min-height: 100vh;
         }
 
-        /* Onboarding Form Styles */
         .page-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
         }
 
         .page-header h1 {
-            color: #28a745;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.025em;
         }
 
         .page-header p {
-            color: #6c757d;
-            font-size: 1.1rem;
+            color: #64748b;
+            font-size: 1.25rem;
+            font-weight: 500;
         }
 
+        /* Enhanced Form Styles */
         .onboarding-form {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-top: 5px solid #ffc107;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-top: 4px solid;
+            border-image: linear-gradient(90deg, #28a745, #ffc107, #20c997) 1;
         }
 
         .section {
@@ -390,19 +259,21 @@
         }
 
         .section-header {
-            color: #28a745;
-            border-bottom: 2px solid #ffc107;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-            font-weight: 600;
+            color: #1e293b;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg, #28a745, #ffc107) 1;
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-group {
@@ -411,20 +282,23 @@
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: #495057;
-            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.9);
+            font-family: inherit;
         }
 
         .form-group input:focus,
@@ -432,38 +306,195 @@
         .form-group textarea:focus {
             outline: none;
             border-color: #28a745;
-            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1);
+            background: white;
+            transform: translateY(-2px);
         }
 
         .form-group textarea {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
         }
 
+        /* Enhanced File Upload */
         .file-upload {
-            border: 2px dashed #28a745;
-            padding: 2rem;
+            border: 3px dashed #cbd5e1;
+            padding: 3rem;
             text-align: center;
-            border-radius: 8px;
-            background: #f8f9fa;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .file-upload:hover {
-            background: #e9ecef;
-        }
-
-        .file-upload input {
-            display: none;
+            border-color: #28a745;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(40, 167, 69, 0.2);
         }
 
         .file-upload i {
-            font-size: 3rem;
+            font-size: 4rem;
             color: #28a745;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: block;
         }
 
+        .file-upload h4 {
+            color: #1e293b;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .file-upload p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced Category Forms */
+        .category-specific-form {
+            display: none;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .category-specific-form.active {
+            display: block;
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Buttons */
+        .submit-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1.25rem 3rem;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0 0.5rem;
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(40, 167, 69, 0.4);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+            padding: 1.25rem 3rem;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0 0.5rem;
+            box-shadow: 0 8px 20px rgba(107, 114, 128, 0.3);
+        }
+
+        .cancel-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(107, 114, 128, 0.4);
+        }
+
+        .save-draft-btn {
+            background: linear-gradient(135deg, #ffc107 0%, #f59e0b 100%);
+            color: #1e293b;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-right: 0.75rem;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .save-draft-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Enhanced Preview Section */
+        .preview-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 2px solid #bbf7d0;
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid #28a745;
+        }
+
+        .preview-card h4 {
+            color: #1e293b;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Enhanced Draft Notice */
+        .draft-notice {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            color: #92400e;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            display: none;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .draft-notice.show {
+            display: block;
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .draft-notice i {
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .draft-notice a {
+            color: #92400e;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .draft-notice a:hover {
+            color: #78350f;
+        }
+
+        /* Enhanced Price Input */
         .price-input {
             position: relative;
         }
@@ -471,164 +502,109 @@
         .price-input::before {
             content: "$";
             position: absolute;
-            left: 12px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #6c757d;
+            color: #64748b;
             font-weight: bold;
+            font-size: 1.1rem;
         }
 
         .price-input input {
-            padding-left: 2rem;
+            padding-left: 2.5rem;
         }
 
+        /* Enhanced Quantity Controls */
         .quantity-selector {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            background: #f8fafc;
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
         }
 
         .quantity-btn {
-            background: #28a745;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
         }
 
         .quantity-btn:hover {
-            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
         }
 
         .quantity-input {
-            width: 80px;
+            width: 100px;
             text-align: center;
             margin: 0 !important;
+            border: none;
+            background: white;
+            font-weight: 600;
         }
 
+        /* Enhanced Submit Section */
         .submit-section {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 3rem;
             padding-top: 2rem;
-            border-top: 1px solid #e9ecef;
+            border-top: 2px solid #e2e8f0;
         }
 
-        .submit-btn {
-            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
-            color: white;
-            padding: 1rem 3rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin: 0 0.5rem;
+        /* Enhanced Form Rows */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
-        }
-
-        .cancel-btn {
-            background: #6c757d;
-            color: white;
-            padding: 1rem 3rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 0 0.5rem;
-        }
-
-        .cancel-btn:hover {
-            background: #5a6268;
-        }
-
-        .preview-section {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 1.5rem;
+        /* Enhanced Image Preview */
+        #grains-imagePreview,
+        #livestock-imagePreview,
+        #poultry-imagePreview,
+        #vegetables-imagePreview,
+        #fruits-imagePreview {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
             margin-top: 1rem;
-        }
-
-        .preview-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-left: 4px solid #28a745;
-        }
-
-        .category-specific-form {
-            display: none;
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-            border: 2px solid #28a745;
-        }
-
-        .category-specific-form.active {
-            display: block;
-        }
-
-        .draft-notice {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .draft-notice.show {
-            display: block;
-        }
-
-        .save-draft-btn {
-            background: #ffc107;
-            color: #212529;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-right: 0.5rem;
-            font-weight: 600;
-        }
-
-        .save-draft-btn:hover {
-            background: #e0a800;
         }
 
         /* Mobile responsive */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
-                transition: transform 0.3s;
             }
 
-            .sidebar.active {
+            .sidebar.open {
                 transform: translateX(0);
             }
 
             .main-content {
                 margin-left: 0;
-                padding: 1rem;
+                padding: 1.5rem;
             }
 
             .onboarding-form {
-                padding: 1.5rem;
+                padding: 2rem;
+                border-radius: 16px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
             }
 
             .form-row {
@@ -641,29 +617,100 @@
                 margin: 0.5rem 0;
             }
 
-            .logo-text {
-                display: none;
+            .file-upload {
+                padding: 2rem;
+            }
+
+            .file-upload i {
+                font-size: 3rem;
             }
         }
 
-        .mobile-menu-btn {
-            display: none;
-            color: white;
-            font-size: 1.5rem;
+        /* Enhanced Focus States */
+        .form-group select:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1);
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        /* Ensure select elements have proper default styling */
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.9);
+            font-family: inherit;
+            /* Ensure native dropdown arrow is visible */
+            -webkit-appearance: menulist;
+            -moz-appearance: menulist;
+            appearance: menulist;
+            background-image: none;
             cursor: pointer;
-            padding: 0.5rem;
         }
 
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
+        /* Enhanced Animation for Form Elements */
+        .form-group {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Typography */
+        h3, h4, h5 {
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #64748b;
+        }
+
+        small {
+            color: #64748b;
+            font-size: 0.85rem;
         }
     </style>
+    <!-- Enhanced Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <img src="Assets/logo.png" alt="LFF Logo">
+                </div>
+                <a href="#" class="logo">LFF Marketplace</a>
+            </div>
+            
+            <div class="nav-right">
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
     <!-- Top Navigation Bar -->
     <nav class="top-navbar">
         <div class="top-nav-container">
@@ -729,20 +776,115 @@
     </nav>
 
     <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h3>Dashboard Modules</h3>
+            <div class="nav-logo">
+                <img src="Assets/logo.png" alt="LFF Logo" style="width: 40px; height: 40px;">
+            </div>
+            <h3>LFF Marketplace</h3>
+            <div id="sidebarUserRole" class="role-badge">User</div>
         </div>
-        <ul class="sidebar-menu" id="sidebarMenu">
-            <li class="menu-item">
-                <a href="dashboard.html" class="menu-link">
-                    <i class="fas fa-home menu-icon"></i>
-                    Dashboard
-                </a>
-            </li>
-            <!-- Dynamic menu items will be inserted here -->
-        </ul>
-    </aside>
+
+        <nav class="sidebar-nav">
+            <!-- Core Navigation -->
+            <div class="nav-section">
+                <div class="section-title">Navigation</div>
+                <div class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-upload"></i>
+                        <span>Sell/Onboard Commodity</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="buying.html" class="nav-link">
+                        <i class="fas fa-shopping-basket"></i>
+                        <span>Buy Commodities</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Onboarding Process -->
+            <div class="nav-section">
+                <div class="section-title">Onboarding Steps</div>
+                <div class="nav-item">
+                    <a href="#commodity-info" class="nav-link" onclick="showStep('commodity-info')">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Commodity Information</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#pricing" class="nav-link" onclick="showStep('pricing')">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span>Pricing & Quantities</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#delivery" class="nav-link" onclick="showStep('delivery')">
+                        <i class="fas fa-truck"></i>
+                        <span>Delivery Options</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#documentation" class="nav-link" onclick="showStep('documentation')">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Documentation</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#review" class="nav-link" onclick="showStep('review')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Review & Submit</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- My Commodities -->
+            <div class="nav-section">
+                <div class="section-title">My Commodities</div>
+                <div class="nav-item">
+                    <a href="#listed" class="nav-link" onclick="showSection('listed')">
+                        <i class="fas fa-list"></i>
+                        <span>Listed Commodities</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#pending" class="nav-link" onclick="showSection('pending')">
+                        <i class="fas fa-clock"></i>
+                        <span>Pending Approval</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#sold" class="nav-link" onclick="showSection('sold')">
+                        <i class="fas fa-check"></i>
+                        <span>Sold Items</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Account -->
+            <div class="nav-section">
+                <div class="section-title">Account</div>
+                <div class="nav-item">
+                    <a href="#profile" class="nav-link" onclick="showSection('profile')">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#settings" class="nav-link" onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
 
     <!-- Main Content Area -->
     <main class="main-content">
@@ -1315,8 +1457,12 @@
 
         // Show category specific form
         function showCategoryForm() {
-            const category = document.getElementById('category').value;
+            const categorySelect = document.getElementById('category');
+            const category = categorySelect.value;
             currentCategory = category;
+
+            // Ensure the selected value remains in the dropdown
+            categorySelect.value = category;
 
             // Hide all category forms
             const categoryForms = document.querySelectorAll('.category-specific-form');
@@ -1336,14 +1482,23 @@
                     
                     updatePreview();
                 }
+            } else if (category === 'other') {
+                // Handle "Other" category
+                document.getElementById('previewSection').style.display = 'none';
+                document.getElementById('submitSection').style.display = 'none';
+                alert('Please contact support for assistance with other commodity types.');
             } else {
+                // No category selected
                 document.getElementById('previewSection').style.display = 'none';
                 document.getElementById('submitSection').style.display = 'none';
             }
 
             // Auto-save as draft when category changes
             if (category) {
-                saveDraft();
+                // Use setTimeout to ensure the form is fully loaded before saving
+                setTimeout(() => {
+                    saveDraft();
+                }, 100);
             }
         }
 
@@ -1363,12 +1518,12 @@
                     const grainsDescription = document.getElementById('grains-description').value;
 
                     previewHTML = `
-                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${grainsCommodity} - ${grainsVariety}</h3>
+                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${grainsCommodity || 'Commodity Name'} - ${grainsVariety || 'Variety'}</h3>
                         <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Category:</strong> Grains & Cereals</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Variety:</strong> ${grainsVariety}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${grainsPrice} per kg</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${grainsQuantity} kg</p>
-                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${grainsDescription}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Variety:</strong> ${grainsVariety || 'Not specified'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${grainsPrice || '0.00'} per kg</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${grainsQuantity || '0'} kg</p>
+                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${grainsDescription || 'No description provided'}</p>
                     `;
                     break;
 
@@ -1383,13 +1538,13 @@
                     const livestockDescription = document.getElementById('livestock-description').value;
 
                     previewHTML = `
-                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${livestockAnimal} - ${livestockBreed}</h3>
+                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${livestockAnimal || 'Animal'} - ${livestockBreed || 'Breed'}</h3>
                         <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Category:</strong> Livestock</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Breed:</strong> ${livestockBreed}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Age:</strong> ${livestockAge}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${livestockPrice} per ${livestockUnit}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${livestockQuantity} ${livestockUnit}</p>
-                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${livestockDescription}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Breed:</strong> ${livestockBreed || 'Not specified'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Age:</strong> ${livestockAge || 'Not specified'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${livestockPrice || '0.00'} per ${livestockUnit || 'unit'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${livestockQuantity || '0'} ${livestockUnit || 'units'}</p>
+                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${livestockDescription || 'No description provided'}</p>
                     `;
                     break;
 
@@ -1402,12 +1557,12 @@
                     const poultryDescription = document.getElementById('poultry-description').value;
 
                     previewHTML = `
-                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${poultryCommodity} - ${poultryType}</h3>
+                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${poultryCommodity || 'Poultry'} - ${poultryType || 'Type'}</h3>
                         <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Category:</strong> Poultry</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Type:</strong> ${poultryType}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${poultryPrice} per ${poultryUnit}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${poultryQuantity} ${poultryUnit}</p>
-                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${poultryDescription}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Type:</strong> ${poultryType || 'Not specified'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${poultryPrice || '0.00'} per ${poultryUnit || 'unit'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${poultryQuantity || '0'} ${poultryUnit || 'units'}</p>
+                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${poultryDescription || 'No description provided'}</p>
                     `;
                     break;
 
@@ -1421,13 +1576,13 @@
                     const vegetableDescription = document.getElementById('vegetables-description').value;
 
                     previewHTML = `
-                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${vegetableName} - ${vegetableVariety}</h3>
+                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${vegetableName || 'Vegetable'} - ${vegetableVariety || 'Variety'}</h3>
                         <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Category:</strong> Vegetables</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Variety:</strong> ${vegetableVariety}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Grade:</strong> ${vegetableGrade}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${vegetablePrice} per kg</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${vegetableQuantity} ${vegetableUnit}</p>
-                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${vegetableDescription}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Variety:</strong> ${vegetableVariety || 'Not specified'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Grade:</strong> ${vegetableGrade || 'Not specified'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${vegetablePrice || '0.00'} per kg</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${vegetableQuantity || '0'} ${vegetableUnit || 'units'}</p>
+                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${vegetableDescription || 'No description provided'}</p>
                     `;
                     break;
 
@@ -1441,28 +1596,104 @@
                     const fruitDescription = document.getElementById('fruits-description').value;
 
                     previewHTML = `
-                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${fruitName} - ${fruitVariety}</h3>
+                        <h3 style="color: #28a745; margin-bottom: 0.5rem;">${fruitName || 'Fruit'} - ${fruitVariety || 'Variety'}</h3>
                         <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Category:</strong> Fruits</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Variety:</strong> ${fruitVariety}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Grade:</strong> ${fruitGrade}</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${fruitPrice} per kg</p>
-                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${fruitQuantity} ${fruitUnit}</p>
-                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${fruitDescription}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Variety:</strong> ${fruitVariety || 'Not specified'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Grade:</strong> ${fruitGrade || 'Not specified'}</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Price:</strong> $${fruitPrice || '0.00'} per kg</p>
+                        <p style="color: #6c757d; margin-bottom: 0.5rem;"><strong>Available:</strong> ${fruitQuantity || '0'} ${fruitUnit || 'units'}</p>
+                        <p style="color: #6c757d; margin-bottom: 1rem;"><strong>Description:</strong> ${fruitDescription || 'No description provided'}</p>
                     `;
                     break;
+
+                default:
+                    previewHTML = '<p><em>Fill in the form above to see your listing preview</em></p>';
             }
 
-            previewHTML += `
-                <div style="background: #e8f5e8; padding: 0.5rem; border-radius: 5px; font-size: 0.9rem;">
-                    <strong>Status:</strong> Ready to List
-                </div>
-            `;
+            // Add status and images preview if available
+            if (currentCategory && currentCategory !== 'other') {
+                previewHTML += `
+                    <div style="background: #e8f5e8; padding: 0.75rem; border-radius: 8px; font-size: 0.9rem; margin-top: 1rem;">
+                        <strong>Status:</strong> Ready to List
+                    </div>
+                `;
+
+                // Show uploaded images count if any
+                if (uploadedImages[currentCategory] && uploadedImages[currentCategory].length > 0) {
+                    previewHTML += `
+                        <div style="margin-top: 1rem;">
+                            <p style="color: #28a745; font-weight: 600;"><i class="fas fa-image"></i> ${uploadedImages[currentCategory].length} image(s) uploaded</p>
+                        </div>
+                    `;
+                }
+            }
 
             previewContent.innerHTML = previewHTML;
         }
 
-        // Save draft functionality
+        // Enhanced load draft functionality to properly set category
+        function loadDraft() {
+            const draftData = localStorage.getItem('commodity_draft');
+            if (!draftData) return;
+
+            const draft = JSON.parse(draftData);
+            
+            // Set category and trigger form display
+            const categorySelect = document.getElementById('category');
+            categorySelect.value = draft.category;
+            
+            // Manually trigger the change event to show the form
+            showCategoryForm();
+
+            // Load form data after form is shown
+            setTimeout(() => {
+                Object.keys(draft).forEach(key => {
+                    if (key !== 'category' && key !== 'timestamp' && key !== 'userId' && key !== 'images') {
+                        const element = document.querySelector(`[name="${key}"]`);
+                        if (element) {
+                            element.value = draft[key];
+                        }
+                    }
+                });
+
+                // Load images
+                if (draft.images) {
+                    uploadedImages[draft.category] = draft.images;
+                    const previewContainer = document.getElementById(draft.category + '-imagePreview');
+                    previewContainer.innerHTML = '';
+                    
+                    draft.images.forEach((imageSrc, index) => {
+                        const imgDiv = document.createElement('div');
+                        imgDiv.style.cssText = 'position: relative; width: 100px; height: 100px;';
+                        imgDiv.innerHTML = `
+                            <img src="${imageSrc}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 2px solid #e9ecef;">
+                            <button type="button" onclick="removeImage(this, '${draft.category}', ${index})" style="position: absolute; top: -5px; right: -5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer;">×</button>
+                        `;
+                        previewContainer.appendChild(imgDiv);
+                    });
+                }
+
+                updatePreview();
+            }, 200);
+
+            document.getElementById('draftNotice').classList.remove('show');
+        }
+
+        // Check for existing draft
+        function checkForDraft() {
+            const draftData = localStorage.getItem('commodity_draft');
+            if (draftData) {
+                const draft = JSON.parse(draftData);
+                if (draft.userId === currentUser.userId) {
+                    document.getElementById('draftNotice').classList.add('show');
+                }
+            }
+        }
+
+        // Enhanced save draft to ensure category is properly saved
         function saveDraft() {
+            if (!currentCategory) return; // Don't save if no category selected
+
             const draftData = {
                 category: currentCategory,
                 timestamp: new Date().toISOString(),
@@ -1486,65 +1717,39 @@
 
             localStorage.setItem('commodity_draft', JSON.stringify(draftData));
             
-            // Show save confirmation
-            const originalText = event.target.innerHTML;
-            event.target.innerHTML = '<i class="fas fa-check"></i> Saved!';
-            setTimeout(() => {
-                event.target.innerHTML = originalText;
-            }, 2000);
+            // Show save confirmation only if button was clicked
+            if (event && event.target && event.target.innerHTML) {
+                const originalText = event.target.innerHTML;
+                event.target.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                setTimeout(() => {
+                    event.target.innerHTML = originalText;
+                }, 2000);
+            }
         }
 
-        // Load draft functionality
-        function loadDraft() {
-            const draftData = localStorage.getItem('commodity_draft');
-            if (!draftData) return;
-
-            const draft = JSON.parse(draftData);
+        // Function to save listed commodity to marketplace
+        function saveCommodityToMarketplace(commodityData) {
+            // Get existing commodities from localStorage
+            let listedCommodities = JSON.parse(localStorage.getItem('listedCommodities')) || [];
             
-            // Set category
-            document.getElementById('category').value = draft.category;
-            showCategoryForm();
-
-            // Load form data
-            Object.keys(draft).forEach(key => {
-                if (key !== 'category' && key !== 'timestamp' && key !== 'userId' && key !== 'images') {
-                    const element = document.querySelector(`[name="${key}"]`);
-                    if (element) {
-                        element.value = draft[key];
-                    }
-                }
-            });
-
-            // Load images
-            if (draft.images) {
-                uploadedImages[draft.category] = draft.images;
-                const previewContainer = document.getElementById(draft.category + '-imagePreview');
-                previewContainer.innerHTML = '';
-                
-                draft.images.forEach((imageSrc, index) => {
-                    const imgDiv = document.createElement('div');
-                    imgDiv.style.cssText = 'position: relative; width: 100px; height: 100px;';
-                    imgDiv.innerHTML = `
-                        <img src="${imageSrc}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 2px solid #e9ecef;">
-                        <button type="button" onclick="removeImage(this, '${draft.category}', ${index})" style="position: absolute; top: -5px; right: -5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer;">×</button>
-                    `;
-                    previewContainer.appendChild(imgDiv);
-                });
-            }
-
-            updatePreview();
-            document.getElementById('draftNotice').classList.remove('show');
-        }
-
-        // Check for existing draft
-        function checkForDraft() {
-            const draftData = localStorage.getItem('commodity_draft');
-            if (draftData) {
-                const draft = JSON.parse(draftData);
-                if (draft.userId === currentUser.userId) {
-                    document.getElementById('draftNotice').classList.add('show');
-                }
-            }
+            // Generate unique ID for the commodity
+            const commodityId = 'COM-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            
+            // Add metadata to commodity
+            commodityData.id = commodityId;
+            commodityData.sellerId = currentUser.userId;
+            commodityData.sellerName = currentUser.fullName;
+            commodityData.listingDate = new Date().toISOString();
+            commodityData.status = 'available';
+            commodityData.location = currentUser.location || 'Zimbabwe'; // Default location
+            
+            // Add to commodities list
+            listedCommodities.push(commodityData);
+            
+            // Save back to localStorage
+            localStorage.setItem('listedCommodities', JSON.stringify(listedCommodities));
+            
+            console.log('Commodity saved to marketplace:', commodityData);
         }
 
         // Enhanced form submission
@@ -1558,23 +1763,74 @@
 
             // Category-specific validation
             let requiredFields = [];
-            let formData = new FormData();
+            let commodityData = {
+                category: currentCategory,
+                categoryDisplayName: ''
+            };
 
             switch(currentCategory) {
                 case 'grains':
                     requiredFields = ['grains-commodity-name', 'grains-variety', 'grains-quantity', 'grains-price', 'grains-description'];
+                    commodityData.categoryDisplayName = 'Grains & Cereals';
+                    commodityData.name = document.getElementById('grains-commodity-name').value;
+                    commodityData.variety = document.getElementById('grains-variety').value;
+                    commodityData.quantity = document.getElementById('grains-quantity').value;
+                    commodityData.unit = 'kg';
+                    commodityData.price = document.getElementById('grains-price').value;
+                    commodityData.priceUnit = 'per kg';
+                    commodityData.description = document.getElementById('grains-description').value;
+                    commodityData.title = `${commodityData.name} - ${commodityData.variety}`;
                     break;
                 case 'livestock':
                     requiredFields = ['livestock-commodity-name', 'livestock-animal-name', 'livestock-breed', 'livestock-age', 'livestock-quantity', 'livestock-unit', 'livestock-price', 'livestock-description'];
+                    commodityData.categoryDisplayName = 'Livestock';
+                    commodityData.name = document.getElementById('livestock-animal-name').value;
+                    commodityData.breed = document.getElementById('livestock-breed').value;
+                    commodityData.age = document.getElementById('livestock-age').value;
+                    commodityData.quantity = document.getElementById('livestock-quantity').value;
+                    commodityData.unit = document.getElementById('livestock-unit').value;
+                    commodityData.price = document.getElementById('livestock-price').value;
+                    commodityData.priceUnit = `per ${commodityData.unit}`;
+                    commodityData.description = document.getElementById('livestock-description').value;
+                    commodityData.title = `${commodityData.name} - ${commodityData.breed}`;
                     break;
                 case 'poultry':
                     requiredFields = ['poultry-commodity-name', 'poultry-type', 'poultry-quantity', 'poultry-unit', 'poultry-price', 'poultry-description'];
+                    commodityData.categoryDisplayName = 'Poultry';
+                    commodityData.name = document.getElementById('poultry-commodity-name').value;
+                    commodityData.type = document.getElementById('poultry-type').value;
+                    commodityData.quantity = document.getElementById('poultry-quantity').value;
+                    commodityData.unit = document.getElementById('poultry-unit').value;
+                    commodityData.price = document.getElementById('poultry-price').value;
+                    commodityData.priceUnit = `per ${commodityData.unit}`;
+                    commodityData.description = document.getElementById('poultry-description').value;
+                    commodityData.title = `${commodityData.name} - ${commodityData.type}`;
                     break;
                 case 'vegetables':
                     requiredFields = ['vegetables-name', 'vegetables-variety', 'vegetables-quantity', 'vegetables-unit', 'vegetables-price', 'vegetables-grade', 'vegetables-description'];
+                    commodityData.categoryDisplayName = 'Vegetables';
+                    commodityData.name = document.getElementById('vegetables-name').value;
+                    commodityData.variety = document.getElementById('vegetables-variety').value;
+                    commodityData.grade = document.getElementById('vegetables-grade').value;
+                    commodityData.quantity = document.getElementById('vegetables-quantity').value;
+                    commodityData.unit = document.getElementById('vegetables-unit').value;
+                    commodityData.price = document.getElementById('vegetables-price').value;
+                    commodityData.priceUnit = 'per kg';
+                    commodityData.description = document.getElementById('vegetables-description').value;
+                    commodityData.title = `${commodityData.name} - ${commodityData.variety}`;
                     break;
                 case 'fruits':
                     requiredFields = ['fruits-name', 'fruits-variety', 'fruits-quantity', 'fruits-unit', 'fruits-price', 'fruits-grade', 'fruits-description'];
+                    commodityData.categoryDisplayName = 'Fruits';
+                    commodityData.name = document.getElementById('fruits-name').value;
+                    commodityData.variety = document.getElementById('fruits-variety').value;
+                    commodityData.grade = document.getElementById('fruits-grade').value;
+                    commodityData.quantity = document.getElementById('fruits-quantity').value;
+                    commodityData.unit = document.getElementById('fruits-unit').value;
+                    commodityData.price = document.getElementById('fruits-price').value;
+                    commodityData.priceUnit = 'per kg';
+                    commodityData.description = document.getElementById('fruits-description').value;
+                    commodityData.title = `${commodityData.name} - ${commodityData.variety}`;
                     break;
             }
 
@@ -1589,6 +1845,14 @@
                 return;
             }
 
+            // Add images if any
+            if (uploadedImages[currentCategory] && uploadedImages[currentCategory].length > 0) {
+                commodityData.images = uploadedImages[currentCategory];
+            }
+
+            // Save commodity to marketplace
+            saveCommodityToMarketplace(commodityData);
+
             // Clear draft after successful submission
             localStorage.removeItem('commodity_draft');
             
@@ -1601,13 +1865,20 @@
             initializeUserProfile();
             checkForDraft();
 
-            // Add event listeners for auto-save
+            // Add event listeners for auto-save and preview update
             document.addEventListener('input', function(e) {
                 if (e.target.closest('.category-specific-form')) {
                     updatePreview();
                     // Auto-save every 5 seconds after user stops typing
                     clearTimeout(window.autoSaveTimeout);
                     window.autoSaveTimeout = setTimeout(saveDraft, 5000);
+                }
+            });
+
+            // Add change event listener for select elements
+            document.addEventListener('change', function(e) {
+                if (e.target.closest('.category-specific-form')) {
+                    updatePreview();
                 }
             });
 
@@ -1633,6 +1904,56 @@
                 }
             });
         });
+
+        // Initialize user profile for sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (currentUser) {
+                document.getElementById('sidebarUserRole').textContent = currentUser.role || 'User';
+            }
+        });
+
+        function showStep(stepId) {
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to clicked link
+            event.target.closest('.nav-link').classList.add('active');
+            
+            
+            // Here you would implement step switching logic
+            console.log('Switching to step:', stepId);
+        }
+
+        function showSection(sectionId) {
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active class to clicked link
+            event.target.closest('.nav-link').classList.add('active');
+            
+            // Here you would implement section switching logic
+            console.log('Switching to section:', sectionId);
+        }
+
+        // Mobile menu toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Add mobile menu functionality
+        if (window.innerWidth <= 768) {
+            document.querySelector('.nav-left').addEventListener('click', function(e) {
+                if (e.target.matches('.nav-left::after')) {
+                    toggleSidebar();
+                }
+            });
+        }
     </script>
 </body>
 </html>

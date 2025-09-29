@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFF Marketplace - Commodity Aggregation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar - Same as dashboard */
+        .navbar {
+            background: white;
+            border-bottom: 2px solid #e9ecef;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .nav-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .logo {
+            color: #212529;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        /* Sidebar - Same as dashboard */
+        .sidebar {
+            width: 280px;
+            background: white;
+            color: #495057;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+            border-right: 2px solid #e9ecef;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid #e9ecef;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .sidebar-header h3 {
+            color: #212529;
+            margin: 0.5rem 0 0 0;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-left: 3px solid #28a745;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: #f8f9fa;
+            border-left-color: #28a745;
+            color: #28a745;
+        }
+
+        .nav-link.active {
+            background: #e8f5e8;
+            border-left-color: #28a745;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            color: inherit;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            border: 1px solid;
+            background: #fff;
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            background: transparent;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .page-header h1 {
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #28a745 0%, #ffc107 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.025em;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Statistics Cards */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .stat-card.total::before {
+            background: linear-gradient(90deg, #28a745, #20c997);
+        }
+
+        .stat-card.pending::before {
+            background: linear-gradient(90deg, #ffc107, #fd7e14);
+        }
+
+        .stat-card.processed::before {
+            background: linear-gradient(90deg, #17a2b8, #6f42c1);
+        }
+
+        .stat-card.revenue::before {
+            background: linear-gradient(90deg, #dc3545, #e83e8c);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon.total {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .stat-icon.pending {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .stat-icon.processed {
+            background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+        }
+
+        .stat-icon.revenue {
+            background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .filters-title {
+            color: #1e293b;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .filters-title i {
+            color: #28a745;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-select,
+        .filter-input {
+            padding: 0.875rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+        }
+
+        .filter-select:focus,
+        .filter-input:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.1);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8fafc;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        /* Commodities Table */
+        .commodities-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: #1e293b;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: #28a745;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .commodities-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .commodities-table th {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: #374151;
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .commodities-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .commodities-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .commodity-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .commodity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .commodity-icon.grains {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        .commodity-icon.livestock {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .commodity-icon.vegetables {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .commodity-icon.fruits {
+            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+        }
+
+        .commodity-icon.poultry {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        }
+
+        .commodity-details h4 {
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .commodity-details p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .status-badge {
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+        }
+
+        .status-processed {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #166534;
+        }
+
+        .status-aggregated {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn.view {
+            background: #e0f2fe;
+            color: #0891b2;
+        }
+
+        .action-btn.process {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .action-btn.aggregate {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-actions {
+                justify-content: stretch;
+            }
+
+            .filter-actions .btn {
+                flex: 1;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .table-container {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <!-- Enhanced Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <img src="Assets/logo.png" alt="LFF Logo">
+                </div>
+                <a href="#" class="logo">LFF Marketplace</a>
+            </div>
+            
+            <div class="nav-right">
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="nav-logo">
+                <img src="Assets/logo.png" alt="LFF Logo" style="width: 40px; height: 40px;">
+            </div>
+            <h3>LFF Marketplace</h3>
+            <div id="sidebarUserRole" class="role-badge">User</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <!-- Core Navigation -->
+            <div class="nav-section">
+                <div class="section-title">Navigation</div>
+                <div class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="onboarding.html" class="nav-link">
+                        <i class="fas fa-upload"></i>
+                        <span>Sell/Onboard Commodity</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="buying.html" class="nav-link">
+                        <i class="fas fa-shopping-basket"></i>
+                        <span>Buy Commodities</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Operations -->
+            <div class="nav-section">
+                <div class="section-title">Operations</div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Commodity Aggregation</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Account -->
+            <div class="nav-section">
+                <div class="section-title">Account</div>
+                <div class="nav-item">
+                    <a href="#profile" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#settings" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Commodity Aggregation</h1>
+            <p>Manage and aggregate purchased commodities across regions</p>
+        </div>
+
+        <!-- Statistics Overview -->
+        <div class="stats-overview">
+            <div class="stat-card total">
+                <div class="stat-icon total">
+                    <i class="fas fa-cubes"></i>
+                </div>
+                <div class="stat-value" id="totalCommodities">0</div>
+                <div class="stat-label">Total Commodities</div>
+            </div>
+
+            <div class="stat-card pending">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-value" id="pendingCommodities">0</div>
+                <div class="stat-label">Pending Processing</div>
+            </div>
+
+            <div class="stat-card processed">
+                <div class="stat-icon processed">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-value" id="processedCommodities">0</div>
+                <div class="stat-label">Processed</div>
+            </div>
+
+            <div class="stat-card revenue">
+                <div class="stat-icon revenue">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-value" id="totalRevenue">$0</div>
+                <div class="stat-label">Total Value</div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h2 class="filters-title">
+                    <i class="fas fa-filter"></i>
+                    Filter Commodities
+                </h2>
+            </div>
+            
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Province</label>
+                    <select class="filter-select" id="provinceFilter">
+                        <option value="">All Provinces</option>
+                        <option value="harare">Harare</option>
+                        <option value="bulawayo">Bulawayo</option>
+                        <option value="manicaland">Manicaland</option>
+                        <option value="mashonaland-central">Mashonaland Central</option>
+                        <option value="mashonaland-east">Mashonaland East</option>
+                        <option value="mashonaland-west">Mashonaland West</option>
+                        <option value="masvingo">Masvingo</option>
+                        <option value="matabeleland-north">Matabeleland North</option>
+                        <option value="matabeleland-south">Matabeleland South</option>
+                        <option value="midlands">Midlands</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">District</label>
+                    <select class="filter-select" id="districtFilter">
+                        <option value="">All Districts</option>
+                        <option value="harare-district">Harare District</option>
+                        <option value="chitungwiza">Chitungwiza</option>
+                        <option value="bulawayo-district">Bulawayo District</option>
+                        <option value="mutare">Mutare</option>
+                        <option value="gweru">Gweru</option>
+                        <option value="kwekwe">Kwekwe</option>
+                        <option value="kadoma">Kadoma</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Constituency</label>
+                    <select class="filter-select" id="constituencyFilter">
+                        <option value="">All Constituencies</option>
+                        <option value="harare-north">Harare North</option>
+                        <option value="harare-south">Harare South</option>
+                        <option value="harare-east">Harare East</option>
+                        <option value="harare-west">Harare West</option>
+                        <option value="bulawayo-north">Bulawayo North</option>
+                        <option value="bulawayo-south">Bulawayo South</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Ward</label>
+                    <select class="filter-select" id="wardFilter">
+                        <option value="">All Wards</option>
+                        <option value="ward-1">Ward 1</option>
+                        <option value="ward-2">Ward 2</option>
+                        <option value="ward-3">Ward 3</option>
+                        <option value="ward-4">Ward 4</option>
+                        <option value="ward-5">Ward 5</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Category</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="grains">Grains & Cereals</option>
+                        <option value="livestock">Livestock</option>
+                        <option value="poultry">Poultry</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="fruits">Fruits</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-select" id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="processed">Processed</option>
+                        <option value="aggregated">Aggregated</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button class="btn btn-secondary" onclick="clearFilters()">
+                    <i class="fas fa-times"></i> Clear Filters
+                </button>
+                <button class="btn btn-primary" onclick="applyFilters()">
+                    <i class="fas fa-search"></i> Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Commodities Section -->
+        <div class="commodities-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-list"></i>
+                    Commodity Listings
+                </h2>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary" onclick="exportData()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button class="btn btn-primary" onclick="bulkAggregate()">
+                        <i class="fas fa-layer-group"></i> Bulk Aggregate
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="commodities-table" id="commoditiesTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="selectAllCommodities" onchange="toggleSelectAll()">
+                            </th>
+                            <th>Commodity</th>
+                            <th>Seller</th>
+                            <th>Location</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Purchase Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="commoditiesTableBody">
+                        <!-- Commodities will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-layer-group"></i>
+                <h3>No Commodities Found</h3>
+                <p>No purchased commodities match your current filters.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let commoditiesData = [];
+        let filteredCommodities = [];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUser();
+            loadCommoditiesData();
+        });
+
+        // Initialize user from session
+        function initializeUser() {
+            const userData = sessionStorage.getItem('currentUser');
+            if (!userData) {
+                window.location.href = 'login.html';
+                return;
+            }
+            currentUser = JSON.parse(userData);
+            
+            // Update sidebar user info
+            document.getElementById('sidebarUserRole').textContent = currentUser.role || 'User';
+        }
+
+        // Load commodities data (simulated purchased commodities)
+        function loadCommoditiesData() {
+            // Simulate purchased commodities data
+            commoditiesData = [
+                {
+                    id: 'AGG-001',
+                    name: 'Maize - SC719',
+                    category: 'grains',
+                    seller: 'John Mukamuri',
+                    sellerPhone: '+263771234567',
+                    province: 'harare',
+                    district: 'harare-district',
+                    constituency: 'harare-north',
+                    ward: 'ward-1',
+                    quantity: 500,
+                    unit: 'kg',
+                    pricePerUnit: 0.45,
+                    totalValue: 225,
+                    status: 'pending',
+                    purchaseDate: '2024-01-15',
+                    grade: 'Grade A'
+                },
+                {
+                    id: 'AGG-002',
+                    name: 'Cattle - Brahman',
+                    category: 'livestock',
+                    seller: 'Mary Chidziva',
+                    sellerPhone: '+263782345678',
+                    province: 'bulawayo',
+                    district: 'bulawayo-district',
+                    constituency: 'bulawayo-north',
+                    ward: 'ward-2',
+                    quantity: 3,
+                    unit: 'head',
+                    pricePerUnit: 450,
+                    totalValue: 1350,
+                    status: 'processed',
+                    purchaseDate: '2024-01-14',
+                    breed: 'Brahman'
+                },
+                {
+                    id: 'AGG-003',
+                    name: 'Tomatoes - Roma',
+                    category: 'vegetables',
+                    seller: 'Grace Nyoni',
+                    sellerPhone: '+263793456789',
+                    province: 'manicaland',
+                    district: 'mutare',
+                    constituency: 'mutare-north',
+                    ward: 'ward-3',
+                    quantity: 100,
+                    unit: 'kg',
+                    pricePerUnit: 1.25,
+                    totalValue: 125,
+                    status: 'aggregated',
+                    purchaseDate: '2024-01-13',
+                    grade: 'Premium'
+                },
+                {
+                    id: 'AGG-004',
+                    name: 'Broiler Chickens',
+                    category: 'poultry',
+                    seller: 'Peter Moyo',
+                    sellerPhone: '+263714567890',
+                    province: 'midlands',
+                    district: 'gweru',
+                    constituency: 'gweru-north',
+                    ward: 'ward-4',
+                    quantity: 200,
+                    unit: 'birds',
+                    pricePerUnit: 3.50,
+                    totalValue: 700,
+                    status: 'pending',
+                    purchaseDate: '2024-01-12',
+                    type: 'Broiler'
+                }
+            ];
+
+            filteredCommodities = [...commoditiesData];
+            updateStatistics();
+            displayCommodities();
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const total = filteredCommodities.length;
+            const pending = filteredCommodities.filter(c => c.status === 'pending').length;
+            const processed = filteredCommodities.filter(c => c.status === 'processed').length;
+            const totalValue = filteredCommodities.reduce((sum, c) => sum + c.totalValue, 0);
+
+            document.getElementById('totalCommodities').textContent = total;
+            document.getElementById('pendingCommodities').textContent = pending;
+            document.getElementById('processedCommodities').textContent = processed;
+            document.getElementById('totalRevenue').textContent = `$${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+        }
+
+        // Display commodities in table
+        function displayCommodities() {
+            const tbody = document.getElementById('commoditiesTableBody');
+            const emptyState = document.getElementById('emptyState');
+            const table = document.getElementById('commoditiesTable');
+
+            if (filteredCommodities.length === 0) {
+                table.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            table.style.display = 'table';
+            emptyState.style.display = 'none';
+
+            tbody.innerHTML = filteredCommodities.map(commodity => `
+                <tr>
+                    <td>
+                        <input type="checkbox" class="commodity-checkbox" value="${commodity.id}">
+                    </td>
+                    <td>
+                        <div class="commodity-info">
+                            <div class="commodity-icon ${commodity.category}">
+                                ${getCommodityIcon(commodity.category)}
+                            </div>
+                            <div class="commodity-details">
+                                <h4>${commodity.name}</h4>
+                                <p>${commodity.category.charAt(0).toUpperCase() + commodity.category.slice(1)}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <strong>${commodity.seller}</strong>
+                            <br>
+                            <small style="color: #64748b;">${commodity.sellerPhone}</small>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <strong>${getLocationName(commodity.province)}</strong>
+                            <br>
+                            <small style="color: #64748b;">${getLocationName(commodity.district)}</small>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>${commodity.quantity.toLocaleString()} ${commodity.unit}</strong>
+                    </td>
+                    <td>
+                        <div>
+                            <strong>$${commodity.pricePerUnit.toFixed(2)}/${commodity.unit}</strong>
+                            <br>
+                            <small style="color: #28a745;">Total: $${commodity.totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</small>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${commodity.status}">${commodity.status}</span>
+                    </td>
+                    <td>${new Date(commodity.purchaseDate).toLocaleDateString()}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn view" title="View Details" onclick="viewCommodity('${commodity.id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${commodity.status === 'pending' ? `
+                                <button class="action-btn process" title="Process" onclick="processCommodity('${commodity.id}')">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            ` : ''}
+                            ${commodity.status === 'processed' ? `
+                                <button class="action-btn aggregate" title="Aggregate" onclick="aggregateCommodity('${commodity.id}')">
+                                    <i class="fas fa-layer-group"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Get commodity icon
+        function getCommodityIcon(category) {
+            const icons = {
+                'grains': '<i class="fas fa-seedling"></i>',
+                'livestock': '<i class="fas fa-horse"></i>',
+                'vegetables': '<i class="fas fa-carrot"></i>',
+                'fruits': '<i class="fas fa-apple-alt"></i>',
+                'poultry': '<i class="fas fa-dove"></i>'
+            };
+            return icons[category] || '<i class="fas fa-box"></i>';
+        }
+
+        // Get location display name
+        function getLocationName(locationKey) {
+            const locations = {
+                'harare': 'Harare Province',
+                'bulawayo': 'Bulawayo Province',
+                'manicaland': 'Manicaland Province',
+                'mashonaland-central': 'Mashonaland Central',
+                'mashonaland-east': 'Mashonaland East',
+                'mashonaland-west': 'Mashonaland West',
+                'masvingo': 'Masvingo Province',
+                'matabeleland-north': 'Matabeleland North',
+                'matabeleland-south': 'Matabeleland South',
+                'midlands': 'Midlands Province',
+                'harare-district': 'Harare District',
+                'chitungwiza': 'Chitungwiza',
+                'bulawayo-district': 'Bulawayo District',
+                'mutare': 'Mutare',
+                'gweru': 'Gweru',
+                'kwekwe': 'Kwekwe',
+                'kadoma': 'Kadoma'
+            };
+            return locations[locationKey] || locationKey;
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const province = document.getElementById('provinceFilter').value;
+            const district = document.getElementById('districtFilter').value;
+            const constituency = document.getElementById('constituencyFilter').value;
+            const ward = document.getElementById('wardFilter').value;
+            const category = document.getElementById('categoryFilter').value;
+            const status = document.getElementById('statusFilter').value;
+
+            filteredCommodities = commoditiesData.filter(commodity => {
+                if (province && commodity.province !== province) return false;
+                if (district && commodity.district !== district) return false;
+                if (constituency && commodity.constituency !== constituency) return false;
+                if (ward && commodity.ward !== ward) return false;
+                if (category && commodity.category !== category) return false;
+                if (status && commodity.status !== status) return false;
+                return true;
+            });
+
+            updateStatistics();
+            displayCommodities();
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('provinceFilter').value = '';
+            document.getElementById('districtFilter').value = '';
+            document.getElementById('constituencyFilter').value = '';
+            document.getElementById('wardFilter').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+
+            filteredCommodities = [...commoditiesData];
+            updateStatistics();
+            displayCommodities();
+        }
+
+        // Toggle select all commodities
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAllCommodities');
+            const checkboxes = document.querySelectorAll('.commodity-checkbox');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+        }
+
+        // View commodity details
+        function viewCommodity(commodityId) {
+            const commodity = commoditiesData.find(c => c.id === commodityId);
+            if (!commodity) return;
+
+            alert(`Commodity Details:\n\nName: ${commodity.name}\nCategory: ${commodity.category}\nSeller: ${commodity.seller}\nQuantity: ${commodity.quantity} ${commodity.unit}\nPrice: $${commodity.pricePerUnit}/${commodity.unit}\nTotal Value: $${commodity.totalValue}\nStatus: ${commodity.status}\nPurchase Date: ${commodity.purchaseDate}`);
+        }
+
+        // Process commodity
+        function processCommodity(commodityId) {
+            const commodity = commoditiesData.find(c => c.id === commodityId);
+            if (!commodity) return;
+
+            if (confirm(`Process ${commodity.name}? This will mark it as processed and ready for aggregation.`)) {
+                commodity.status = 'processed';
+                updateStatistics();
+                displayCommodities();
+                alert('Commodity processed successfully!');
+            }
+        }
+
+        // Aggregate commodity
+        function aggregateCommodity(commodityId) {
+            const commodity = commoditiesData.find(c => c.id === commodityId);
+            if (!commodity) return;
+
+            if (confirm(`Aggregate ${commodity.name}? This will add it to the aggregation pool for bulk distribution.`)) {
+                commodity.status = 'aggregated';
+                updateStatistics();
+                displayCommodities();
+                alert('Commodity aggregated successfully!');
+            }
+        }
+
+        // Bulk aggregate selected commodities
+        function bulkAggregate() {
+            const selectedCheckboxes = document.querySelectorAll('.commodity-checkbox:checked');
+            const selectedIds = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+            if (selectedIds.length === 0) {
+                alert('Please select commodities to aggregate.');
+                return;
+            }
+
+            const processedCommodities = selectedIds.filter(id => {
+                const commodity = commoditiesData.find(c => c.id === id);
+                return commodity && commodity.status === 'processed';
+            });
+
+            if (processedCommodities.length === 0) {
+                alert('Please select processed commodities for aggregation.');
+                return;
+            }
+
+            if (confirm(`Aggregate ${processedCommodities.length} processed commodities?`)) {
+                processedCommodities.forEach(id => {
+                    const commodity = commoditiesData.find(c => c.id === id);
+                    if (commodity) commodity.status = 'aggregated';
+                });
+
+                updateStatistics();
+                displayCommodities();
+                alert(`${processedCommodities.length} commodities aggregated successfully!`);
+
+                // Uncheck all checkboxes
+                document.getElementById('selectAllCommodities').checked = false;
+                document.querySelectorAll('.commodity-checkbox').forEach(cb => cb.checked = false);
+            }
+        }
+
+        // Export data
+        function exportData() {
+            const csvContent = [
+                ['ID', 'Name', 'Category', 'Seller', 'Province', 'District', 'Quantity', 'Unit', 'Price Per Unit', 'Total Value', 'Status', 'Purchase Date'],
+                ...filteredCommodities.map(c => [
+                    c.id, c.name, c.category, c.seller, c.province, c.district,
+                    c.quantity, c.unit, c.pricePerUnit, c.totalValue, c.status, c.purchaseDate
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `commodity_aggregation_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

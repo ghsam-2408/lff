@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFF Marketplace - Customer Rewards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar - Same as dashboard */
+        .navbar {
+            background: white;
+            border-bottom: 2px solid #e9ecef;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .nav-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .logo {
+            color: #212529;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        /* Sidebar - Same as dashboard */
+        .sidebar {
+            width: 280px;
+            background: white;
+            color: #495057;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+            border-right: 2px solid #e9ecef;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid #e9ecef;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .sidebar-header h3 {
+            color: #212529;
+            margin: 0.5rem 0 0 0;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-left: 3px solid #28a745;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: #f8f9fa;
+            border-left-color: #28a745;
+            color: #28a745;
+        }
+
+        .nav-link.active {
+            background: #e8f5e8;
+            border-left-color: #28a745;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            color: inherit;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            border: 1px solid;
+            background: #fff;
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            background: transparent;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .page-header h1 {
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #28a745 0%, #ffc107 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.025em;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Rewards Dashboard Cards */
+        .rewards-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .reward-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reward-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #28a745, #ffc107, #17a2b8);
+        }
+
+        .reward-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .reward-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .reward-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .reward-card-icon.points {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .reward-card-icon.tier {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .reward-card-icon.referrals {
+            background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+        }
+
+        .reward-card-icon.cashback {
+            background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);
+        }
+
+        .reward-card-title {
+            color: #1e293b;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .reward-card-value {
+            color: #28a745;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-card-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Tier Status Card */
+        .tier-status-card {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tier-status-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .tier-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .tier-details h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .tier-progress {
+            margin-bottom: 1rem;
+        }
+
+        .tier-progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tier-progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .tier-progress-fill {
+            height: 100%;
+            background: white;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        /* Activity Sections */
+        .activity-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            color: #1e293b;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: #28a745;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .tab.active {
+            color: #28a745;
+            border-bottom-color: #28a745;
+            background: #f0fdf4;
+        }
+
+        .tab:hover {
+            color: #28a745;
+            background: #f8fafc;
+        }
+
+        /* Activity List */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #28a745;
+            transition: all 0.3s;
+        }
+
+        .activity-item:hover {
+            background: #f0fdf4;
+            transform: translateX(4px);
+        }
+
+        .activity-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .activity-icon.earn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .activity-icon.redeem {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+        }
+
+        .activity-icon.bonus {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-title {
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-date {
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .activity-points {
+            text-align: right;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .activity-points.positive {
+            color: #28a745;
+        }
+
+        .activity-points.negative {
+            color: #dc3545;
+        }
+
+        /* Rewards Catalog */
+        .rewards-catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .reward-item {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .reward-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .reward-item-image {
+            height: 150px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .reward-item-content {
+            padding: 1.5rem;
+        }
+
+        .reward-item-title {
+            color: #1e293b;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-item-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .reward-item-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .reward-points-cost {
+            color: #28a745;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .redeem-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .redeem-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+        }
+
+        .redeem-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e2e8f0;
+            border-radius: 50%;
+            border-top-color: #28a745;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .rewards-dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .rewards-catalog {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .tab {
+                flex-shrink: 0;
+            }
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+    </style>
+    <!-- Enhanced Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <img src="Assets/logo.png" alt="LFF Logo">
+                </div>
+                <a href="#" class="logo">LFF Marketplace</a>
+            </div>
+            
+            <div class="nav-right">
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="nav-logo">
+                <img src="Assets/logo.png" alt="LFF Logo" style="width: 40px; height: 40px;">
+            </div>
+            <h3>LFF Marketplace</h3>
+            <div id="sidebarUserRole" class="role-badge">User</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <!-- Core Navigation -->
+            <div class="nav-section">
+                <div class="section-title">Navigation</div>
+                <div class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="onboarding.html" class="nav-link">
+                        <i class="fas fa-upload"></i>
+                        <span>Sell/Onboard Commodity</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="buying.html" class="nav-link">
+                        <i class="fas fa-shopping-basket"></i>
+                        <span>Buy Commodities</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Rewards Section -->
+            <div class="nav-section">
+                <div class="section-title">Rewards</div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-gift"></i>
+                        <span>LFF Customer Rewards</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Account -->
+            <div class="nav-section">
+                <div class="section-title">Account</div>
+                <div class="nav-item">
+                    <a href="#profile" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#settings" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>LFF Customer Rewards</h1>
+            <p>Earn points, unlock benefits, and enjoy exclusive rewards</p>
+        </div>
+
+        <!-- Tier Status Card -->
+        <div class="tier-status-card" id="tierStatusCard">
+            <div class="tier-info">
+                <div class="tier-details">
+                    <h3 id="currentTier">Loading...</h3>
+                    <p id="tierDescription">Please wait while we load your tier information</p>
+                </div>
+                <div class="tier-badge" id="tierBadge">
+                    <i class="fas fa-crown"></i>
+                    <span id="tierLabel">Loading...</span>
+                </div>
+            </div>
+            <div class="tier-progress">
+                <div class="tier-progress-label">
+                    <span>Progress to next tier</span>
+                    <span id="tierProgressText">0%</span>
+                </div>
+                <div class="tier-progress-bar">
+                    <div class="tier-progress-fill" id="tierProgressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rewards Dashboard -->
+        <div class="rewards-dashboard">
+            <div class="reward-card">
+                <div class="reward-card-header">
+                    <div class="reward-card-icon points">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                </div>
+                <h3 class="reward-card-title">Available Points</h3>
+                <div class="reward-card-value" id="availablePoints">0</div>
+                <p class="reward-card-description">Loyalty points ready to redeem for exciting rewards</p>
+            </div>
+
+            <div class="reward-card">
+                <div class="reward-card-header">
+                    <div class="reward-card-icon cashback">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                </div>
+                <h3 class="reward-card-title">Total Cashback</h3>
+                <div class="reward-card-value" id="totalCashback">$0.00</div>
+                <p class="reward-card-description">Total cashback earned from transactions</p>
+            </div>
+
+            <div class="reward-card">
+                <div class="reward-card-header">
+                    <div class="reward-card-icon referrals">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <h3 class="reward-card-title">Referrals</h3>
+                <div class="reward-card-value" id="totalReferrals">0</div>
+                <p class="reward-card-description">Friends you've successfully referred</p>
+            </div>
+
+            <div class="reward-card">
+                <div class="reward-card-header">
+                    <div class="reward-card-icon tier">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                </div>
+                <h3 class="reward-card-title">Tier Benefits</h3>
+                <div class="reward-card-value" id="tierBenefits">0</div>
+                <p class="reward-card-description">Active benefits from your current tier</p>
+            </div>
+        </div>
+
+        <!-- Activity Section -->
+        <div class="activity-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i>
+                    Rewards Activity
+                </h2>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('recent')">Recent Activity</div>
+                <div class="tab" onclick="switchTab('earnings')">Earnings</div>
+                <div class="tab" onclick="switchTab('redemptions')">Redemptions</div>
+                <div class="tab" onclick="switchTab('referrals')">Referrals</div>
+            </div>
+
+            <!-- Activity Content -->
+            <div id="activityContent">
+                <div class="activity-list" id="activityList">
+                    <!-- Activities will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Rewards Catalog Section -->
+        <div class="activity-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-store"></i>
+                    Rewards Catalog
+                </h2>
+            </div>
+
+            <div class="rewards-catalog" id="rewardsCatalog">
+                <!-- Rewards will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Container -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let rewardsData = null;
+        let currentTab = 'recent';
+
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8080/api/v1/rewards';
+        const JWT_TOKEN = localStorage.getItem('jwtToken');
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUser();
+            loadRewardsData();
+            setupEventListeners();
+        });
+
+        // Initialize user from session
+        function initializeUser() {
+            const userData = sessionStorage.getItem('currentUser');
+            if (!userData) {
+                window.location.href = 'login.html';
+                return;
+            }
+            currentUser = JSON.parse(userData);
+            
+            // Update sidebar user info
+            document.getElementById('sidebarUserRole').textContent = currentUser.role || 'User';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Mobile sidebar toggle
+            const sidebarToggle = document.querySelector('.mobile-menu-btn');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', toggleSidebar);
+            }
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const sidebar = document.getElementById('sidebar');
+                const menuBtn = document.querySelector('.mobile-menu-btn');
+                
+                if (window.innerWidth <= 768) {
+                    if (!sidebar.contains(event.target) && !menuBtn?.contains(event.target)) {
+                        sidebar.classList.remove('open');
+                    }
+                }
+            });
+        }
+
+        // Toggle mobile sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Load rewards data from API
+        async function loadRewardsData() {
+            try {
+                showLoadingState();
+                
+                // Simulate API calls (replace with actual API endpoints)
+                const [pointsData, tierData, activityData, catalogData] = await Promise.all([
+                    fetchUserPoints(),
+                    fetchUserTier(),
+                    fetchActivity(),
+                    fetchRewardsCatalog()
+                ]);
+
+                rewardsData = {
+                    points: pointsData,
+                    tier: tierData,
+                    activity: activityData,
+                    catalog: catalogData
+                };
+
+                updateUI();
+                hideLoadingState();
+            } catch (error) {
+                console.error('Error loading rewards data:', error);
+                showNotification('Failed to load rewards data', 'error');
+                hideLoadingState();
+            }
+        }
+
+        // API Functions (simulated - replace with actual API calls)
+        async function fetchUserPoints() {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            return {
+                available: 2750,
+                total_earned: 15420,
+                total_redeemed: 12670,
+                cashback_total: 145.50,
+                currency: 'USD'
+            };
+        }
+
+        async function fetchUserTier() {
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            return {
+                current_tier: 'SILVER',
+                tier_name: 'Silver Member',
+                tier_description: 'Enjoy 3% cashback and priority support',
+                points_in_tier: 2750,
+                points_to_next: 1250,
+                next_tier: 'GOLD',
+                progress_percentage: 68.75,
+                benefits_count: 5
+            };
+        }
+
+        async function fetchActivity() {
+            await new Promise(resolve => setTimeout(resolve, 400));
+            
+            return [
+                {
+                    id: 1,
+                    type: 'EARN',
+                    title: 'Purchase Reward',
+                    description: 'Earned points from maize purchase',
+                    points: 125,
+                    date: '2024-01-15T10:30:00Z',
+                    status: 'COMPLETED'
+                },
+                {
+                    id: 2,
+                    type: 'REDEEM',
+                    title: 'Discount Voucher',
+                    description: 'Redeemed 10% discount voucher',
+                    points: -500,
+                    date: '2024-01-14T15:45:00Z',
+                    status: 'COMPLETED'
+                },
+                {
+                    id: 3,
+                    type: 'BONUS',
+                    title: 'Referral Bonus',
+                    description: 'Friend John joined through your referral',
+                    points: 200,
+                    date: '2024-01-13T09:15:00Z',
+                    status: 'COMPLETED'
+                }
+            ];
+        }
+
+        async function fetchRewardsCatalog() {
+            await new Promise(resolve => setTimeout(resolve, 600));
+            
+            return [
+                {
+                    id: 1,
+                    name: '10% Discount Voucher',
+                    description: 'Get 10% off on your next purchase',
+                    points_cost: 500,
+                    category: 'DISCOUNT',
+                    available: true,
+                    icon: 'fas fa-percent'
+                },
+                {
+                    id: 2,
+                    name: 'Free Delivery',
+                    description: 'Free delivery on your next order',
+                    points_cost: 300,
+                    category: 'SHIPPING',
+                    available: true,
+                    icon: 'fas fa-truck'
+                },
+                {
+                    id: 3,
+                    name: '$20 Cash Reward',
+                    description: 'Direct cash reward to your account',
+                    points_cost: 2000,
+                    category: 'CASH',
+                    available: true,
+                    icon: 'fas fa-dollar-sign'
+                },
+                {
+                    id: 4,
+                    name: 'Premium Support',
+                    description: '30 days of premium customer support',
+                    points_cost: 1500,
+                    category: 'SERVICE',
+                    available: true,
+                    icon: 'fas fa-headset'
+                }
+            ];
+        }
+
+        // Update UI with loaded data
+        function updateUI() {
+            if (!rewardsData) return;
+
+            // Update dashboard cards
+            document.getElementById('availablePoints').textContent = rewardsData.points.available.toLocaleString();
+            document.getElementById('totalCashback').textContent = `$${rewardsData.points.cashback_total.toFixed(2)}`;
+            document.getElementById('totalReferrals').textContent = '3'; // Simulated
+            document.getElementById('tierBenefits').textContent = rewardsData.tier.benefits_count;
+
+            // Update tier status
+            updateTierStatus();
+
+            // Update activity list
+            updateActivityList();
+
+            // Update rewards catalog
+            updateRewardsCatalog();
+        }
+
+        // Update tier status display
+        function updateTierStatus() {
+            const tier = rewardsData.tier;
+            
+            document.getElementById('currentTier').textContent = tier.tier_name;
+            document.getElementById('tierDescription').textContent = tier.tier_description;
+            document.getElementById('tierLabel').textContent = tier.current_tier;
+            document.getElementById('tierProgressText').textContent = `${tier.progress_percentage.toFixed(1)}%`;
+            document.getElementById('tierProgressFill').style.width = `${tier.progress_percentage}%`;
+        }
+
+        // Update activity list based on current tab
+        function updateActivityList() {
+            const activityList = document.getElementById('activityList');
+            const activities = rewardsData.activity;
+
+            if (activities.length === 0) {
+                activityList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <h3>No Activity Yet</h3>
+                        <p>Start earning and redeeming points to see your activity here.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            activityList.innerHTML = activities.map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon ${activity.type.toLowerCase()}">
+                        <i class="${getActivityIcon(activity.type)}"></i>
+                    </div>
+                    <div class="activity-details">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-description">${activity.description}</div>
+                        <div class="activity-date">${formatDate(activity.date)}</div>
+                    </div>
+                    <div class="activity-points ${activity.points > 0 ? 'positive' : 'negative'}">
+                        ${activity.points > 0 ? '+' : ''}${activity.points} pts
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update rewards catalog
+        function updateRewardsCatalog() {
+            const catalog = document.getElementById('rewardsCatalog');
+            const rewards = rewardsData.catalog;
+
+            if (rewards.length === 0) {
+                catalog.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-gift"></i>
+                        <h3>No Rewards Available</h3>
+                        <p>Check back later for exciting rewards to redeem.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            catalog.innerHTML = rewards.map(reward => `
+                <div class="reward-item">
+                    <div class="reward-item-image">
+                        <i class="${reward.icon}"></i>
+                    </div>
+                    <div class="reward-item-content">
+                        <h3 class="reward-item-title">${reward.name}</h3>
+                        <p class="reward-item-description">${reward.description}</p>
+                        <div class="reward-item-footer">
+                            <span class="reward-points-cost">${reward.points_cost} pts</span>
+                            <button class="redeem-btn" 
+                                    onclick="redeemReward(${reward.id})"
+                                    ${!reward.available || rewardsData.points.available < reward.points_cost ? 'disabled' : ''}>
+                                ${rewardsData.points.available < reward.points_cost ? 'Insufficient Points' : 'Redeem'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Switch between activity tabs
+        function switchTab(tabName) {
+            // Update tab appearance
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            currentTab = tabName;
+            
+            // Filter activities based on tab
+            updateActivityList();
+        }
+
+        // Redeem reward
+        async function redeemReward(rewardId) {
+            try {
+                const reward = rewardsData.catalog.find(r => r.id === rewardId);
+                if (!reward) return;
+
+                if (rewardsData.points.available < reward.points_cost) {
+                    showNotification('Insufficient points for this reward', 'error');
+                    return;
+                }
+
+                // Show confirmation
+                if (!confirm(`Redeem ${reward.name} for ${reward.points_cost} points?`)) {
+                    return;
+                }
+
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Update local data
+                rewardsData.points.available -= reward.points_cost;
+                rewardsData.points.total_redeemed += reward.points_cost;
+
+                // Add to activity
+                rewardsData.activity.unshift({
+                    id: Date.now(),
+                    type: 'REDEEM',
+                    title: reward.name,
+                    description: `Redeemed ${reward.name}`,
+                    points: -reward.points_cost,
+                    date: new Date().toISOString(),
+                    status: 'COMPLETED'
+                });
+
+                // Update UI
+                updateUI();
+                showNotification('Reward redeemed successfully!', 'success');
+
+            } catch (error) {
+                console.error('Error redeeming reward:', error);
+                showNotification('Failed to redeem reward', 'error');
+            }
+        }
+
+        // Utility functions
+        function getActivityIcon(type) {
+            const icons = {
+                'EARN': 'fas fa-plus-circle',
+                'REDEEM': 'fas fa-minus-circle',
+                'BONUS': 'fas fa-gift',
+                'REFERRAL': 'fas fa-users'
+            };
+            return icons[type] || 'fas fa-circle';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function showLoadingState() {
+            // Show loading spinners in cards
+            document.getElementById('availablePoints').innerHTML = '<div class="loading-spinner"></div>';
+            document.getElementById('totalCashback').innerHTML = '<div class="loading-spinner"></div>';
+            document.getElementById('totalReferrals').innerHTML = '<div class="loading-spinner"></div>';
+            document.getElementById('tierBenefits').innerHTML = '<div class="loading-spinner"></div>';
+        }
+
+        function hideLoadingState() {
+            // Loading will be hidden when updateUI() is called
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Handle logout (if needed)
+        function handleLogout() {
+            sessionStorage.removeItem('currentUser');
+            localStorage.removeItem('jwtToken');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

@@ -746,6 +746,14 @@
                             <i class="fas fa-cut"></i>
                             <span>Abattoir</span>
                         </a>
+                        <a href="#" class="nav-link" onclick="redirectToOnboarding()">
+                            <i class="fas fa-upload"></i>
+                            <span>Sell/Onboard Commodity</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="redirectToBuying()">
+                            <i class="fas fa-shopping-basket"></i>
+                            <span>Buy Commodities</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -757,6 +765,13 @@
                     <a href="#logistics" class="nav-link" onclick="showModule('logistics')">
                         <i class="fas fa-truck"></i>
                         <span>Logistics</span>
+                        <div class="access-indicator access-full"></div>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" onclick="redirectToAggregation()">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Commodity Aggregation</span>
                         <div class="access-indicator access-full"></div>
                     </a>
                 </div>
@@ -901,7 +916,7 @@
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="#customer-rewards" class="nav-link" onclick="showModule('customer-rewards')">
+                    <a href="#" class="nav-link" onclick="redirectToRewards()">
                         <i class="fas fa-gift"></i>
                         <span>LFF Customer Rewards</span>
                         <div class="access-indicator access-full"></div>
@@ -1443,40 +1458,25 @@
         });
 
         // ...existing code...
+
+        function redirectToOnboarding() {
+            window.location.href = 'onboarding.html';
+        }
+
+        function redirectToBuying() {
+            window.location.href = 'buying.html';
+        }
+
+        function redirectToRewards() {
+            window.location.href = 'rewards.html';
+        }
+
+        function redirectToAggregation() {
+            window.location.href = 'aggregation.html';
+        }
     </script>
 </body>
 </html>
-                }
-            });
-        });
-
-        function toggleProfileDropdown() {
-            const dropdown = document.getElementById('profileDropdown');
-            dropdown.classList.toggle('show');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profileDropdown');
-            const profileImg = document.getElementById('profileImg');
-            
-            if (!dropdown.contains(event.target) && !profileImg.contains(event.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
-
-        function toggleSubmenu(event, submenuId) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            const submenu = document.getElementById(submenuId);
-            const expandIcon = event.currentTarget.querySelector('.expand-icon');
-            
-            // Close all other submenus
-            document.querySelectorAll('.submenu').forEach(sub => {
-                if (sub.id !== submenuId) {
-                    sub.classList.remove('show');
-                    const otherIcon = sub.previousElementSibling.querySelector('.expand-icon');
                     if (otherIcon) otherIcon.classList.remove('expanded');
                 }
             });
